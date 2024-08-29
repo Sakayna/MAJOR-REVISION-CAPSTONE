@@ -1,19 +1,17 @@
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/results.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/content.dart';
-
-import 'package:capstone/categories/ecosystem.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
+
 import 'package:capstone/globals/global_variables_notifier.dart';
 
-class Ecosystem_AT_Quiz_0_Score extends StatelessWidget {
+class Ecosystem_AT_6_1_Score extends StatelessWidget {
   final List<QuizItem> quizItems;
   final Map<int, List<String>> userSelectedChoices;
   final int userScore;
   final int totalQuestions;
 
-  Ecosystem_AT_Quiz_0_Score({
+  Ecosystem_AT_6_1_Score({
     required this.quizItems,
     required this.userSelectedChoices,
     required this.userScore,
@@ -25,124 +23,170 @@ class Ecosystem_AT_Quiz_0_Score extends StatelessWidget {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       final globalVariables =
           Provider.of<GlobalVariables>(context, listen: false);
-      globalVariables.incrementQuizTakeCount('quiz5');
-      globalVariables.setGlobalScore('quiz5', userScore);
-      globalVariables.updateGlobalRemarks('quiz5', userScore, totalQuestions);
-      globalVariables.setQuizItemCount('quiz5', totalQuestions);
+      globalVariables.incrementQuizTakeCount('quiz9');
+      globalVariables.setGlobalScore('quiz9', userScore);
+      globalVariables.updateGlobalRemarks('quiz9', userScore, totalQuestions);
+      globalVariables.setQuizItemCount('quiz9', totalQuestions);
       globalVariables.printGlobalVariables();
     });
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Ecosystem_Screen(),
+            builder: (context) => Ecosystem_AT_6_1_Results(
+              quizItems: quizItems,
+              userSelectedChoices: userSelectedChoices,
+              userScore: userScore,
+              totalQuestions: totalQuestions,
+            ),
           ),
         );
         return false;
       },
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              backgroundColor: Color.fromARGB(255, 125, 112, 101),
-              pinned: true,
-              expandedHeight: 120.0,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 50,
-                  right: 10,
-                  bottom: 16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Levels of Biological Organization',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Color(0xFFA846A0),
+          toolbarHeight: 120.0,
+          automaticallyImplyLeading: false,
+          flexibleSpace: LayoutBuilder(
+            builder: (context, constraints) {
+              final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!isTop) ...[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25.0, left: 50.0),
+                      child: Text(
+                        'Ecosystem Assessment Task',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     SizedBox(height: 5),
-                    Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Quiz 1: ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50.0),
+                      child: Text(
+                        'Quiz 6_1',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
+                ],
+              );
+            },
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Ecosystem_AT_6_1_Results(
+                    quizItems: quizItems,
+                    userSelectedChoices: userSelectedChoices,
+                    userScore: userScore,
+                    totalQuestions: totalQuestions,
+                  ),
+                ));
+              },
+            ),
+          ),
+        ),
+        body: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: 0.01,
+                  blurRadius: 4,
+                  offset: Offset(0, 4),
                 ),
-              ),
-              leading: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
+              ],
+            ),
+            padding: EdgeInsets.all(20.0),
+            margin: EdgeInsets.symmetric(vertical: 40.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                userScore >= 7 // Example passing score
+                    ? Image.asset(
+                        'assets/lesson1&2/congratulation.png',
+                        width: 120,
+                        height: 120,
+                      )
+                    : Icon(
+                        Icons.cancel_outlined,
+                        color: Colors.red,
+                        size: 120.0,
+                      ),
+                SizedBox(height: 20),
+                Text(
+                  'Your Score: $userScore / $totalQuestions',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: userScore >= 7 ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
+                SizedBox(height: 10),
+                Text(
+                  'You ${userScore >= 7 ? 'passed' : 'failed'} the quiz!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: userScore >= 7 ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 30),
+                ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Ecosystem_AT_6_1(),
-                    ));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Ecosystem_AT_6_1_Results(
+                          quizItems: quizItems,
+                          userSelectedChoices: userSelectedChoices,
+                          userScore: userScore,
+                          totalQuestions: totalQuestions,
+                        ),
+                      ),
+                    );
                   },
-                ),
-              ),
-            ),
-            SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Your Score: $userScore / $totalQuestions',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFA846A0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the results screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Ecosystem_AT_Quiz_0_Results(
-                              quizItems: quizItems,
-                              userSelectedChoices: userSelectedChoices,
-                              userScore: userScore,
-                              totalQuestions: totalQuestions,
-                            ),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF729B79)),
-                      ),
-                      child: Text('View Results'),
+                  ),
+                  child: Text(
+                    'View Results',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

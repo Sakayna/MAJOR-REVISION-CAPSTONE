@@ -7,7 +7,7 @@ import 'package:capstone/categories/heredity.dart';
 import 'package:capstone/categories/levels_of_biological_organization_screen.dart';
 import 'package:capstone/navbar/Quiz.dart';
 import 'package:capstone/navbar/CustomBottomNavigationBar.dart';
-import 'package:capstone/Record%20Module/AT/Lesson_Record_AT.dart';
+import 'package:capstone/Record%20Module/AT/lesson1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';

@@ -38,74 +38,8 @@ class _Ecosystem_AT_Quiz_2_ContentState
       correctAnswer:
           'Sexual reproduction involves two parents, while asexual reproduction involves one parent.',
     ),
-    QuizItem(
-      question: 'What process results in the formation of gametes?',
-      choices: ['Mitosis', 'Meiosis', 'Binary fission', 'Budding'],
-      correctAnswer: 'Meiosis',
-    ),
-    QuizItem(
-      question: 'Where does spermatogenesis occur in males?',
-      choices: ['Ovaries', 'Testes', 'Epididymis', 'Prostate gland'],
-      correctAnswer: 'Testes',
-    ),
-    QuizItem(
-      question: 'What is the outcome of fertilization?',
-      choices: [
-        'A haploid gamete',
-        'A diploid zygote',
-        'Two identical daughter cells',
-        'A multicellular organism'
-      ],
-      correctAnswer: 'A diploid zygote',
-    ),
-    QuizItem(
-      question: 'Which organisms are known to exhibit external fertilization?',
-      choices: ['Humans', 'Birds', 'Frogs', 'Mammals'],
-      correctAnswer: 'Frogs',
-    ),
-    QuizItem(
-      question: 'Which structure is involved in bacterial conjugation?',
-      choices: ['Flagellum', 'Pilus', 'Cilia', 'Capsule'],
-      correctAnswer: 'Pilus',
-    ),
-    QuizItem(
-      question: 'What advantage does internal fertilization offer?',
-      choices: [
-        'Production of more offspring',
-        'Increased survival of the zygote',
-        'Exposure to environmental hazards',
-        'Requirement of a moist environment'
-      ],
-      correctAnswer: 'Increased survival of the zygote',
-    ),
-    QuizItem(
-      question:
-          'What is the term for the exchange of genetic material between two bacteria?',
-      choices: ['Mitosis', 'Transformation', 'Transduction', 'Conjugation'],
-      correctAnswer: 'Conjugation',
-    ),
-    QuizItem(
-      question:
-          'Which reproductive process is used by bacteria to pick up DNA from their environment?',
-      choices: [
-        'Conjugation',
-        'Transformation',
-        'Transduction',
-        'Binary fission'
-      ],
-      correctAnswer: 'Transformation',
-    ),
-    QuizItem(
-      question:
-          'What is the function of bacteriophages in bacterial transduction?',
-      choices: [
-        'They transfer DNA between bacteria.',
-        'They assist in bacterial cell division.',
-        'They help bacteria move.',
-        'They provide energy to bacteria.'
-      ],
-      correctAnswer: 'They transfer DNA between bacteria.',
-    ),
+
+    // Quiz items here
   ];
 
   int currentQuestionIndex = 0;
@@ -186,7 +120,7 @@ class _Ecosystem_AT_Quiz_2_ContentState
       child: Scaffold(
         appBar: AppBar(
           title: Text('Chapter 2 Lesson 1 Quiz 1'),
-          backgroundColor: Color(0xFF729B79), // Set the background color
+          backgroundColor: Color(0xFF729B79),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: currentQuestionIndex == 0
@@ -216,12 +150,15 @@ class _Ecosystem_AT_Quiz_2_ContentState
           ),
         ),
         body: currentQuestionIndex < quizItems.length
-            ? QuizItemWidget(
-                quizItem: quizItems[currentQuestionIndex],
-                onSubmit: submitAnswer,
-                isLastQuestion: currentQuestionIndex == quizItems.length - 1,
-                userSelectedChoices: userSelectedChoices,
-                currentQuestionIndex: currentQuestionIndex,
+            ? SingleChildScrollView(
+                // Wrap in a SingleChildScrollView
+                child: QuizItemWidget(
+                  quizItem: quizItems[currentQuestionIndex],
+                  onSubmit: submitAnswer,
+                  isLastQuestion: currentQuestionIndex == quizItems.length - 1,
+                  userSelectedChoices: userSelectedChoices,
+                  currentQuestionIndex: currentQuestionIndex,
+                ),
               )
             : Center(
                 child: CircularProgressIndicator(),
@@ -252,7 +189,7 @@ class QuizItemWidget extends StatefulWidget {
 
 class _QuizItemWidgetState extends State<QuizItemWidget> {
   String? selectedChoice;
-  bool answerSubmitted = false; // Track if the answer is submitted
+  bool answerSubmitted = false;
 
   @override
   void initState() {
@@ -280,8 +217,7 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
     return Scaffold(
       body: Center(
         child: Padding(
-          // Add Padding widget here
-          padding: const EdgeInsets.only(top: 20.0), // Specify top padding
+          padding: const EdgeInsets.only(top: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -318,11 +254,11 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                         side: BorderSide(
                             color: isSelected
                                 ? Colors.transparent
-                                : Colors.grey[400]!), // Lighter gray border
+                                : Colors.grey[400]!),
                       ),
                     ),
                     onPressed: answerSubmitted
-                        ? null // Disable button after answer is submitted
+                        ? null
                         : () {
                             setState(() {
                               selectedChoice = choice;

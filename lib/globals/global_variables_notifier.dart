@@ -69,6 +69,12 @@ class GlobalVariables extends ChangeNotifier {
       'isComplete': false,
       'canTakeQuiz1': false,
       'quiz1Taken': false,
+      'canTakeQuiz2': false,
+      'quiz2Taken': false,
+      'canTakeQuiz3': false,
+      'quiz3Taken': false,
+      'canTakeQuiz4': false,
+      'quiz4Taken': false,
       'topics': [
         false,
         false,
@@ -102,12 +108,23 @@ class GlobalVariables extends ChangeNotifier {
 
   void _saveAll() async {
     final prefs = await SharedPreferences.getInstance();
+
+    // Convert DateTime objects to strings
+    final Map<String, List<String>> dateTakenStringified =
+        quizTakenDates.map((key, value) {
+      return MapEntry(
+        key,
+        value.map((dateTime) => dateTime.toIso8601String()).toList(),
+      );
+    });
+
     prefs.setString('userProgress', jsonEncode(userProgress));
     prefs.setString('globalScores', jsonEncode(globalScores));
     prefs.setString('quizTakeCount', jsonEncode(quizTakeCount));
     prefs.setString('globalRemarks', jsonEncode(globalRemarks));
     prefs.setString('quizItemCount', jsonEncode(quizItemCount));
-    prefs.setString('quizTakenDates', jsonEncode(quizTakenDates));
+    prefs.setString(
+        'quizTakenDates', jsonEncode(dateTakenStringified)); // Save as strings
     prefs.setString('quizTakenStatus', jsonEncode(quizTakenStatus));
   }
 
@@ -168,26 +185,62 @@ class GlobalVariables extends ChangeNotifier {
   }
 
   void allowQuiz(String lessonId, String quizId) {
-    String key = quizId == 'quiz1' ? 'canTakeQuiz1' : 'canTakeQuiz2';
+    String key;
+    if (quizId == 'quiz1')
+      key = 'canTakeQuiz1';
+    else if (quizId == 'quiz2')
+      key = 'canTakeQuiz2';
+    else if (quizId == 'quiz3')
+      key = 'canTakeQuiz3';
+    else
+      key = 'canTakeQuiz4';
+
     userProgress[lessonId]?[key] = true;
     _saveAll();
     notifyListeners();
   }
 
   void setQuizTaken(String lessonId, String quizId, bool value) {
-    String key = quizId == 'quiz1' ? 'quiz1Taken' : 'quiz2Taken';
+    String key;
+    if (quizId == 'quiz1')
+      key = 'quiz1Taken';
+    else if (quizId == 'quiz2')
+      key = 'quiz2Taken';
+    else if (quizId == 'quiz3')
+      key = 'quiz3Taken';
+    else
+      key = 'quiz4Taken';
+
     userProgress[lessonId]?[key] = value;
     _saveAll();
     notifyListeners();
   }
 
   bool getQuizTaken(String lessonId, String quizId) {
-    String key = quizId == 'quiz1' ? 'quiz1Taken' : 'quiz2Taken';
+    String key;
+    if (quizId == 'quiz1')
+      key = 'quiz1Taken';
+    else if (quizId == 'quiz2')
+      key = 'quiz2Taken';
+    else if (quizId == 'quiz3')
+      key = 'quiz3Taken';
+    else
+      key = 'quiz4Taken';
+
     return userProgress[lessonId]?[key] ?? false;
   }
 
   bool canTakeQuiz(String lessonId, String quizId) {
-    String key = quizId == 'quiz1' ? 'canTakeQuiz1' : 'canTakeQuiz2';
+    String key;
+    if (quizId == 'quiz1')
+      key = 'canTakeQuiz1';
+    else if (quizId == 'quiz2')
+      key = 'canTakeQuiz2';
+    else if (quizId == 'quiz3')
+      key = 'canTakeQuiz3';
+    else
+      key = 'canTakeQuiz4';
+
     return userProgress[lessonId]?[key] ?? false;
   }
 
@@ -222,9 +275,17 @@ class GlobalVariables extends ChangeNotifier {
         .cast<String, List<String>>();
     quizItemCount = jsonDecode(prefs.getString('quizItemCount') ?? '{}')
         .cast<String, int>();
-    quizTakenDates = jsonDecode(prefs.getString('quizTakenDates') ?? '{}')
-        .map<String, List<DateTime>>((key, value) => MapEntry(
-            key, (value as List).map((e) => DateTime.parse(e)).toList()));
+
+    // Convert strings back to DateTime objects
+    quizTakenDates = (jsonDecode(prefs.getString('quizTakenDates') ?? '{}')
+            as Map<String, dynamic>)
+        .map<String, List<DateTime>>((key, value) {
+      return MapEntry(
+        key,
+        (value as List).map((e) => DateTime.parse(e)).toList(),
+      );
+    });
+
     quizTakenStatus = jsonDecode(prefs.getString('quizTakenStatus') ?? '{}')
         .cast<String, bool>();
     notifyListeners();

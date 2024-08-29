@@ -80,7 +80,7 @@ class Ecosystem_TLA_6_3 extends StatelessWidget {
                                     left: 50.0,
                                     right: 18.0), // Add left padding
                                 child: Text(
-                                  'TLA 6.1', // Additional text for the appbar
+                                  'TLA 6.4', // Additional text for the appbar
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
@@ -112,7 +112,7 @@ class Ecosystem_TLA_6_3 extends StatelessWidget {
                 ],
               ),
             ),
-              // Adding the container with image and overlapping white container below it
+            // Adding the container with image and overlapping white container below it
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 100.0),
@@ -168,7 +168,7 @@ class Ecosystem_TLA_6_3 extends StatelessWidget {
                           height: 200,
                           width: 300,
                           decoration: BoxDecoration(
-                            color: Color(0xFFA846A0),
+                            color: Color.fromARGB(255, 122, 168, 70),
                             borderRadius: BorderRadius.circular(16.0),
                             image: DecorationImage(
                               image: AssetImage('assets/lesson11/AR11.png'),

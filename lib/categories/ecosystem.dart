@@ -489,7 +489,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                                 globalVariables.setTopic('lesson6', 16, true);
                               });
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Ecosystem_AT_6_1_2(),
+                                builder: (context) => Ecosystem_AT_6_1(),
                               ));
                             }
                           : null,
@@ -512,7 +512,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                                 globalVariables.setTopic('lesson6', 17, true);
                               });
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Ecosystem_AT_6_1_3(),
+                                builder: (context) => Ecosystem_AT_6_1_2(),
                               ));
                             }
                           : null,
@@ -532,11 +532,11 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       onTap: topics[17]
                           ? () {
                               setState(() {
-                                globalVariables.allowQuiz('lesson6','quiz1');
+                                globalVariables.allowQuiz('lesson6', 'quiz1');
                                 globalVariables.setTopic('lesson6', 18, true);
                               });
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Ecosystem_AT_6_1(),
+                                builder: (context) => Ecosystem_AT_6_1_3(),
                               ));
                             }
                           : null,

@@ -24,11 +24,11 @@ class Ecosystem_AT_Quiz_3_Score extends StatelessWidget {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       final globalVariables =
           Provider.of<GlobalVariables>(context, listen: false);
-      globalVariables.incrementQuizTakeCount('quiz6');
-      globalVariables.setGlobalScore('quiz6', userScore);
-      globalVariables.updateGlobalRemarks('quiz6', userScore, totalQuestions);
-      globalVariables.setQuizItemCount('quiz6', totalQuestions);
-      globalVariables.setQuizTakenDate('quiz6');
+      globalVariables.incrementQuizTakeCount('quiz12');
+      globalVariables.setGlobalScore('quiz12', userScore);
+      globalVariables.updateGlobalRemarks('quiz12', userScore, totalQuestions);
+      globalVariables.setQuizItemCount('quiz12', totalQuestions);
+      globalVariables.setQuizTakenDate('quiz12');
       globalVariables.printGlobalVariables();
     });
 

@@ -1,9 +1,10 @@
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/score.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone/helpers/fisher_yates.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1_Score.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1_Item.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
+
 
 class Ecosystem_AT_Quiz_0_Content extends StatefulWidget {
   @override

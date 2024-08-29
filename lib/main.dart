@@ -5,10 +5,11 @@ import 'package:capstone/categories/ecosystem.dart';
 import 'package:capstone/categories/heredity.dart';
 import 'package:capstone/categories/levels_of_biological_organization_screen.dart';
 import 'package:capstone/categories/microscopy_screen.dart';
+import 'package:capstone/navbar/ARTutorial.dart';
 import 'package:capstone/navbar/Quiz.dart';
 import 'package:capstone/navbar/Category.dart';
 import 'package:capstone/navbar/CustomBottomNavigationBar.dart';
-import 'package:capstone/Record%20Module/AT/Lesson_Record_AT.dart';
+import 'package:capstone/Record%20Module/AT/lesson1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
                   color: const Color(0xFFFFB703),
                   imagePath: 'assets/images/quiz/quiz_icons/microscope.png',
                   screen: Microscopy_AT_1_3(),
+                  quizKey: 'quiz1',
                 ),
                 RectangleBox(
                   lessonId: 'lesson2',
@@ -135,6 +137,7 @@ class MyApp extends StatelessWidget {
                   color: const Color(0xFFA846A0),
                   imagePath: 'assets/images/quiz/quiz_icons/organization.png',
                   screen: Biological_Organization_AT_2_2(),
+                  quizKey: 'quiz2',
                 ),
                 RectangleBox(
                   lessonId: 'lesson3',
@@ -143,6 +146,7 @@ class MyApp extends StatelessWidget {
                   color: const Color(0xFFA1C084),
                   imagePath: 'assets/images/quiz/quiz_icons/plant-cell.png',
                   screen: Animal_and_Plant_AT_3_2(),
+                  quizKey: 'quiz3',
                 ),
                 // First Bigger Rectangle
                 FirstBigRectangle(color: Colors.red),
@@ -399,6 +403,7 @@ class RectangleBox extends StatelessWidget {
   final Color color;
   final String imagePath;
   final Widget screen;
+  final String quizKey; // Added to determine which quiz is being taken
 
   RectangleBox({
     required this.lessonId,
@@ -407,15 +412,18 @@ class RectangleBox extends StatelessWidget {
     required this.color,
     required this.imagePath,
     required this.screen,
+    required this.quizKey, // Added to manage locking logic for specific quiz
   });
 
   @override
   Widget build(BuildContext context) {
     final globalVariables = Provider.of<GlobalVariables>(context);
 
+    final bool isQuizLocked = !globalVariables.canTakeQuiz(lessonId, quizKey);
+
     return GestureDetector(
       onTap: () {
-        if (!globalVariables.canTakeQuiz(lessonId, 'quizId')) {
+        if (!isQuizLocked) {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => screen,
@@ -438,89 +446,91 @@ class RectangleBox extends StatelessWidget {
           );
         }
       },
-      child: Container(
-        height: 100,
-        margin: EdgeInsets.symmetric(vertical: 8.0),
-        child: Stack(
-          children: [
-            // Outer White Background
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.01),
-                      spreadRadius: 0.01,
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // Inner Square
-            Positioned(
-              left: 12,
-              top: 12,
-              child: Container(
-                width: 75,
-                height: 75,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(6.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(
-                      10.0), // Add padding around the image
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.contain, // Adjust the image size to be smaller
+      child: Opacity(
+        opacity: isQuizLocked ? 0.5 : 1.0, // Adjust opacity if locked
+        child: Container(
+          height: 100,
+          margin: EdgeInsets.symmetric(vertical: 8.0),
+          child: Stack(
+            children: [
+              // Outer White Background
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.01),
+                        spreadRadius: 0.01,
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            // Text 1 (Long Text)
-            Positioned(
-              left: 100,
-              top: 15,
-              child: Container(
-                width: 200,
-                child: Text(
-                  longText,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            // Text 2 (Lesson Text)
-            Positioned(
-              left: 100,
-              top: 50,
-              child: Container(
-                width: 200,
-                child: Text(
-                  lessonText,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal,
-                    color: Color(0xFF00B4D8), // Lesson Text color
-                  ),
-                ),
-              ),
-            ),
-            // Lock Icon
-            if (!globalVariables.canTakeQuiz(lessonId, 'quizId'))
+              // Inner Square
               Positioned(
-                right: 12,
+                left: 12,
                 top: 12,
-                child: Icon(Icons.lock, color: Colors.grey),
+                child: Container(
+                  width: 75,
+                  height: 75,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
-          ],
+              // Text 1 (Long Text)
+              Positioned(
+                left: 100,
+                top: 15,
+                child: Container(
+                  width: 200,
+                  child: Text(
+                    longText,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              // Text 2 (Lesson Text)
+              Positioned(
+                left: 100,
+                top: 50,
+                child: Container(
+                  width: 200,
+                  child: Text(
+                    lessonText,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal,
+                      color: Color(0xFF00B4D8), // Lesson Text color
+                    ),
+                  ),
+                ),
+              ),
+              // Lock Icon if quiz is locked
+              if (isQuizLocked)
+                Positioned(
+                  right: 12,
+                  top: 12,
+                  child: Icon(Icons.lock, color: Colors.grey, size: 20),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -693,8 +703,11 @@ class SecondBigRectangle extends StatelessWidget {
                 SizedBox(height: 10), // Space between text and button
                 GestureDetector(
                   onTap: () {
-                    // Handle click on the button
-                    print('See tutorial Clicked');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ARTutorialScreen()),
+                    );
                   },
                   child: Container(
                     width: 120, // Adjust width as needed

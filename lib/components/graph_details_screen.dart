@@ -27,91 +27,88 @@ class GraphDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFE4E7EF),
-                borderRadius: BorderRadius.circular(24.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Learning Curve',
-                      style: TextStyle(
-                        // color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE4E7EF),
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Learning Curve',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Text(
-                                'y',
-                                style: TextStyle(
-                                  color: AppColors.contentColorCyan,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                      const SizedBox(height: 10),
+                      const Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'y',
+                                  style: TextStyle(
+                                    color: AppColors.contentColorCyan,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'No. of Items',
-                                style: TextStyle(
-                                  // color: Colors.white,
-                                  fontSize: 16,
+                                SizedBox(width: 5),
+                                Text(
+                                  'No. of Items',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Text(
-                                'x',
-                                style: TextStyle(
-                                  color: AppColors.contentColorBlue,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'x',
+                                  style: TextStyle(
+                                    color: AppColors.contentColorBlue,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'No. of Takes',
-                                style: TextStyle(
-                                  // color: Colors.white,
-                                  fontSize: 16,
+                                SizedBox(width: 5),
+                                Text(
+                                  'No. of Takes',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: graphHeight,
-                      child: AspectRatio(
-                        aspectRatio: 1.70,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 24,
-                            left: 16,
-                            top: 24,
-                            bottom: 16,
-                          ),
-                          child: Container(
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: graphHeight,
+                        child: AspectRatio(
+                          aspectRatio: 1.70,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 24,
+                              left: 16,
+                              top: 24,
+                              bottom: 16,
+                            ),
                             child: LineChart(
                               LineChartData(
                                 gridData: FlGridData(
@@ -208,142 +205,144 @@ class GraphDetailScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 24.0),
-              child: const Text(
-                'Progress Log',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: const Text(
+                  'Progress Log',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: takeCount,
-                itemBuilder: (context, index) {
-                  DateTime parsedDate =
-                      DateTime.parse(dateTaken[index].toString());
-                  String formattedDate =
-                      DateFormat('MMMM d, yyyy').format(parsedDate);
-                  String formattedTime =
-                      DateFormat('h:mm a').format(parsedDate);
+              Container(
+                height: 200,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: takeCount,
+                  itemBuilder: (context, index) {
+                    // Reverse the order to show the latest attempt first
+                    int reverseIndex = takeCount - 1 - index;
+                    DateTime parsedDate =
+                        DateTime.parse(dateTaken[reverseIndex].toString());
+                    String formattedDate =
+                        DateFormat('MMMM d, yyyy').format(parsedDate);
+                    String formattedTime =
+                        DateFormat('h:mm a').format(parsedDate);
 
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-                    child: Card(
-                      color: const Color(0xFFE4E7EF),
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          width: 150,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  if (remarks[index] == 'Passed')
-                                    const Icon(Icons.check_circle,
-                                        color: Colors.green)
-                                  else
-                                    const Icon(Icons.cancel, color: Colors.red),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    remarks[index],
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+                      child: SizedBox(
+                        width: 200, // Increased width for better visibility
+                        child: Card(
+                          color: const Color(0xFFE4E7EF),
+                          margin: EdgeInsets.zero,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
                                   children: <Widget>[
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.baseline,
-                                      textBaseline: TextBaseline.alphabetic,
-                                      children: <Widget>[
-                                        Text(
-                                          '${scores[index]}',
-                                          style: const TextStyle(
-                                            fontSize: 56,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          ' / $itemCount',
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 4,
-                                              bottom: 4,
-                                              left: 8,
-                                              right: 8),
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 194, 224, 158),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          child: Text(
-                                            formattedTime,
-                                            style: const TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          formattedDate,
-                                          style: const TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
+                                    if (remarks[reverseIndex] == 'Passed')
+                                      const Icon(Icons.check_circle,
+                                          color: Colors.green)
+                                    else
+                                      const Icon(Icons.cancel,
+                                          color: Colors.red),
+                                    const SizedBox(width: 8.0),
+                                    Text(
+                                      remarks[reverseIndex],
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.baseline,
+                                        textBaseline: TextBaseline.alphabetic,
+                                        children: <Widget>[
+                                          Text(
+                                            '${scores[reverseIndex]}',
+                                            style: const TextStyle(
+                                              fontSize: 56,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' / $itemCount',
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                top: 4,
+                                                bottom: 4,
+                                                left: 8,
+                                                right: 8),
+                                            decoration: BoxDecoration(
+                                              color: const Color.fromARGB(
+                                                  255, 194, 224, 158),
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            child: Text(
+                                              formattedTime,
+                                              style: const TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            formattedDate,
+                                            style: const TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _bottomTitleWidgets(double value, TitleMeta meta) {
-    final style = TextStyle(
-      // color: Colors.white,
+    final style = const TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
@@ -356,7 +355,6 @@ class GraphDetailScreen extends StatelessWidget {
 
   Widget _leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      // color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
