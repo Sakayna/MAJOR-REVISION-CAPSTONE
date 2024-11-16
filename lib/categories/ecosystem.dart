@@ -483,7 +483,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                   title: 'Assessment Tasks',
                   items: [
                     GestureDetector(
-                      onTap: topics[15]
+                      onTap: globalVariables.canTakeQuiz('lesson6', 'quiz1')
                           ? () {
                               setState(() {
                                 globalVariables.setTopic('lesson6', 16, true);
@@ -494,9 +494,11 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             }
                           : null,
                       child: Opacity(
-                        opacity: topics[15] ? 1 : 0.5,
+                        opacity: globalVariables.canTakeQuiz('lesson6', 'quiz1')
+                            ? 1
+                            : 0.5,
                         child: Text(
-                          'AT 1 ',
+                          'Quiz 1 - Basic Concepts of Ecosystems',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -506,7 +508,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: topics[16]
+                      onTap: globalVariables.canTakeQuiz('lesson6', 'quiz2')
                           ? () {
                               setState(() {
                                 globalVariables.setTopic('lesson6', 17, true);
@@ -517,9 +519,11 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             }
                           : null,
                       child: Opacity(
-                        opacity: topics[16] ? 1 : 0.5,
+                        opacity: globalVariables.canTakeQuiz('lesson6', 'quiz2')
+                            ? 1
+                            : 0.5,
                         child: Text(
-                          'Exercise 6.1 - ',
+                          'Quiz 2 - Ecosystem Interactions',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -529,10 +533,9 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: topics[17]
+                      onTap: globalVariables.canTakeQuiz('lesson6', 'quiz3')
                           ? () {
                               setState(() {
-                                globalVariables.allowQuiz('lesson6', 'quiz1');
                                 globalVariables.setTopic('lesson6', 18, true);
                               });
                               Navigator.of(context).push(MaterialPageRoute(
@@ -541,9 +544,11 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             }
                           : null,
                       child: Opacity(
-                        opacity: topics[17] ? 1 : 0.5,
+                        opacity: globalVariables.canTakeQuiz('lesson6', 'quiz3')
+                            ? 1
+                            : 0.5,
                         child: Text(
-                          'Assessment 6.1 - ',
+                          'Quiz 3 - Population Dynamics',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -553,7 +558,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: topics[18]
+                      onTap: globalVariables.canTakeQuiz('lesson6', 'quiz4')
                           ? () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Ecosystem_AT_6_2(),
@@ -561,9 +566,11 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             }
                           : null,
                       child: Opacity(
-                        opacity: topics[18] ? 1 : 0.5,
+                        opacity: globalVariables.canTakeQuiz('lesson6', 'quiz4')
+                            ? 1
+                            : 0.5,
                         child: Text(
-                          'Quiz 6.1 - ',
+                          'Quiz 4 - Human Impact on Ecosystems',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,

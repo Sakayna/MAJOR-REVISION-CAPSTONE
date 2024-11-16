@@ -2,6 +2,7 @@ import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/content.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_2/Heredity_AT_5_2.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_2/Heredity_AT_Quiz_1_Content.dart';
+import 'package:capstone/Module%20Contents/Heredity/Heredity_TLA/Heredity_TLA_5_2.dart';
 import 'package:capstone/categories/ecosystem.dart';
 import 'package:capstone/categories/heredity.dart';
 import 'package:flutter/material.dart';
@@ -243,7 +244,7 @@ class Heredity_AT_5_1 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Heredity_AT_5_1(),
+                        builder: (context) => Heredity_TLA_5_2(),
                       ),
                     );
                   },

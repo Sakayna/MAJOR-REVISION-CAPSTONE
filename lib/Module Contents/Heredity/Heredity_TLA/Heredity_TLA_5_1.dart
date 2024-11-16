@@ -1,6 +1,7 @@
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/Heredity_AT_5_1.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_TLA/Heredity_TLA_5_2.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_Topics/Heredity_Topic_5_1.dart';
+import 'package:capstone/Module%20Contents/Heredity/Heredity_Topics/Heredity_Topic_5_3.dart';
 import 'package:capstone/categories/heredity.dart';
 import 'package:capstone/pages/TLA/Week%207/reproduction.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +201,7 @@ class Heredity_TLA_5_1 extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Heredity_Topic_5_1(),
+                            builder: (context) => Heredity_Topic_5_3(),
                           ),
                         );
                       },

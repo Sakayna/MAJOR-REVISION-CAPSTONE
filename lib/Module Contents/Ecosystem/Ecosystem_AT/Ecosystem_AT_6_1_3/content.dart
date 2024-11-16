@@ -1,21 +1,10 @@
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/score.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/score.dart';
-import 'package:capstone/helpers/fisher_yates.dart';
 import 'package:flutter/material.dart';
-
+import 'package:capstone/helpers/fisher_yates.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
-
-class QuizItem {
-  final String question;
-  final List<String> choices;
-  final String correctAnswer;
-
-  QuizItem({
-    required this.question,
-    required this.choices,
-    required this.correctAnswer,
-  });
-}
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
 
 class Ecosystem_AT_Quiz_2_Content extends StatefulWidget {
   @override
@@ -28,18 +17,19 @@ class _Ecosystem_AT_Quiz_2_ContentState
   final List<QuizItem> quizItems = [
     QuizItem(
       question:
-          'What is the main difference between sexual and asexual reproduction?',
-      choices: [
-        'Sexual reproduction involves one parent, while asexual reproduction involves two parents.',
-        'Sexual reproduction involves two parents, while asexual reproduction involves one parent.',
-        'Sexual reproduction produces genetically identical offspring, while asexual reproduction produces genetically diverse offspring.',
-        'Sexual reproduction occurs only in animals, while asexual reproduction occurs only in plants.'
-      ],
-      correctAnswer:
-          'Sexual reproduction involves two parents, while asexual reproduction involves one parent.',
+          'This image shows air being blown by the wind. Is this a biotic or abiotic factor?',
+      choices: ['Biotic', 'Abiotic'],
+      correctAnswer: 'Abiotic',
+      imagePath: 'assets/AT images/week 9/air.jpg',
     ),
-
-    // Quiz items here
+    QuizItem(
+      question:
+          'This image shows bacteria under a microscope. Is this a biotic or abiotic factor?',
+      choices: ['Biotic', 'Abiotic'],
+      correctAnswer: 'Biotic',
+      imagePath: 'assets/AT images/week 9/bacteria.jpg',
+    ),
+    // Additional quiz items...
   ];
 
   int currentQuestionIndex = 0;
@@ -75,6 +65,16 @@ class _Ecosystem_AT_Quiz_2_ContentState
         currentQuestionIndex++;
       });
     } else {
+      var globalVariables =
+          Provider.of<GlobalVariables>(context, listen: false);
+      globalVariables.setQuizTaken('lesson6', 'quiz3', true);
+      globalVariables.unlockNextLesson('lesson6');
+      globalVariables.incrementQuizTakeCount('lesson6_quiz3');
+      globalVariables.updateGlobalRemarks(
+          'lesson6_quiz3', userScore, quizItems.length);
+      globalVariables.setGlobalScore('lesson6_quiz3', userScore);
+      globalVariables.setQuizItemCount('lesson6_quiz3', quizItems.length);
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -93,7 +93,12 @@ class _Ecosystem_AT_Quiz_2_ContentState
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (currentQuestionIndex == 0) {
+        if (currentQuestionIndex > 0) {
+          setState(() {
+            currentQuestionIndex--;
+          });
+          return Future.value(false);
+        } else {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -109,56 +114,47 @@ class _Ecosystem_AT_Quiz_2_ContentState
               ],
             ),
           );
-          return false;
-        } else {
-          setState(() {
-            currentQuestionIndex--;
-          });
-          return false;
+          return Future.value(false);
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Chapter 2 Lesson 1 Quiz 1'),
-          backgroundColor: Color(0xFF729B79),
+          title: Text('Ecosystem Quiz: Biotic vs Abiotic Factors'),
+          backgroundColor: Color(0xFFA846A0),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: currentQuestionIndex == 0
-                ? () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Warning'),
-                        content:
-                            Text('You cannot go back after starting a quiz.'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
+            onPressed: () {
+              if (currentQuestionIndex > 0) {
+                setState(() {
+                  currentQuestionIndex--;
+                });
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Warning'),
+                    content: Text('You cannot go back after starting a quiz.'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('OK'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
-                    );
-                  }
-                : () {
-                    setState(() {
-                      currentQuestionIndex--;
-                    });
-                  },
+                    ],
+                  ),
+                );
+              }
+            },
           ),
         ),
         body: currentQuestionIndex < quizItems.length
-            ? SingleChildScrollView(
-                // Wrap in a SingleChildScrollView
-                child: QuizItemWidget(
-                  quizItem: quizItems[currentQuestionIndex],
-                  onSubmit: submitAnswer,
-                  isLastQuestion: currentQuestionIndex == quizItems.length - 1,
-                  userSelectedChoices: userSelectedChoices,
-                  currentQuestionIndex: currentQuestionIndex,
-                ),
+            ? QuizItemWidget(
+                quizItem: quizItems[currentQuestionIndex],
+                onSubmit: submitAnswer,
+                isLastQuestion: currentQuestionIndex == quizItems.length - 1,
+                userSelectedChoices: userSelectedChoices,
+                currentQuestionIndex: currentQuestionIndex,
               )
             : Center(
                 child: CircularProgressIndicator(),
@@ -209,35 +205,51 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> buttonColors = [
-      Color(0xFF64B6AC),
-    ];
-
-    var globalVariables = Provider.of<GlobalVariables>(context);
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.only(top: 50.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    widget.quizItem.question,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(15.0), // Border radius
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.01), // Shadow color
+                      spreadRadius: 0.01,
+                      blurRadius: 4,
+                      offset: Offset(0, 4), // Shadow position
                     ),
-                  ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    Image(
+                      image: AssetImage(widget.quizItem.imagePath),
+                      width: 180, // Adjust the image width
+                      height: 120, // Adjust the image height
+                      fit: BoxFit.cover, // Ensures the image does not overflow
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      widget.quizItem.question,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14, // Smaller text size for the question
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black, // Black text color
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20),
               ...widget.quizItem.choices.asMap().entries.map((entry) {
-                int idx = entry.key;
                 String choice = entry.value;
                 bool isSelected = selectedChoice == choice;
                 return Container(
@@ -246,15 +258,14 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isSelected
-                          ? buttonColors[idx % buttonColors.length]
-                          : Colors.white,
+                      backgroundColor:
+                          isSelected ? Color(0xFFA846A0) : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(
                             color: isSelected
                                 ? Colors.transparent
-                                : Colors.grey[400]!),
+                                : Colors.transparent),
                       ),
                     ),
                     onPressed: answerSubmitted
@@ -269,7 +280,7 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                       child: Text(
                         choice,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14, // Smaller text size for choices
                           fontWeight: FontWeight.normal,
                           color: isSelected ? Colors.white : Colors.black,
                         ),
@@ -286,6 +297,9 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (selectedChoice != null) {
+                          var globalVariables = Provider.of<GlobalVariables>(
+                              context,
+                              listen: false);
                           globalVariables.setQuizTaken(
                               'lesson6', 'quiz3', true);
                           globalVariables.allowQuiz('lesson6', 'quiz4');
@@ -295,8 +309,11 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                           widget.onSubmit(selectedChoice!);
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF64B6AC),
+                      ),
                       child:
-                          Text('Submit', style: TextStyle(color: Colors.black)),
+                          Text('Submit', style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 )
@@ -314,8 +331,11 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                           });
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFA846A0),
+                      ),
                       child:
-                          Text('Next', style: TextStyle(color: Colors.black)),
+                          Text('Next', style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_2/Microscopy_AT_1_2.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_2/content.dart';
+import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_3/Microscopy_AT_1_3.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_3/Microscopy_AT_Quiz_1_Content.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_TLA/Microscopy_TLA_1_2.dart';
 import 'package:capstone/categories/levels_of_biological_organization_screen.dart';
@@ -274,7 +275,7 @@ class Microscopy_AT_1_2 extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Microscopy_AT_1_2(),
+                            builder: (context) => Microscopy_AT_1_3(),
                           ),
                         );
                       } else {

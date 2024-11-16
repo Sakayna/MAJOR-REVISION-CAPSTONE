@@ -1,46 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-class ARTutorialScreen extends StatelessWidget {
+class ARTutorialScreen extends StatefulWidget {
+  @override
+  _ARTutorialScreenState createState() => _ARTutorialScreenState();
+}
+
+class _ARTutorialScreenState extends State<ARTutorialScreen> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/VideoTutorial/video.mp4')
+      ..initialize().then((_) {
+        setState(() {
+          _controller.play();
+        });
+      });
+    _controller.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _buildControls() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        VideoProgressIndicator(
+          _controller,
+          allowScrubbing: true,
+          colors: VideoProgressColors(
+            backgroundColor: Colors.grey,
+            playedColor: Colors.red,
+            bufferedColor: Colors.white70,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: Icon(
+                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  _controller.value.isPlaying
+                      ? _controller.pause()
+                      : _controller.play();
+                });
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('AR Tutorial'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Welcome to the AR Tutorial!',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Here, you will learn how to use Augmented Reality features in this app.',
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              // Add additional AR tutorial content here
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context); // Go back to the previous screen
-                },
-                child: Text('Go Back'),
-              ),
-            ],
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          Center(
+            child: _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : CircularProgressIndicator(),
           ),
-        ),
+          Positioned(
+            top: 20, // Moved upwards by reducing the value
+            left: 16,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white, size: 30),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          if (_controller.value.isInitialized) _buildControls(),
+        ],
       ),
     );
   }

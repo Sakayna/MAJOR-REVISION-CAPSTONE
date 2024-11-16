@@ -219,6 +219,7 @@ class Heredity_TLA_5_2 extends StatelessWidget {
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson5', 11, true);
+                        globalVariables.allowQuiz('lesson5', 'quiz1');
 
                         Navigator.push(
                           context,

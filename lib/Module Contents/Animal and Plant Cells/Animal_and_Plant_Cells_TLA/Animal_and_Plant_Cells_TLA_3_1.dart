@@ -1,6 +1,7 @@
 import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/AT1/Animal_and_Plant_Cells_AT_3_1.dart';
 import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_TLA/Animal_and_Plant_Cells_TLA_3_2.dart';
 import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_Topics/Animal_and_Plant_Topic_3_1.dart';
+import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_Topics/Animal_and_Plant_Topic_3_4.dart';
 import 'package:capstone/categories/animal_and_plant_screen.dart';
 import 'package:capstone/pages/TLA/Week 4/animal_plant_cell_module.dart';
 import 'package:flutter/material.dart';
@@ -204,7 +205,7 @@ class Animal_and_Plant_TLA_3_1 extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Animal_and_Plant_Topic_3_1(),
+                            builder: (context) => Animal_and_Plant_Topic_3_4(),
                           ),
                         );
                       },

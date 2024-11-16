@@ -217,6 +217,7 @@ class Animal_and_Plant_TLA_3_2 extends StatelessWidget {
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson3', 7, true);
+                        globalVariables.allowQuiz('lesson3', 'quiz1');
 
                         Navigator.push(
                           context,

@@ -1,10 +1,8 @@
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/Ecosystem_AT_6_1_3.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/results.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/results.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/content.dart';
-
-import 'package:capstone/categories/ecosystem.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
 
 class Ecosystem_AT_Quiz_2_Score extends StatelessWidget {
@@ -34,115 +32,110 @@ class Ecosystem_AT_Quiz_2_Score extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Ecosystem_Screen(),
+            builder: (context) => Ecosystem_AT_Quiz_2_Results(
+              quizItems: quizItems,
+              userSelectedChoices: userSelectedChoices,
+              userScore: userScore,
+              totalQuestions: totalQuestions,
+            ),
           ),
         );
         return false;
       },
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              backgroundColor: Color.fromARGB(255, 125, 112, 101),
-              pinned: true,
-              expandedHeight: 120.0,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 50,
-                  right: 10,
-                  bottom: 16,
+        appBar: AppBar(
+          backgroundColor: Color(0xFFA846A0),
+          toolbarHeight: 120.0,
+          automaticallyImplyLeading: false,
+          title: Text("Quiz Score"),
+        ),
+        body: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: 0.01,
+                  blurRadius: 4,
+                  offset: Offset(0, 4),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Levels of Biological Organization',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
+              ],
+            ),
+            padding: EdgeInsets.all(20.0),
+            margin: EdgeInsets.symmetric(vertical: 40.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                userScore >= 7
+                    ? Image.asset(
+                        'assets/lesson1&2/congratulation.png',
+                        width: 120,
+                        height: 120,
+                      )
+                    : Icon(
+                        Icons.cancel_outlined,
+                        color: Colors.red,
+                        size: 120.0,
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Quiz 1: ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+                SizedBox(height: 20),
+                Text(
+                  'Your Score: $userScore / $totalQuestions',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: userScore >= 7 ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              leading: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
+                SizedBox(height: 10),
+                Text(
+                  'You ${userScore >= 7 ? 'passed' : 'failed'} the quiz!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: userScore >= 7 ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
+                SizedBox(height: 30),
+                ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Ecosystem_AT_6_1_3(),
-                    ));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Ecosystem_AT_Quiz_2_Results(
+                          quizItems: quizItems,
+                          userSelectedChoices: userSelectedChoices,
+                          userScore: userScore,
+                          totalQuestions: totalQuestions,
+                        ),
+                      ),
+                    );
                   },
-                ),
-              ),
-            ),
-            SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Your Score: $userScore / $totalQuestions',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFA846A0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the results screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Ecosystem_AT_Quiz_2_Results(
-                              quizItems: quizItems,
-                              userSelectedChoices: userSelectedChoices,
-                              userScore: userScore,
-                              totalQuestions: totalQuestions,
-                            ),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF729B79)),
-                      ),
-                      child: Text('View Results'),
+                  ),
+                  child: Text(
+                    'View Results',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

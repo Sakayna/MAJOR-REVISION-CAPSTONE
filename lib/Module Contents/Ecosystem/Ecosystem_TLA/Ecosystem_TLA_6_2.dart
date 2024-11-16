@@ -1,5 +1,6 @@
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_TLA/Ecosystem_TLA_6_1.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_TLA/Ecosystem_TLA_6_3.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_Topics/Ecosystem_Topic_6_1.dart';
 import 'package:capstone/categories/ecosystem.dart';
 import 'package:capstone/pages/TLA/Week%2010/ecological.dart';
@@ -221,7 +222,7 @@ class Ecosystem_TLA_6_2 extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Ecosystem_AT_6_1(),
+                            builder: (context) => Ecosystem_TLA_6_3(),
                           ),
                         );
                       },

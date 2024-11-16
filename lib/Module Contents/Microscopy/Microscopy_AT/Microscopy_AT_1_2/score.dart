@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_2/Microscopy_AT_1_2.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_2/result.dart';
 import 'package:capstone/categories/microscopy_screen.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class Microscopy_AT_Quiz_2_Score extends StatelessWidget {
                   color: Colors.white,
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => MicroscopyScreen(),
+                      builder: (context) => Microscopy_AT_1_2(),
                     ));
                   },
                 ),

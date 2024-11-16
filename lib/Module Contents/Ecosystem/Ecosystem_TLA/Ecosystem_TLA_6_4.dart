@@ -219,10 +219,12 @@ class Ecosystem_TLA_6_4 extends StatelessWidget {
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson6', 15, true);
+                        globalVariables.allowQuiz('lesson6', 'quiz1');
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Ecosystem_AT_6_1_2(),
+                            builder: (context) => Ecosystem_AT_6_1(),
                           ),
                         );
                       },

@@ -1,21 +1,10 @@
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_2/Ecosystem_AT_Quiz_1_Score.dart';
 import 'package:capstone/helpers/fisher_yates.dart';
 import 'package:flutter/material.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_2/Ecosystem_AT_Quiz_1_Items.dart';
 
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
-
-class QuizItem {
-  final String question;
-  final List<String> choices;
-  final String correctAnswer;
-
-  QuizItem({
-    required this.question,
-    required this.choices,
-    required this.correctAnswer,
-  });
-}
 
 class Ecosystem_AT_Quiz_3_Content extends StatefulWidget {
   @override
@@ -27,74 +16,20 @@ class _Ecosystem_AT_Quiz_3_ContentState
     extends State<Ecosystem_AT_Quiz_3_Content> {
   final List<QuizItem> quizItems = [
     QuizItem(
-      question: 'What is a macroecosystem?',
-      choices: [
-        'An ecosystem within a small, specific area.',
-        'An ecosystem covering a large geographical area.',
-        'An ecosystem within a forest floor.',
-        'An ecosystem within a potted plant.'
-      ],
-      correctAnswer: 'An ecosystem covering a large geographical area.',
-    ),
-    QuizItem(
-      question: 'Which of the following is an example of a microecosystem?',
-      choices: ['Ocean', 'Desert', 'Coral reef', 'Grassland'],
-      correctAnswer: 'Coral reef',
+      question:
+          'This image shows air being blown by the wind. Is this a biotic or abiotic factor?',
+      choices: ['Biotic', 'Abiotic'],
+      correctAnswer: 'Abiotic',
+      imagePath: 'assets/AT images/week 9/air.jpg',
     ),
     QuizItem(
       question:
-          'What determines the type of macroecosystem that exists in an area?',
-      choices: [
-        'The type of animals in the area',
-        'The type of vegetation in the area',
-        'The climate of the area',
-        'The human activities in the area'
-      ],
-      correctAnswer: 'The climate of the area',
+          'This image shows bacteria under a microscope. Is this a biotic or abiotic factor?',
+      choices: ['Biotic', 'Abiotic'],
+      correctAnswer: 'Biotic',
+      imagePath: 'assets/AT images/week 9/bacteria.jpg',
     ),
-    QuizItem(
-      question:
-          'The place where an organism lives within an ecosystem is called its:',
-      choices: ['Habitat', 'Niche', 'Biome', 'Ecosystem'],
-      correctAnswer: 'Habitat',
-    ),
-    QuizItem(
-      question: 'Which of the following is NOT an abiotic factor?',
-      choices: ['Light', 'Temperature', 'Plants', 'Water'],
-      correctAnswer: 'Plants',
-    ),
-    QuizItem(
-      question:
-          'Abiotic factors do not influence the number and variety of plants in an ecosystem.',
-      choices: ['True', 'False'],
-      correctAnswer: 'False',
-    ),
-    QuizItem(
-      question:
-          'The blue and red wavelengths of light are important for photosynthesis.',
-      choices: ['True', 'False'],
-      correctAnswer: 'True',
-    ),
-    QuizItem(
-      question:
-          'Endothermic animals have body temperatures that vary with the environment.',
-      choices: ['True', 'False'],
-      correctAnswer: 'False',
-    ),
-    QuizItem(
-      question:
-          'Photoperiodism is the effect of the length of daylight and darkness on the behavior and functioning of plants.',
-      choices: ['True', 'False'],
-      correctAnswer: 'True',
-    ),
-    QuizItem(
-      question:
-          'Extreme temperatures can cause destruction to body tissues and cells.',
-      choices: ['True', 'False'],
-      correctAnswer: 'True',
-    ),
-
-    // Add more quiz items here...
+    // Additional quiz items...
   ];
 
   int currentQuestionIndex = 0;
@@ -130,6 +65,16 @@ class _Ecosystem_AT_Quiz_3_ContentState
         currentQuestionIndex++;
       });
     } else {
+      var globalVariables =
+          Provider.of<GlobalVariables>(context, listen: false);
+      globalVariables.setQuizTaken('lesson6', 'quiz4', true);
+      globalVariables.unlockNextLesson('lesson6');
+      globalVariables.incrementQuizTakeCount('lesson6_quiz4');
+      globalVariables.updateGlobalRemarks(
+          'lesson6_quiz4', userScore, quizItems.length);
+      globalVariables.setGlobalScore('lesson6_quiz4', userScore);
+      globalVariables.setQuizItemCount('lesson6_quiz4', quizItems.length);
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -148,7 +93,12 @@ class _Ecosystem_AT_Quiz_3_ContentState
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (currentQuestionIndex == 0) {
+        if (currentQuestionIndex > 0) {
+          setState(() {
+            currentQuestionIndex--;
+          });
+          return Future.value(false);
+        } else {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -164,131 +114,51 @@ class _Ecosystem_AT_Quiz_3_ContentState
               ],
             ),
           );
-          return false;
-        } else {
-          setState(() {
-            currentQuestionIndex--;
-          });
-          return false;
+          return Future.value(false);
         }
       },
       child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    backgroundColor: Color(0xFFA846A0),
-                    floating: false,
-                    pinned: false,
-                    snap: false,
-                    expandedHeight: 120.0,
-                    flexibleSpace: LayoutBuilder(
-                      builder: (context, constraints) {
-                        final isTop =
-                            constraints.biggest.height <= kToolbarHeight + 16.0;
-
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (!isTop) ...[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 25.0, left: 50.0),
-                                child: Text(
-                                  'Ecosystem',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 50.0),
-                                child: Text(
-                                  'Assessment Task',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 50.0, right: 18.0),
-                                child: Text(
-                                  'AT 6.2: Quiz ',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ],
-                        );
-                      },
-                    ),
-                    leading: Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        color: Colors.white,
-                        onPressed: currentQuestionIndex == 0
-                            ? () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text('Warning'),
-                                    content: Text(
-                                        'You cannot go back after starting a quiz.'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text('OK'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            : () {
-                                setState(() {
-                                  currentQuestionIndex--;
-                                });
-                              },
+        appBar: AppBar(
+          title: Text('Ecosystem Quiz: Biotic vs Abiotic Factors'),
+          backgroundColor: Color(0xFFA846A0),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              if (currentQuestionIndex > 0) {
+                setState(() {
+                  currentQuestionIndex--;
+                });
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Warning'),
+                    content: Text('You cannot go back after starting a quiz.'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('OK'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
-                    ),
+                    ],
                   ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      child: currentQuestionIndex < quizItems.length
-                          ? QuizItemWidget(
-                              quizItem: quizItems[currentQuestionIndex],
-                              onSubmit: submitAnswer,
-                              isLastQuestion:
-                                  currentQuestionIndex == quizItems.length - 1,
-                              userSelectedChoices: userSelectedChoices,
-                              currentQuestionIndex: currentQuestionIndex,
-                            )
-                          : Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                );
+              }
+            },
+          ),
         ),
+        body: currentQuestionIndex < quizItems.length
+            ? QuizItemWidget(
+                quizItem: quizItems[currentQuestionIndex],
+                onSubmit: submitAnswer,
+                isLastQuestion: currentQuestionIndex == quizItems.length - 1,
+                userSelectedChoices: userSelectedChoices,
+                currentQuestionIndex: currentQuestionIndex,
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
   }
@@ -315,7 +185,7 @@ class QuizItemWidget extends StatefulWidget {
 
 class _QuizItemWidgetState extends State<QuizItemWidget> {
   String? selectedChoice;
-  bool answerSubmitted = false; // Track if the answer is submitted
+  bool answerSubmitted = false;
 
   @override
   void initState() {
@@ -335,114 +205,142 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> buttonColors = [
-      Color(0xFFA846A0),
-    ];
-    var globalVariables = Provider.of<GlobalVariables>(context);
-
-    return Center(
-      child: Padding(
-        // Add Padding widget here
-        padding: const EdgeInsets.only(top: 80.0), // Specify top padding
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Text(
-                  widget.quizItem.question,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background color
+                  borderRadius: BorderRadius.circular(15.0), // Border radius
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.01), // Shadow color
+                      spreadRadius: 0.01,
+                      blurRadius: 4,
+                      offset: Offset(0, 4), // Shadow position
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16.0),
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    Image(
+                      image: AssetImage(widget.quizItem.imagePath),
+                      width: 180, // Adjust the image width
+                      height: 120, // Adjust the image height
+                      fit: BoxFit.cover, // Ensures the image does not overflow
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      widget.quizItem.question,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14, // Smaller text size for the question
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black, // Black text color
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            ...widget.quizItem.choices.asMap().entries.map((entry) {
-              int idx = entry.key;
-              String choice = entry.value;
-              bool isSelected = selectedChoice == choice;
-              return Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isSelected
-                        ? buttonColors[idx % buttonColors.length]
-                        : Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      side: BorderSide(
-                          color: isSelected
-                              ? Colors.transparent
-                              : Colors.grey[400]!), // Lighter gray border
+              SizedBox(height: 20),
+              ...widget.quizItem.choices.asMap().entries.map((entry) {
+                String choice = entry.value;
+                bool isSelected = selectedChoice == choice;
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 20.0),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isSelected ? Color(0xFFA846A0) : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(
+                            color: isSelected
+                                ? Colors.transparent
+                                : Colors.transparent),
+                      ),
                     ),
-                  ),
-                  onPressed: answerSubmitted
-                      ? null // Disable button after answer is submitted
-                      : () {
-                          setState(() {
-                            selectedChoice = choice;
-                          });
-                        },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child: Text(
-                      choice,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: isSelected ? Colors.white : Colors.black,
+                    onPressed: answerSubmitted
+                        ? null
+                        : () {
+                            setState(() {
+                              selectedChoice = choice;
+                            });
+                          },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      child: Text(
+                        choice,
+                        style: TextStyle(
+                          fontSize: 14, // Smaller text size for choices
+                          fontWeight: FontWeight.normal,
+                          color: isSelected ? Colors.white : Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
-            if (widget.isLastQuestion)
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  padding: EdgeInsets.only(top: 10, right: 20, bottom: 20),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (selectedChoice != null) {
-                        globalVariables.setQuizTaken('lesson6', 'quiz4', true);
-                        setState(() {
-                          answerSubmitted = true;
-                        });
-                        widget.onSubmit(selectedChoice!);
-                      }
-                    },
-                    child:
-                        Text('Submit', style: TextStyle(color: Colors.black)),
+                );
+              }).toList(),
+              if (widget.isLastQuestion)
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 10, right: 20, bottom: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (selectedChoice != null) {
+                          var globalVariables = Provider.of<GlobalVariables>(
+                              context,
+                              listen: false);
+                          globalVariables.setQuizTaken(
+                              'lesson6', 'quiz4', true);
+                          globalVariables.allowQuiz('lesson6', 'quiz4');
+                          setState(() {
+                            answerSubmitted = true;
+                          });
+                          widget.onSubmit(selectedChoice!);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF64B6AC),
+                      ),
+                      child:
+                          Text('Submit', style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                )
+              else
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 10, right: 20, bottom: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (selectedChoice != null) {
+                          widget.onSubmit(selectedChoice!);
+                          setState(() {
+                            selectedChoice = null;
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFA846A0),
+                      ),
+                      child:
+                          Text('Next', style: TextStyle(color: Colors.white)),
+                    ),
                   ),
                 ),
-              )
-            else
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  padding: EdgeInsets.only(top: 10, right: 20, bottom: 20),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (selectedChoice != null) {
-                        widget.onSubmit(selectedChoice!);
-                        setState(() {
-                          selectedChoice = null;
-                        });
-                      }
-                    },
-                    child: Text('Next', style: TextStyle(color: Colors.black)),
-                  ),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

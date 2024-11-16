@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
 
-
 class Ecosystem_AT_Quiz_0_Content extends StatefulWidget {
   @override
   _Ecosystem_AT_Quiz_0_ContentState createState() =>
@@ -120,11 +119,14 @@ class _Ecosystem_AT_Quiz_0_ContentState
         currentQuestionIndex++;
       });
     } else {
-      var globalVariables = Provider.of<GlobalVariables>(context, listen: false);
+      var globalVariables =
+          Provider.of<GlobalVariables>(context, listen: false);
       globalVariables.setQuizTaken('lesson6', 'quiz1', true);
+
       globalVariables.unlockNextLesson('lesson6');
       globalVariables.incrementQuizTakeCount('lesson6_quiz1');
-      globalVariables.updateGlobalRemarks('lesson6_quiz1', userScore, quizItems.length);
+      globalVariables.updateGlobalRemarks(
+          'lesson6_quiz1', userScore, quizItems.length);
       globalVariables.setGlobalScore('lesson6_quiz1', userScore);
       globalVariables.setQuizItemCount('lesson6_quiz1', quizItems.length);
 
@@ -350,6 +352,12 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (selectedChoice != null) {
+                          var globalVariables = Provider.of<GlobalVariables>(
+                              context,
+                              listen: false);
+                          globalVariables.setQuizTaken(
+                              'lesson6', 'quiz1', true);
+                          globalVariables.allowQuiz('lesson6', 'quiz2');
                           setState(() {
                             answerSubmitted = true;
                           });
@@ -357,7 +365,7 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFA846A0),
+                        backgroundColor: Color(0xFF64B6AC),
                       ),
                       child:
                           Text('Submit', style: TextStyle(color: Colors.white)),

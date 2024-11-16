@@ -1,5 +1,6 @@
 import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_AT/Bactera_AT_4_2/Bacteria_AT_4_2.dart';
 import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_Topics/Bacteria_Topic_4_1.dart';
+import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_Topics/Bacteria_Topic_4_2.dart';
 import 'package:capstone/categories/bacteria_screen.dart';
 import 'package:capstone/pages/TLA/Week 6/microorganisms.dart';
 import 'package:flutter/material.dart';
@@ -202,7 +203,7 @@ class Bacteria_TLA_4_1 extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Bacteria_Topic_4_1(),
+                            builder: (context) => Bacteria_Topic_4_2(),
                           ),
                         );
                       },
@@ -220,7 +221,7 @@ class Bacteria_TLA_4_1 extends StatelessWidget {
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson4', 9, true);
-                        globalVariables.allowQuiz('lesson4', 'quiz2');
+                        globalVariables.allowQuiz('lesson4', 'quiz1');
 
                         Navigator.push(
                           context,

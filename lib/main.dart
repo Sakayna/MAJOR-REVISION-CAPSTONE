@@ -137,7 +137,7 @@ class MyApp extends StatelessWidget {
                   color: const Color(0xFFA846A0),
                   imagePath: 'assets/images/quiz/quiz_icons/organization.png',
                   screen: Biological_Organization_AT_2_2(),
-                  quizKey: 'quiz2',
+                  quizKey: 'quiz1',
                 ),
                 RectangleBox(
                   lessonId: 'lesson3',
@@ -146,7 +146,7 @@ class MyApp extends StatelessWidget {
                   color: const Color(0xFFA1C084),
                   imagePath: 'assets/images/quiz/quiz_icons/plant-cell.png',
                   screen: Animal_and_Plant_AT_3_2(),
-                  quizKey: 'quiz3',
+                  quizKey: 'quiz1',
                 ),
                 // First Bigger Rectangle
                 FirstBigRectangle(color: Colors.red),
@@ -735,12 +735,12 @@ class SecondBigRectangle extends StatelessWidget {
           ),
           // Positioned Image
           Positioned(
-            right: -10, // Move the image further to the right
-            top: 0, // Adjust the top position
+            right: -1, // Move the image further to the right
+            top: -5, // Adjust the top position
             child: Image.asset(
               'assets/images/homepage/tutorial.png',
-              height: 140, // Make the image height a bit smaller
-              width: 140, // Adjust width accordingly
+              height: 170, // Make the image height a bit smaller
+              width: 160, // Adjust width accordingly
               fit: BoxFit.cover, // Ensure the image covers the entire box
             ),
           ),
