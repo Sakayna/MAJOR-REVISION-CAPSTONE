@@ -341,7 +341,7 @@ class _Heredity_ScreenState extends State<Heredity_Screen> {
                       child: Opacity(
                         opacity: topics[9] ? 1 : 0.5,
                         child: Text(
-                          'Exercise 5.1 - ',
+                          'Exercise 5.1 - Learn about the difference between asexual and sexual reproduction',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -366,7 +366,7 @@ class _Heredity_ScreenState extends State<Heredity_Screen> {
                       child: Opacity(
                         opacity: topics[10] ? 1 : 0.5,
                         child: Text(
-                          'Exercise 5.1 - ',
+                          'Exercise 5.2 - Learn about the process of Fertilization',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -399,7 +399,7 @@ class _Heredity_ScreenState extends State<Heredity_Screen> {
                             ? 1
                             : 0.5,
                         child: Text(
-                          'Assessment 5.1 - ',
+                          'Assessment 5.1 - Asexual or Sexual? ',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -424,7 +424,7 @@ class _Heredity_ScreenState extends State<Heredity_Screen> {
                             ? 1
                             : 0.5,
                         child: Text(
-                          'Quiz 5.2 - ',
+                          'Assessment 5.2 - Sequencing Fertilization Process',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,

@@ -164,7 +164,7 @@ class _Levels_of_biological_organization_ScreenState
                       child: Opacity(
                         opacity: topics[2] ? 1 : 0.5,
                         child: const Text(
-                          'Exercise 2.1 - ',
+                          'Exercise 2.1 - The different levels of biological organization from cell to biosphere',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -192,7 +192,7 @@ class _Levels_of_biological_organization_ScreenState
                       child: Opacity(
                         opacity: topics[3] ? 1 : 0.5,
                         child: const Text(
-                          'Quiz 2.1 - ',
+                          'Assessment 2.1 - Sequencing of Biological Levels',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,

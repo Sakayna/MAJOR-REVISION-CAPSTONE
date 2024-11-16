@@ -236,7 +236,7 @@ class _Animal_and_Plant_ScreenState extends State<Animal_and_Plant_Screen> {
                       child: Opacity(
                         opacity: topics[5] ? 1 : 0.5,
                         child: const Text(
-                          'Exercise 3.1 - Introduction to Microscopy',
+                          'Exercise 3.1 - Differentiate plant and animal cells according to presence or absence of certain organelles',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -261,7 +261,7 @@ class _Animal_and_Plant_ScreenState extends State<Animal_and_Plant_Screen> {
                       child: Opacity(
                         opacity: topics[6] ? 1 : 0.5,
                         child: const Text(
-                          'Exercise 3.2 - New TLA Title',
+                          'Exercise 3.2 - Learn about why the cell is cconsidered as the basic unit of life',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -290,7 +290,7 @@ class _Animal_and_Plant_ScreenState extends State<Animal_and_Plant_Screen> {
                             ? 1
                             : 0.5,
                         child: const Text(
-                          'Assessment 3.1 - ',
+                          'Assessment 3.1 - Categorizing Cell Organelles ',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -313,7 +313,7 @@ class _Animal_and_Plant_ScreenState extends State<Animal_and_Plant_Screen> {
                                 ? 1
                                 : 0.5,
                         child: const Text(
-                          'Quiz 3.1 - ',
+                          'Assessment 3.2 - Cell Functions and Significance',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,

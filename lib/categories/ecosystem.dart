@@ -397,7 +397,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       child: Opacity(
                         opacity: topics[11] ? 1 : 0.5,
                         child: Text(
-                          'Exercise 6.1 - ',
+                          'Exercise 6.1 - Learn about Biotic and Abiotic ',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -420,7 +420,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       child: Opacity(
                         opacity: topics[12] ? 1 : 0.5,
                         child: Text(
-                          'Exercise 6.1 - ',
+                          'Exercise 6.2 - Learn about the different ecological relationships found in an ecosystem',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -443,7 +443,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       child: Opacity(
                         opacity: topics[13] ? 1 : 0.5,
                         child: Text(
-                          'Exercise 6.1 - ',
+                          'Exercise 6.3 - Learn about the effect of changes in one population on other populations in the ecosystem',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -466,7 +466,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                       child: Opacity(
                         opacity: topics[14] ? 1 : 0.5,
                         child: Text(
-                          'Exercise 6.1 - ',
+                          'Exercise 6.4 - Learn about the effect of changes in abiotic factors on the ecosystem',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -498,7 +498,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             ? 1
                             : 0.5,
                         child: Text(
-                          'Quiz 1 - Basic Concepts of Ecosystems',
+                          'Assessment 6.1 - Biotic or Abiotic?',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -523,7 +523,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             ? 1
                             : 0.5,
                         child: Text(
-                          'Quiz 2 - Ecosystem Interactions',
+                          'Assessment 6.2 - Predator or Prey?',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -548,7 +548,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             ? 1
                             : 0.5,
                         child: Text(
-                          'Quiz 3 - Population Dynamics',
+                          'Assessment 6.3 - Effect of Population Changes',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -570,7 +570,7 @@ class _Ecosystem_ScreenState extends State<Ecosystem_Screen> {
                             ? 1
                             : 0.5,
                         child: Text(
-                          'Quiz 4 - Human Impact on Ecosystems',
+                          'Assessment 6.4 - Effects of Abiotic Factors',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,

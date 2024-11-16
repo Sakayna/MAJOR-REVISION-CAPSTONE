@@ -316,7 +316,7 @@ class _Bacteria_ScreenState extends State<Bacteria_Screen> {
                       child: Opacity(
                         opacity: topics[8] ? 1 : 0.5,
                         child: const Text(
-                          'Exercise 4.1 - Introduction to Microscopy',
+                          'Exercise 4.1 - Identify beneficial and harmful microorganisms ',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
@@ -343,7 +343,7 @@ class _Bacteria_ScreenState extends State<Bacteria_Screen> {
                       child: Opacity(
                         opacity: topics[9] ? 1 : 0.5,
                         child: const Text(
-                          'Quiz 4.1 - ',
+                          'Assessment 4.1 - Beneficial or Harmful?',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
