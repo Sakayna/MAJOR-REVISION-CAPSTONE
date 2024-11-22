@@ -83,8 +83,8 @@ flutter:
     - assets/images/homepage/1microscopy.png
     - assets/images/homepage/progress.png
     - assets/images/homepage/tutorial.png
-    - assets/VideoTutorial/tutorial_ver1.mp4
-    - assets/VideoTutorial/video.mp4
+    - assets/Video/
+    - assets/Video/video.mp4
     - assets/images/quiz/bacteria.png
     - assets/images/quiz/cell.png
     - assets/images/quiz/ecosystem.png
@@ -270,13 +270,58 @@ flutter:
     - assets/lesson6/assets/
     - assets/lesson6/beneficial/
     - assets/lesson6/harmful/
+    - assets/lesson6/yogurt/
+    - assets/lesson6/milk2curd/
+    - assets/lesson8/uterus/
+    - assets/lesson8/ooctye/
+    - assets/lesson8/spermwithegg/
+    - assets/lesson8/cleavage/
+    - assets/lesson8/zygote/
+    - assets/lesson8/1/
+    - assets/lesson8/2/
+    - assets/lesson8/3/
+    - assets/lesson8/4/
+    - assets/lesson8/5/
     - assets/lesson6/question/
     - assets/lesson6/lesson6Subitles/AT/
     - assets/lesson6/lesson6Subitles/TLA/
     - assets/lesson7/
+    - assets/lesson7/baby/
+    - assets/lesson7/embryo/
+    - assets/lesson7/sperm and egg/
+    - assets/lesson7/zygote/
+    - assets/lesson7/lol/
+    - assets/lesson7/sperm/
+    - assets/lesson7/coraline/
+    - assets/lesson7/fake1/
+    - assets/lesson7/fake2/
+    - assets/lesson7/mama/
+    - assets/lesson7/beldam/
+    - assets/lesson7/papa/
+    - assets/lesson7/papa2/
+    - assets/lesson7/parent/
     - assets/lesson6/AR6.png
     - assets/lesson7/AR7.png
+    - assets/lesson6/bread/
+    - assets/lesson6/meat/
+    - assets/lesson6/pill/
+    - assets/lesson6/raw/
+    - assets/lesson6/tb/
+    - assets/lesson6/cheese/
+    - assets/lesson6/tb/source/
+    - assets/lesson6/tb/textures/
     - assets/lesson7/for images/
+    - assets/lesson10/predation/
+    - assets/lesson10/parasitism/
+    - assets/lesson10/mutualism/
+    - assets/lesson10/competition/
+    - assets/lesson10/commensalism/
+    - assets/lesson10/lion/
+    - assets/lesson10/dog/
+    - assets/lesson10/tick/
+    - assets/lesson10/hyena/
+    - assets/lesson10/shark/
+    - assets/lesson10/fish/
     - assets/lesson7/for images/egg cell.jpg
     - assets/lesson7/for images/Sperm Cell.jpg
     - assets/lesson7/for images/male chiken.jpg
@@ -364,6 +409,8 @@ flutter:
     - assets/AT images/week 7/
     - assets/AT images/week 9/
     - assets/AT images/week12/
+    - assets/videos/microscopy/x2mate.com-How to Focus a Microscope & How the Field of View Changes.mp4
+    - assets/videos/microscopy/x2mate.com-Microscope_ Parts and Functions _ Science.mp4
 #    - assets/lesson7/assets/
 #    - assets/lesson7/lesson7Subitles/AT/
 #    - assets/lesson7/lesson7Subitles/TLA/
