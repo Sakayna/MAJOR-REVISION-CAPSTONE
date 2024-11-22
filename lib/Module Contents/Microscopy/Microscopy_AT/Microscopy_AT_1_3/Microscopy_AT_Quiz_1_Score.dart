@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_3/Microscopy_AT_1_3.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_3/Microscopy_AT_Quiz_1_Results.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +81,13 @@ class Microscopy_AT_Quiz_1_Score extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pop(); // Go back to the previous screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Microscopy_AT_1_3(), // Ensure this widget exists
+                ),
+              );
             },
           ),
         ),

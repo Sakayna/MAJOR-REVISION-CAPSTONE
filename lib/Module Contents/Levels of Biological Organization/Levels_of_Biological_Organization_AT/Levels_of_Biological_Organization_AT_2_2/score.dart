@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Levels%20of%20Biological%20Organization/Levels_of_Biological_Organization_AT/Levels_of_Biological_Organization_AT_2_2/Levels_of_Biological_Organization_AT_2_2.dart';
 import 'package:capstone/Module%20Contents/Levels%20of%20Biological%20Organization/Levels_of_Biological_Organization_AT/Levels_of_Biological_Organization_AT_2_2/results.dart';
 import 'package:capstone/Module%20Contents/Levels%20of%20Biological%20Organization/Levels_of_Biological_Organization_AT/Levels_of_Biological_Organization_AT_2_2/content.dart';
 
@@ -80,7 +81,13 @@ class ScorePage extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pop(); // Go back to the previous screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Biological_Organization_AT_2_2(), // Ensure this widget exists
+                ),
+              );
             },
           ),
         ),

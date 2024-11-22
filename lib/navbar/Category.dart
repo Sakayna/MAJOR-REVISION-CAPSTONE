@@ -189,19 +189,20 @@ class CategoryScreen extends StatelessWidget {
                 ),
               ),
               Align(
-                alignment:
-                    Alignment.topLeft, // Change the alignment to top left
+                alignment: Alignment
+                    .center, // Center the text vertically and horizontally
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 15.0, top: 115.0, right: 15.0), // Add padding here
+                      top: 100.0), // Add a small space above the text
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxWidth: 150), // Adjust the max width as needed
+                        maxWidth: 150), // Adjust max width if needed
                     child: Text(
                       text,
-                      textAlign: TextAlign.left, // Align text to the left
+                      textAlign:
+                          TextAlign.center, // Center align text horizontally
                       style: TextStyle(
-                        fontSize: 12.0, // Adjust the font size as needed
+                        fontSize: 12.0, // Adjust font size
                         color: Colors.white,
                       ),
                     ),

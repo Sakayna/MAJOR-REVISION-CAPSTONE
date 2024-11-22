@@ -46,16 +46,16 @@ class Microscopy_AT_Quiz_2_Score extends StatelessWidget {
   Widget build(BuildContext context) {
     int finalCorrectAnswers = calculateCorrectAnswers();
 
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        final globalVariables =
-            Provider.of<GlobalVariables>(context, listen: false);
-        globalVariables.incrementQuizTakeCount('quiz1');
-        globalVariables.setGlobalScore('quiz1', finalCorrectAnswers);
-        globalVariables.updateGlobalRemarks(
-            'quiz1', finalCorrectAnswers, totalQuestions);
-        globalVariables.setQuizItemCount('quiz1', totalQuestions);
-        globalVariables.printGlobalVariables();
-      });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      final globalVariables =
+          Provider.of<GlobalVariables>(context, listen: false);
+      globalVariables.incrementQuizTakeCount('quiz1');
+      globalVariables.setGlobalScore('quiz1', finalCorrectAnswers);
+      globalVariables.updateGlobalRemarks(
+          'quiz1', finalCorrectAnswers, totalQuestions);
+      globalVariables.setQuizItemCount('quiz1', totalQuestions);
+      globalVariables.printGlobalVariables();
+    });
 
     bool passed = (finalCorrectAnswers / totalQuestions) >= 0.5;
 
@@ -71,7 +71,7 @@ class Microscopy_AT_Quiz_2_Score extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Color.fromARGB(255, 125, 112, 101),
+              backgroundColor: Color(0xFFFFA551),
               pinned: true,
               expandedHeight: 120.0,
               flexibleSpace: Padding(

@@ -54,6 +54,22 @@ class Ecosystem_AT_Quiz_3_Score extends StatelessWidget {
           toolbarHeight: 120.0,
           automaticallyImplyLeading: false,
           title: Text("Quiz Score"),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Ecosystem_AT_6_2(), // Ensure this widget exists and is imported
+                  ),
+                );
+              },
+            ),
+          ),
         ),
         body: Center(
           child: Container(

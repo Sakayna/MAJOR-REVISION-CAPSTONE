@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/Animal_and_Plant_Cells_AT_3_2/Animal_and_Plant_Cells_AT_3_2.dart';
 import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/Animal_and_Plant_Cells_AT_3_2/Animal_and_Plant_Cells_AT_Quiz_1_Score.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/Animal_and_Plant_Cells_AT_3_2/Animal_and_Plant_Cells_AT_Quiz_1_Items.dart';
@@ -36,6 +37,19 @@ class Animal_and_Plant_AT_3_1_2_Results extends StatelessWidget {
         appBar: AppBar(
           title: Text('Quiz Results'),
           backgroundColor: Color(0xFFA1C084),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Animal_and_Plant_AT_3_2(), // Ensure this widget exists
+                ),
+              );
+            },
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

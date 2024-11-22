@@ -1,4 +1,4 @@
-import 'package:capstone/Module%20Contents/Heredity/Heredity_TLA/Heredity_TLA_5_2.dart';
+import 'package:capstone/Module%20Contents/Microscopy/Microscopy_TLA/Microscopy_TLA_1_1.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
@@ -22,12 +22,14 @@ class SceneNode {
   final String modelPath;
   final vector.Vector3 position;
   final vector.Vector3 scale;
+  final vector.Vector4 rotation;
 
   SceneNode({
     required this.name,
     required this.modelPath,
     required this.position,
     required this.scale,
+    required this.rotation,
   });
 }
 
@@ -45,99 +47,204 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
   bool modelPlaced = false;
   bool introductionShown = false;
   bool instructionsShown = false;
+  bool showButtons = false;
+  int currentTextStep = 0;
+  bool isAnswerCorrect = false;
+  bool showIntroOnce = true;
   List<ARNode> nodes = [];
-  int correctAnswers = 0;
-  int incorrectAnswers = 0;
-  int currentQuestionIndex = 0;
-  List<bool> unlockedButtons = List.filled(8, false);
-  List<String> wrongAnswers = [];
-  String feedbackMessage = '';
-  bool showFeedback = false;
-  Color feedbackColor = Colors.black;
-  List<String> correctFeedbackMessages = [
-    "Great Job!",
-    "You are Amazing!",
-    "Wow! Hats off to you!",
+  int currentNodeIndex = 0;
+  ARNode? activeNode;
+  ARHitTestResult? lastHitTestResult;
+  bool showQuestionIntro =
+      true; // Add this flag to control the introduction display
+  List<String> incorrectQuestions = []; // To store incorrect questions
+  List<String> userAnswers = []; // To store user's answers
+
+  int currentQuestionIndex = 0; // Track current question index
+  int correctAnswers = 0; // Count of correct answers
+  int wrongAnswers = 0; // Count of wrong answers
+
+  final List<Map<String, dynamic>> questions = [
+    {
+      'question':
+          'What is the process called when sperm is introduced into the female reproductive system?',
+      'correctAnswer': 'Insemination',
+      'options': ['Insemination', 'Ovulation', 'Fertilization'],
+    },
+    {
+      'question': 'Where does fertilization typically occur?',
+      'correctAnswer': 'Fallopian Tube',
+      'options': ['Fallopian Tube', 'Uterus', 'Ovary']
+    },
+    {
+      'question':
+          'What is the name of the cell formed when an egg is fertilized?',
+      'correctAnswer': 'Zygote',
+      'options': ['Zygote', 'Embryo', 'Fetus'],
+    },
+    {
+      'question': 'What hormone triggers ovulation?',
+      'correctAnswer': 'LH',
+      'options': ['LH', 'FSH', 'Estrogen'],
+    },
+    {
+      'question':
+          'Which structure carries the egg from the ovary to the uterus?',
+      'correctAnswer': 'Fallopian Tube',
+      'options': ['Fallopian Tube', 'Vagina', 'Cervix'],
+    },
   ];
 
-  List<Map<String, String>> questionAnswerPairs = [
-    {
-      "question":
-          "During which stage in plants does the transfer of pollen occur from one flower to another?",
-      "answer": "Pollination",
-      "definition":
-          "Pollination is the process by which pollen is transferred from the anther (male part) of one flower to the stigma (female part) of another flower. This process is vital for the fertilization of plants.",
-      "image": "assets/lesson8/plants/Pollination2.png",
-    },
-    {
-      "question":
-          "In plants, at which stage does the pollen grain start growing a tube to reach the ovule?",
-      "answer": "Pollen Germination",
-      "definition":
-          "Pollen germination is the process where the pollen grain begins to grow a pollen tube after landing on the stigma. This tube allows the male gametes to travel towards the ovule for fertilization.",
-      "image": "assets/lesson8/plants/pollen.png",
-    },
-    {
-      "question":
-          "Which stage involves tube growth and the fusion of male and female gametes in plants?",
-      "answer": "Fertilization (Tube Growth and Double Fertilization)",
-      "definition":
-          "Fertilization in plants includes the growth of the pollen tube and double fertilization, where one sperm fertilizes the egg forming a zygote, and another fuses with two polar nuclei to form the endosperm.",
-      "image": "assets/lesson8/plants/fertilization.png",
-    },
-    {
-      "question":
-          "At which stage do seeds and fruits begin to form after fertilization in plants?",
-      "answer": "Seed and Fruit Formation",
-      "definition":
-          "Seed and fruit formation occurs after fertilization, where the ovule develops into a seed and the surrounding tissue matures into a fruit, which aids in seed dispersal.",
-      "image": "assets/lesson8/Applefruit.png",
-    },
-    {
-      "question":
-          "In human reproduction, at which stage are the reproductive cells (sperm and eggs) produced?",
-      "answer": "Gamete Production",
-      "definition":
-          "Gamete production refers to the formation of reproductive cells (sperm in males and eggs in females) through the process of meiosis.",
-      "image": "assets/lesson8/human/gamete.png",
-    },
-    {
-      "question":
-          "Which stage involves the physical union of male and female reproductive systems in humans?",
-      "answer": "Copulation/Sexual Intercourse",
-      "definition":
-          "Copulation or sexual intercourse is the stage where the male and female reproductive systems come into contact, allowing for the transfer of sperm from the male to the female reproductive tract.",
-      "image": "assets/lesson8/sexeduc.png",
-    },
-    {
-      "question":
-          "In human reproduction, which stage marks the fusion of sperm and egg to form a zygote?",
-      "answer": "Fertilization",
-      "definition":
-          "Fertilization is the stage where a sperm cell unites with an egg cell, resulting in the formation of a zygote, marking the beginning of a new organism.",
-      "image": "assets/lesson8/human/fertilization.png",
-    },
-    {
-      "question":
-          "During which stage does the zygote begin to develop and divide in humans?",
-      "answer": "Zygote Development",
-      "definition":
-          "Zygote development is the stage where the zygote undergoes cell division and begins the process of developing into an embryo and eventually a fully formed organism.",
-      "image": "assets/lesson8/human/zygote.png",
-    },
+  String getQuestionText() {
+    return 'Question ${currentQuestionIndex + 1}: ${questions[currentQuestionIndex]['question']}';
+  }
+
+  List<Widget> getAnswerButtons() {
+    return questions[currentQuestionIndex]['options']
+        .map<Widget>((option) => ElevatedButton(
+              onPressed: () {
+                checkAnswer(option);
+              },
+              child: Text(option),
+            ))
+        .toList();
+  }
+
+  void checkAnswer(String answer) {
+    setState(() {
+      if (currentTextStep == 14) {
+        // We are in the question phase
+        if (answer == questions[currentQuestionIndex]['correctAnswer']) {
+          // Correct answer
+          isAnswerCorrect = true;
+          correctAnswers++; // Increment correct count
+
+          // Move to the next question
+          currentQuestionIndex++;
+
+          // Check if there are more questions to proceed
+          if (currentQuestionIndex < questions.length) {
+            currentTextStep = 14; // Stay in the question phase
+          } else {
+            currentTextStep =
+                15; // End the activity if all questions are completed
+          }
+        } else {
+          // Incorrect answer
+          isAnswerCorrect = false;
+          wrongAnswers++; // Increment wrong count
+
+          // Do not proceed to the next question if the answer is wrong
+          // Optionally, you can show some feedback to the user here
+        }
+      } else {
+        // Specific handling for other questions
+        if (currentTextStep == 3 && answer == 'Ovary') {
+          // Correct answer for the question about egg production
+          isAnswerCorrect = true;
+          correctAnswers++; // Increment correct count
+          currentTextStep = 4; // Proceed to next step
+        } else if (currentTextStep == 6 && answer == 'Fertilization') {
+          // Correct answer for the question about fertilization
+          isAnswerCorrect = true;
+          correctAnswers++; // Increment correct count
+          currentTextStep = 7; // Move to the next step
+        } else {
+          // Incorrect answer handling
+          isAnswerCorrect = false;
+          wrongAnswers++; // Increment wrong count
+        }
+      }
+    });
+  }
+
+  final List<SceneNode> sceneNodes = [
+    SceneNode(
+      name: "Uterus",
+      modelPath: "assets/lesson8/uterus/uterus.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.5, 0.5, 0.5),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
+    SceneNode(
+      name: "Ovary",
+      modelPath: "assets/lesson8/ooctye/ooctyte.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.4, 0.4, 0.4),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
+    SceneNode(
+      name: "Insemination",
+      modelPath: "assets/lesson8/1/1.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.3, 0.3, 0.3),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
+    SceneNode(
+      name: "SpermSurroundingEgg",
+      modelPath: "assets/lesson8/2/2.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.3, 0.3, 0.3),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
+    SceneNode(
+      name: "SpermEnteringEgg",
+      modelPath: "assets/lesson8/3/3.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.3, 0.3, 0.3),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
+    SceneNode(
+      name: "MembraneFormation",
+      modelPath: "assets/lesson8/4/4.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.3, 0.3, 0.3),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
+    SceneNode(
+      name: "Fertilization",
+      modelPath: "assets/lesson8/5/5.gltf",
+      position: vector.Vector3(-0.08, -0.3, -1.0),
+      scale: vector.Vector3(0.3, 0.3, 0.3),
+      rotation: vector.Vector4(0, 1, 0, 0),
+    ),
   ];
 
   @override
   void initState() {
     super.initState();
-    // Shuffle the questions, if necessary
-    questionAnswerPairs.shuffle(Random());
   }
 
   @override
   void dispose() {
-    arSessionManager?.dispose();
+    try {
+      // Dispose AR session manager
+      arSessionManager?.dispose();
+
+      // Clear cached AR nodes and Flutter's image cache
+      clearCache();
+
+      print("AR session and resources cleaned up.");
+    } catch (e) {
+      print("Error while disposing AR resources: $e");
+    }
     super.dispose();
+  }
+
+  /// Clears cached AR resources and triggers garbage collection
+  void clearCache() {
+    try {
+      // Clear AR nodes
+      nodes.clear();
+
+      // Clear Flutter's image cache
+      PaintingBinding.instance.imageCache.clear();
+
+      // Optionally request garbage collection
+      print("Garbage collection triggered for resource cleanup.");
+    } catch (e) {
+      print("Error while clearing cache: $e");
+    }
   }
 
   @override
@@ -166,7 +273,7 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
               padding: const EdgeInsets.all(8.0),
               color: Colors.black,
               child: Text(
-                'Correct: $correctAnswers  Wrong: $incorrectAnswers',
+                'Correct: $correctAnswers | Wrong: $wrongAnswers',
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,
@@ -176,7 +283,14 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
             ),
           ),
           actions: [
-            SizedBox(width: 48),
+            IconButton(
+              icon: Icon(Icons.menu, color: Colors.white),
+              onPressed: () {
+                setState(() {
+                  showButtons = !showButtons; // Toggle button visibility
+                });
+              },
+            ),
           ],
         ),
       ),
@@ -186,7 +300,7 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
             onARViewCreated: onARViewCreated,
             planeDetectionConfig: PlaneDetectionConfig.horizontal,
           ),
-          if (!surfaceDetected || (surfaceDetected && !modelPlaced))
+          if (!surfaceDetected && !modelPlaced)
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -204,194 +318,730 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
                 ],
               ),
             ),
-          if (modelPlaced && !introductionShown)
-            Positioned.fill(
-              child: Container(
-                color: Colors.black54,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Introduction to the AR Fertilization Module',
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
+          if (modelPlaced && currentTextStep == 0 && showIntroOnce)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Welcome to the AR Learning Module!',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 20),
-                        Text(
-                          'In this module, you will learn about the processes of fertilization in humans and plants. Pay attention to the models and try to answer the questions correctly. Good luck!',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                          textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'We are excited to guide you through this immersive experience to learn about the female reproductive system.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              introductionShown = true;
-                            });
-                          },
-                          child: Text('Next'),
-                        ),
-                      ],
-                    ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            currentTextStep = 2; // Move to the explanation text
+                            showButtons =
+                                true; // Show buttons after the introduction
+                            instructionsShown =
+                                true; // Mark instructions as shown
+                          });
+                        },
+                        child: Text('Next'),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          if (introductionShown && !instructionsShown)
-            Positioned.fill(
-              child: Container(
-                color: Colors.black54,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Instructions',
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
+          if (modelPlaced && currentTextStep == 1 && showIntroOnce)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Introduction to the AR Experience',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 20),
-                        Text(
-                          'You will be asked a series of questions related to the processes of fertilization in humans and plants. Tap on the corresponding model to answer each question. Try your best to get them all right!',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'In this module, you will explore a 3D model of the female reproductive system. This interactive experience will help you understand each part and its function.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              instructionsShown = true;
-                            });
-                          },
-                          child: Text('Start'),
-                        ),
-                      ],
-                    ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            currentTextStep = 2; // Move to the explanation text
+                            showButtons =
+                                true; // Show buttons after introduction
+                            instructionsShown =
+                                true; // Mark instructions as shown
+                          });
+                        },
+                        child: Text('Next'),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          if (showFeedback)
+          if (showButtons)
             Positioned(
-              top: 16,
-              left: MediaQuery.of(context).size.width / 6,
-              right: MediaQuery.of(context).size.width / 6,
+              top: 50,
+              right: 10,
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.end, // Align buttons to the right
+                children: [
+                  buildInfoButton('Uterus',
+                      'The uterus is a hollow muscular organ where a fertilized egg implants and develops into a fetus during pregnancy.'),
+                  buildInfoButton('Ovary',
+                      'The ovaries are reproductive glands that produce eggs and hormones like estrogen and progesterone.'),
+                  buildInfoButton('Tube',
+                      'The fallopian tubes transport eggs from the ovaries to the uterus and are the site of fertilization.'),
+                  buildInfoButton('Fimbriae',
+                      'Fimbriae are finger-like projections at the end of the fallopian tubes that help guide eggs into the tube.'),
+                  buildInfoButton('Cervix',
+                      'The cervix is the lower part of the uterus that connects to the vagina and allows passage between them.'),
+                  buildInfoButton('Vagina',
+                      'The vagina is a muscular canal that serves as the passageway for childbirth, menstrual flow, and sexual intercourse.'),
+                ],
+              ),
+            ),
+
+          if (modelPlaced && currentTextStep == 2)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
               child: Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.black54,
                   borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      spreadRadius: 1,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'This is a 3D model of the female reproductive system. It includes various parts such as the uterus, ovaries, fallopian tubes, and more. Take a closer look to understand its structure and function. You can tap on the buttons to explore different parts and click the icon at the top right to hide the buttons.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          introductionShown =
+                              true; // Mark introduction as completed
+                          currentTextStep = 3; // Move to the next step
+                        });
+                      },
+                      child: Text('Next'),
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Text(
-                    feedbackMessage,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: feedbackColor,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
               ),
             ),
-          if (modelPlaced &&
-              instructionsShown &&
-              currentQuestionIndex < questionAnswerPairs.length)
+          // Question about Egg Production
+          if (currentTextStep == 3 && introductionShown)
             Positioned(
-              bottom: 150,
-              left: 16,
-              right: 16,
+              bottom: 50,
+              left: 20,
+              right: 20,
               child: Container(
-                color: Colors.black54,
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  questionAnswerPairs[currentQuestionIndex]['question']!,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Do you know where the female eggs are produced?',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkAnswer('Uterus');
+                      },
+                      child: Text('Uterus'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkAnswer('Ovary'); // Correct answer
+                      },
+                      child: Text('Ovary'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkAnswer('Tube');
+                      },
+                      child: Text('Tube'),
+                    ),
+                  ],
                 ),
               ),
             ),
-          if (instructionsShown)
+          if (isAnswerCorrect && currentTextStep == 4)
             Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
+              bottom: 50,
+              left: 20,
+              right: 20,
               child: Container(
-                color: Colors.black54,
-                height: 120,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 8,
-                  itemBuilder: (context, index) {
-                    String buttonText = questionAnswerPairs[index]['answer']!;
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'You are correct! The eggs are produced in the Ovary.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 5; // Proceed to next node
+                          showIntroOnce =
+                              false; // Prevent re-showing of intro texts
+                          onNextButtonPressed(); // Proceed to the next node
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (modelPlaced && currentTextStep == 5)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Women experience a menstrual cycle each month, during which they ovulate and release an egg called the oocyte. If the egg is not fertilized, it will disintegrate and be shed with the uterine lining.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 6; // Move to the next question
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (currentTextStep == 6)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'If the egg cell is not fertilized, it will just be a normal menstruation cycle, which is called a period. Then how about if there is a sperm in the tube? What will happen?',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkAnswer('Fertilization'); // Correct answer
+                      },
+                      child: Text('Fertilization'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkAnswer('Ovulation');
+                      },
+                      child: Text('Ovulation'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkAnswer('Menstruation');
+                      },
+                      child: Text('Menstruation'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Correct Answer Confirmation and Next Step to Insemination
+          if (isAnswerCorrect && currentTextStep == 7)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Correct! The next step is insemination.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 8; // Move to show 1.gltf
+                          onNextButtonPressed(); // Proceed to the next node
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Explanation about Insemination (1.gltf)
+          if (modelPlaced && currentTextStep == 8)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Insemination is the process where sperm is introduced into the female reproductive system.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 9; // Move to the next node
+                          onNextButtonPressed(); // Replace with next node 2.gltf
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Explanation for Sperm Surrounding Egg (2.gltf)
+          if (modelPlaced && currentTextStep == 9)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'The sperm surrounds the egg, attempting to penetrate its outer membrane.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 10; // Move to the next node
+                          onNextButtonPressed(); // Replace with next node 3.gltf
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Explanation when the Sperm Enters the Egg (3.gltf)
+          if (modelPlaced && currentTextStep == 10)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'One sperm manages to penetrate the egg and enter it.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 11; // Move to the next node
+                          onNextButtonPressed(); // Replace with next node 4.gltf
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Explanation about Membrane Formation (4.gltf)
+          if (modelPlaced && currentTextStep == 11)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'A new membrane forms around the egg to prevent any other sperm from entering.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 12; // Move to the next node
+                          onNextButtonPressed(); // Replace with next node 5.gltf
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Explanation about Fertilization (5.gltf)
+          if (modelPlaced && currentTextStep == 12)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Fertilization occurs, resulting in the formation of a zygote, the first stage of a new organism.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 13; // Move to question phase
+                        });
+                      },
+                      child: Text('Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Explanation before the Question Phase
+          if (currentTextStep == 13 && showQuestionIntro)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'You will now answer 5 questions to test your understanding of the female reproductive system. Try your best to get them all correct!',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          currentTextStep = 14; // Proceed to the first question
+                          showQuestionIntro =
+                              false; // Hide intro after first display
+                        });
+                      },
+                      child: Text('Start Questions'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Question Phase with 5 Questions
+          if (currentTextStep == 14)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      getQuestionText(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20),
+                    ...getAnswerButtons(),
+                  ],
+                ),
+              ),
+            ),
+
+          if (currentTextStep == 15)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Quiz Completed!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    // Show score calculation
+                    Text(
+                      'Your Score: ${correctAnswers - wrongAnswers > 0 ? correctAnswers - wrongAnswers : 0} / ${questions.length + 2}', // Total number of questions (5 + 2) for a total of 7
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    // Display pass/fail message
+                    Text(
+                      correctAnswers - wrongAnswers >= 5
+                          ? 'Congratulations, you passed!'
+                          : 'You did not pass. Please review your answers.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20),
+                    if (wrongAnswers > 0)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextButton(
-                            onPressed: unlockedButtons[index]
-                                ? () {
-                                    _showDefinition(
-                                      context,
-                                      buttonText,
-                                      questionAnswerPairs[index]['definition']!,
-                                      questionAnswerPairs[index]['image']!,
-                                    );
-                                  }
-                                : null,
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.all(5),
-                              foregroundColor: Colors.white,
+                          Text(
+                            '',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
-                            child: unlockedButtons[index]
-                                ? Column(
-                                    children: [
-                                      Image.asset(
-                                        questionAnswerPairs[index]['image']!,
-                                        width: 60,
-                                        height: 60,
-                                      ),
-                                      Text(
-                                        buttonText,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  )
-                                : Icon(Icons.help_outline, size: 40),
                           ),
+                          // Display each wrong answer with question and user's incorrect answer
+                          ...List.generate(incorrectQuestions.length, (index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  incorrectQuestions[index], // Display question
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  userAnswers[index], // Display user's answer
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
                         ],
                       ),
-                    );
-                  },
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => Microscopy_TLA_1_1(),
+                        ));
+                      },
+                      child: Text('Exit'),
+                    ),
+                  ],
                 ),
               ),
             ),
         ],
       ),
+    );
+  }
+
+  Widget buildInfoButton(String title, String description) {
+    return ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(title),
+              content: Text(description),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: Text(title),
     );
   }
 
@@ -428,94 +1078,19 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
         }
 
         if (singleHitTestResult != null) {
+          lastHitTestResult = singleHitTestResult;
           var translation = singleHitTestResult.worldTransform.getTranslation();
           var rotation = singleHitTestResult.worldTransform.getRotation();
           var rotationQuaternion = vector.Quaternion.fromRotation(rotation);
 
-          // Add the table node
-          var tableNode = ARNode(
-            type: NodeType.localGLTF2,
-            uri:
-                "assets/lesson5/organelles/table.gltf", // Change to relevant model path
-            scale: vector.Vector3(1.5, 1.0, 1.0),
-            position: vector.Vector3(
-              translation.x + 0.05,
-              translation.y - 0.25,
-              translation.z - 0.20,
-            ),
-            rotation: vector.Vector4(0, 1, 0, 1.5708),
-            name: "table",
-            canScale: false,
-          );
-
-          arObjectManager!.addNode(tableNode).then((didAddTableNode) {
-            if (didAddTableNode!) {
-              nodes.add(tableNode);
-
-              // Updated sceneNodes list
-              List<SceneNode> sceneNodes = [
-                // Human Fertilization Process (Bottom Row)
-                SceneNode(
-                  name: "Gamete Production",
-                  modelPath: "assets/lesson8/human/gametes.gltf",
-                  position: vector.Vector3(-0.20, 0.05, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-                SceneNode(
-                  name: "Copulation/Sexual Intercourse",
-                  modelPath: "assets/lesson8/sexeduc.gltf",
-                  position: vector.Vector3(-0.05, 0.05, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-                SceneNode(
-                  name: "Fertilization",
-                  modelPath: "assets/lesson8/human/fertilization.gltf",
-                  position: vector.Vector3(0.10, 0.05, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-                SceneNode(
-                  name: "Zygote Development",
-                  modelPath: "assets/lesson8/human/zygote.gltf",
-                  position: vector.Vector3(0.25, 0.05, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-
-                // Plant Fertilization Process (Top Row)
-                SceneNode(
-                  name: "Pollination",
-                  modelPath: "assets/lesson8/plants/pollination.gltf",
-                  position: vector.Vector3(-0.20, 0.20, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-                SceneNode(
-                  name: "Pollen Germination",
-                  modelPath: "assets/lesson8/plants/pollen.gltf",
-                  position: vector.Vector3(-0.05, 0.20, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-                SceneNode(
-                  name: "Fertilization (Tube Growth and Double Fertilization)",
-                  modelPath: "assets/lesson8/plants/fertilization.gltf",
-                  position: vector.Vector3(0.10, 0.20, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-                SceneNode(
-                  name: "Seed and Fruit Formation",
-                  modelPath: "assets/lesson8/seedymo.gltf",
-                  position: vector.Vector3(0.25, 0.20, -0.15),
-                  scale: vector.Vector3(0.04, 0.04, 0.04),
-                ),
-              ];
-
-              loadModels(sceneNodes, translation, rotationQuaternion);
-            }
-          });
+          placeNode(
+              sceneNodes[currentNodeIndex], translation, rotationQuaternion);
         }
       }
     };
   }
 
-  Future<void> loadModel(SceneNode sceneNode, vector.Vector3 translation,
+  Future<void> placeNode(SceneNode sceneNode, vector.Vector3 translation,
       vector.Quaternion rotation) async {
     try {
       var newNode = ARNode(
@@ -527,13 +1102,18 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
           translation.y + sceneNode.position.y,
           translation.z + sceneNode.position.z,
         ),
-        rotation: vector.Vector4(0, 1, 0, 6.2832),
+        rotation: sceneNode.rotation,
         name: sceneNode.name,
         canScale: false,
       );
 
       bool didAddNode = await arObjectManager!.addNode(newNode) ?? false;
       if (didAddNode) {
+        setState(() {
+          activeNode = newNode;
+          modelPlaced = true;
+          surfaceDetected = true;
+        });
         nodes.add(newNode);
       }
     } catch (e) {
@@ -541,157 +1121,36 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
     }
   }
 
-  void loadModels(List<SceneNode> sceneNodes, vector.Vector3 translation,
-      vector.Quaternion rotation) async {
-    for (var sceneNode in sceneNodes) {
-      await loadModel(sceneNode, translation, rotation);
-    }
+  void onNextTextStep() {
     setState(() {
-      modelPlaced = true;
-      surfaceDetected = true;
+      if (isAnswerCorrect && currentTextStep == 4) {
+        currentTextStep = 0; // Reset to the start for the next node
+        onNextButtonPressed(); // Proceed to the next node
+      } else {
+        currentTextStep++;
+      }
     });
-    arObjectManager!.onNodeTap = (tappedNodes) {
-      tappedNodes.forEach((nodeName) {
-        String question =
-            questionAnswerPairs[currentQuestionIndex]['question']!;
-        String answer = questionAnswerPairs[currentQuestionIndex]['answer']!;
+  }
 
-        if (nodeName == answer) {
-          _showDefinition(
-            context,
-            nodeName,
-            questionAnswerPairs[currentQuestionIndex]['definition']!,
-            questionAnswerPairs[currentQuestionIndex]['image']!,
-          );
+  void onNextButtonPressed() async {
+    if (activeNode != null) {
+      await arObjectManager?.removeNode(activeNode!);
+      nodes.remove(activeNode);
+      activeNode = null;
 
-          setState(() {
-            correctAnswers++;
-            unlockedButtons[currentQuestionIndex] = true;
-            currentQuestionIndex++;
-            feedbackMessage = correctFeedbackMessages[
-                Random().nextInt(correctFeedbackMessages.length)];
-            feedbackColor = Colors.green;
-            showFeedback = true;
-            Future.delayed(Duration(seconds: 2), () {
-              setState(() {
-                showFeedback = false;
-                feedbackMessage = '';
-              });
-            });
-          });
-        } else {
-          setState(() {
-            incorrectAnswers++;
-            feedbackMessage = 'Wrong! You tapped on $nodeName';
-            feedbackColor = Colors.red;
-            wrongAnswers.add(
-                'Q: ${questionAnswerPairs[currentQuestionIndex]['question']} - Your answer: $nodeName');
-            showFeedback = true;
-            Future.delayed(Duration(seconds: 2), () {
-              setState(() {
-                showFeedback = false;
-                feedbackMessage = '';
-              });
-            });
-          });
-        }
+      setState(() {
+        modelPlaced = false;
+        currentNodeIndex = (currentNodeIndex + 1) % sceneNodes.length;
+        showButtons = false; // Hide buttons when changing nodes
       });
-    };
-  }
 
-  void _showDefinition(
-      BuildContext context, String part, String definition, String imagePath) {
-    double dialogHeight;
-
-    if (definition.length > 200) {
-      dialogHeight = 300.0;
-    } else if (definition.length > 100) {
-      dialogHeight = 250.0;
-    } else {
-      dialogHeight = 200.0;
+      if (lastHitTestResult != null) {
+        var translation = lastHitTestResult!.worldTransform.getTranslation();
+        var rotation = lastHitTestResult!.worldTransform.getRotation();
+        var rotationQuaternion = vector.Quaternion.fromRotation(rotation);
+        placeNode(
+            sceneNodes[currentNodeIndex], translation, rotationQuaternion);
+      }
     }
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(part),
-          content: SizedBox(
-            height: dialogHeight,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(definition),
-                  SizedBox(height: 10),
-                  Image.asset(imagePath),
-                ],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                if (currentQuestionIndex >= questionAnswerPairs.length) {
-                  _showScore();
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showScore() {
-    int finalScore = correctAnswers - incorrectAnswers;
-    if (finalScore < 0) finalScore = 0;
-    String passOrFail = finalScore >= 5 ? 'Passed' : 'Failed';
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Quiz Completed!'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Your Score: $finalScore / ${questionAnswerPairs.length}'),
-                Text('You have $passOrFail'),
-                SizedBox(height: 20),
-                Text('Incorrect Answers:'),
-                for (String wrongAnswer in wrongAnswers) Text(wrongAnswer),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Click on the button to go back to the module.',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                // Close the dialog
-                Navigator.of(context).pop();
-                // Navigate back to the initial screen
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => Heredity_TLA_5_2()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: Text('Exit'),
-            ),
-          ],
-        );
-      },
-    );
   }
 }

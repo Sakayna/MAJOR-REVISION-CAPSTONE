@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart'; 
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
-
 
 class Ecosystem_AT_6_1_Results extends StatelessWidget {
   final List<QuizItem> quizItems;
@@ -32,6 +31,19 @@ class Ecosystem_AT_6_1_Results extends StatelessWidget {
         appBar: AppBar(
           title: Text('Quiz Results'),
           backgroundColor: Color(0xFFA846A0),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Ecosystem_AT_6_1(), // Ensure this widget exists and is imported
+                ),
+              );
+            },
+          ),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -105,8 +117,8 @@ class Ecosystem_AT_6_1_Results extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Image(
-                                  image: AssetImage(quizItems[index]
-                                      .imagePath)), 
+                                  image:
+                                      AssetImage(quizItems[index].imagePath)),
                               Text(
                                 'Choices:',
                                 style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_AT/Bactera_AT_4_2/Bacteria_AT_4_2.dart';
 import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_AT/Bactera_AT_4_2/Bacteria_AT_Quiz_1_Content.dart';
 import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_AT/Bactera_AT_4_2/Bacteria_AT_Quiz_1_Results.dart';
 import 'package:capstone/Module%20Contents/Funji,%20Protists,%20and%20Bacteria/Bacteria_AT/Bactera_AT_4_2/Bacteria_AT_Quiz_1_Score.dart';
@@ -98,9 +99,13 @@ class Bacteria_AT_Quiz_1_Score extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => Bacteria_AT_Quiz_1_Content(),
-                ));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Bacteria_AT_4_2(), // Ensure this widget exists and is imported
+                  ),
+                );
               },
             ),
           ),

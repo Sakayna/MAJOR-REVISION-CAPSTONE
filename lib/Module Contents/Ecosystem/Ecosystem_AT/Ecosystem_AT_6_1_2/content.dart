@@ -132,127 +132,123 @@ class _Ecosystem_AT_Quiz_1_ContentState
     );
   }
 
+  void showWarningDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Warning'),
+          content: Text('You cannot go back after starting the quiz.'),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<bool> handleWillPop() async {
+    showWarningDialog();
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Ecosystem: Predators and Prey'),
-        backgroundColor: Color(0xFFA846A0),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(16.0),
-              margin: EdgeInsets.only(bottom: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.01),
-                    spreadRadius: 0.01,
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.info_outline, color: Colors.grey),
-                      SizedBox(width: 8),
-                      Text(
-                        'Instructions',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Drag the correct predator and prey into the blanks below. The options are limited to the related predator and prey.',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              children: questions.asMap().entries.map((entry) {
-                int index = entry.key;
-                Map<String, String> question = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
-                  child: Container(
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.01),
-                          spreadRadius: 0.01,
-                          blurRadius: 4,
-                          offset: Offset(0, 4),
+    return WillPopScope(
+      onWillPop: handleWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Ecosystem: Predators and Prey'),
+          backgroundColor: Color(0xFFA846A0),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(16.0),
+                margin: EdgeInsets.only(bottom: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.01),
+                      spreadRadius: 0.01,
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.info_outline, color: Colors.grey),
+                        SizedBox(width: 8),
+                        Text(
+                          'Instructions',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Draggable<String>(
-                              data: question['predator']!,
-                              child: Container(
-                                width: (MediaQuery.of(context).size.width / 2) -
-                                    40,
-                                padding: EdgeInsets.all(8.0),
-                                margin: EdgeInsets.only(right: 16),
-                                decoration: BoxDecoration(
-                                  color: remainingItems
-                                          .contains(question['predator']!)
-                                      ? Color(0xFFA846A0)
-                                      : Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.01),
-                                      spreadRadius: 0.01,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    question['predator']!,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: remainingItems
-                                              .contains(question['predator']!)
-                                          ? Colors.white
-                                          : Colors.grey,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                              feedback: Material(
+                    SizedBox(height: 8),
+                    Text(
+                      'Drag the correct predator and prey into the blanks below. The options are limited to the related predator and prey.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: questions.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  Map<String, String> question = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Container(
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.01),
+                            spreadRadius: 0.01,
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Draggable<String>(
+                                data: question['predator']!,
                                 child: Container(
                                   width:
                                       (MediaQuery.of(context).size.width / 2) -
                                           40,
                                   padding: EdgeInsets.all(8.0),
+                                  margin: EdgeInsets.only(right: 16),
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFA846A0),
+                                    color: remainingItems
+                                            .contains(question['predator']!)
+                                        ? Color(0xFFA846A0)
+                                        : Colors.grey[200],
                                     borderRadius: BorderRadius.circular(10.0),
                                     boxShadow: [
                                       BoxShadow(
@@ -267,81 +263,83 @@ class _Ecosystem_AT_Quiz_1_ContentState
                                     child: Text(
                                       question['predator']!,
                                       style: TextStyle(
-                                          fontSize: 12, color: Colors.white),
+                                        fontSize: 12,
+                                        color: remainingItems
+                                                .contains(question['predator']!)
+                                            ? Colors.white
+                                            : Colors.grey,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                                feedback: Material(
+                                  child: Container(
+                                    width: (MediaQuery.of(context).size.width /
+                                            2) -
+                                        40,
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFA846A0),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.01),
+                                          spreadRadius: 0.01,
+                                          blurRadius: 4,
+                                          offset: Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        question['predator']!,
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.white),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                childWhenDragging: Container(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 2) -
+                                          40,
+                                  padding: EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.01),
+                                        spreadRadius: 0.01,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      question['predator']!,
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.grey),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ),
                               ),
-                              childWhenDragging: Container(
-                                width: (MediaQuery.of(context).size.width / 2) -
-                                    40,
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.01),
-                                      spreadRadius: 0.01,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    question['predator']!,
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Draggable<String>(
-                              data: question['prey']!,
-                              child: Container(
-                                width: (MediaQuery.of(context).size.width / 2) -
-                                    40,
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color:
-                                      remainingItems.contains(question['prey']!)
-                                          ? Color(0xFFA846A0)
-                                          : Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.01),
-                                      spreadRadius: 0.01,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    question['prey']!,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: remainingItems
-                                              .contains(question['prey']!)
-                                          ? Colors.white
-                                          : Colors.grey,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                              feedback: Material(
+                              Draggable<String>(
+                                data: question['prey']!,
                                 child: Container(
                                   width:
                                       (MediaQuery.of(context).size.width / 2) -
                                           40,
                                   padding: EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFA846A0),
+                                    color: remainingItems
+                                            .contains(question['prey']!)
+                                        ? Color(0xFFA846A0)
+                                        : Colors.grey[200],
                                     borderRadius: BorderRadius.circular(10.0),
                                     boxShadow: [
                                       BoxShadow(
@@ -356,181 +354,217 @@ class _Ecosystem_AT_Quiz_1_ContentState
                                     child: Text(
                                       question['prey']!,
                                       style: TextStyle(
-                                          fontSize: 12, color: Colors.white),
+                                        fontSize: 12,
+                                        color: remainingItems
+                                                .contains(question['prey']!)
+                                            ? Colors.white
+                                            : Colors.grey,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                                feedback: Material(
+                                  child: Container(
+                                    width: (MediaQuery.of(context).size.width /
+                                            2) -
+                                        40,
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFA846A0),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.01),
+                                          spreadRadius: 0.01,
+                                          blurRadius: 4,
+                                          offset: Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        question['prey']!,
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.white),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                childWhenDragging: Container(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 2) -
+                                          40,
+                                  padding: EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.01),
+                                        spreadRadius: 0.01,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      question['prey']!,
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.grey),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ),
                               ),
-                              childWhenDragging: Container(
-                                width: (MediaQuery.of(context).size.width / 2) -
-                                    40,
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.01),
-                                      spreadRadius: 0.01,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    question['prey']!,
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          question['question']!,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DragTarget<String>(
-                                onWillAccept: (receivedItem) =>
-                                    receivedItem == question['predator'] ||
-                                    receivedItem == question['prey'],
-                                onAccept: (receivedItem) {
-                                  setState(() {
-                                    selectedPredators[index] = receivedItem;
-                                    remainingItems.remove(receivedItem);
-                                  });
-                                },
-                                builder:
-                                    (context, acceptedItems, rejectedItems) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (selectedPredators[index] != null) {
-                                        returnItemToOriginalPosition(
-                                            index, true);
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(12.0),
-                                      decoration: BoxDecoration(
-                                        color: selectedPredators[index] == null
-                                            ? Colors.grey[200]
-                                            : Color(0xFFA846A0),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.01),
-                                            spreadRadius: 0.01,
-                                            blurRadius: 4,
-                                            offset: Offset(0, 4),
+                          SizedBox(height: 16),
+                          Text(
+                            question['question']!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DragTarget<String>(
+                                  onWillAccept: (receivedItem) =>
+                                      receivedItem == question['predator'] ||
+                                      receivedItem == question['prey'],
+                                  onAccept: (receivedItem) {
+                                    setState(() {
+                                      selectedPredators[index] = receivedItem;
+                                      remainingItems.remove(receivedItem);
+                                    });
+                                  },
+                                  builder:
+                                      (context, acceptedItems, rejectedItems) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (selectedPredators[index] != null) {
+                                          returnItemToOriginalPosition(
+                                              index, true);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(12.0),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              selectedPredators[index] == null
+                                                  ? Colors.grey[200]
+                                                  : Color(0xFFA846A0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.01),
+                                              spreadRadius: 0.01,
+                                              blurRadius: 4,
+                                              offset: Offset(0, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            selectedPredators[index] ??
+                                                'Predator',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: selectedPredators[index] ==
+                                                      null
+                                                  ? Colors.grey
+                                                  : Colors.white,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          selectedPredators[index] ??
-                                              'Predator',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color:
-                                                selectedPredators[index] == null
-                                                    ? Colors.grey
-                                                    : Colors.white,
-                                          ),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 16),
-                            Expanded(
-                              child: DragTarget<String>(
-                                onWillAccept: (receivedItem) =>
-                                    receivedItem == question['predator'] ||
-                                    receivedItem == question['prey'],
-                                onAccept: (receivedItem) {
-                                  setState(() {
-                                    selectedPreys[index] = receivedItem;
-                                    remainingItems.remove(receivedItem);
-                                  });
-                                },
-                                builder:
-                                    (context, acceptedItems, rejectedItems) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (selectedPreys[index] != null) {
-                                        returnItemToOriginalPosition(
-                                            index, false);
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(12.0),
-                                      decoration: BoxDecoration(
-                                        color: selectedPreys[index] == null
-                                            ? Colors.grey[200]
-                                            : Color(0xFFA846A0),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.01),
-                                            spreadRadius: 0.01,
-                                            blurRadius: 4,
-                                            offset: Offset(0, 4),
+                              SizedBox(width: 16),
+                              Expanded(
+                                child: DragTarget<String>(
+                                  onWillAccept: (receivedItem) =>
+                                      receivedItem == question['predator'] ||
+                                      receivedItem == question['prey'],
+                                  onAccept: (receivedItem) {
+                                    setState(() {
+                                      selectedPreys[index] = receivedItem;
+                                      remainingItems.remove(receivedItem);
+                                    });
+                                  },
+                                  builder:
+                                      (context, acceptedItems, rejectedItems) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (selectedPreys[index] != null) {
+                                          returnItemToOriginalPosition(
+                                              index, false);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(12.0),
+                                        decoration: BoxDecoration(
+                                          color: selectedPreys[index] == null
+                                              ? Colors.grey[200]
+                                              : Color(0xFFA846A0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.01),
+                                              spreadRadius: 0.01,
+                                              blurRadius: 4,
+                                              offset: Offset(0, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            selectedPreys[index] ?? 'Prey',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  selectedPreys[index] == null
+                                                      ? Colors.grey
+                                                      : Colors.white,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          selectedPreys[index] ?? 'Prey',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: selectedPreys[index] == null
-                                                ? Colors.grey
-                                                : Colors.white,
-                                          ),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: submitAnswer,
-              child: Text('Submit'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFA846A0),
+                  );
+                }).toList(),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: submitAnswer,
+                child: Text('Submit'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFA846A0),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

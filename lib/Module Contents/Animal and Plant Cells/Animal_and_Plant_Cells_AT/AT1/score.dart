@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/AT1/Animal_and_Plant_Cells_AT_3_1.dart';
 import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/AT1/result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +88,13 @@ class Plant_Animal_ScorePage extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Animal_and_Plant_AT_3_1(), // Ensure this widget exists
+                ),
+              );
             },
           ),
         ),

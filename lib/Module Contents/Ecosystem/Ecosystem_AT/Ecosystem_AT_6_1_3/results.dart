@@ -30,8 +30,26 @@ class Ecosystem_AT_Quiz_2_Results extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Quiz Results'),
           backgroundColor: Color(0xFFA846A0),
+          toolbarHeight: 120.0,
+          automaticallyImplyLeading: false,
+          title: Text("Quiz Score"),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Ecosystem_AT_6_1_3(), // Ensure this widget exists and is imported
+                  ),
+                );
+              },
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),

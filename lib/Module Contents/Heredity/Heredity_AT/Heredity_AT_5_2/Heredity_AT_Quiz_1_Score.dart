@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_2/Heredity_AT_5_2.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_2/Heredity_AT_Quiz_1_Results.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +89,13 @@ class Heredity_AT_5_1_2_Score extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pop(); // Go back to the previous screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Heredity_AT_5_2(), // Ensure this widget exists and is imported
+                ),
+              );
             },
           ),
         ),

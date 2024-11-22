@@ -1,4 +1,5 @@
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/results.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/Ecosystem_AT_6_1_3.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/results.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,22 @@ class Ecosystem_AT_Quiz_2_Score extends StatelessWidget {
           toolbarHeight: 120.0,
           automaticallyImplyLeading: false,
           title: Text("Quiz Score"),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Ecosystem_AT_6_1_3(), // Ensure this widget exists and is imported
+                  ),
+                );
+              },
+            ),
+          ),
         ),
         body: Center(
           child: Container(

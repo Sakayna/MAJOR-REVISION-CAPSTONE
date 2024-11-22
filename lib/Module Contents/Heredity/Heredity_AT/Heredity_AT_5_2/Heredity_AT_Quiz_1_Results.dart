@@ -72,7 +72,13 @@ class Heredity_AT_5_1_2_Results extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pop(); // Go back to the previous screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Heredity_AT_5_2(), // Ensure this widget exists and is imported
+                ),
+              );
             },
           ),
         ),

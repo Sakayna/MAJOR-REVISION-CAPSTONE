@@ -63,112 +63,127 @@ class _ModuleScreen5Page extends State<ModuleScreen5> {
 
   List<Map<String, String>> questionAnswerPairs = [
     {
-      "question": "Where is the cell? Tap to answer.",
+      "question":
+          "Why are cells considered the functional units of life? Tap to answer.",
       "answer": "Cell",
       "definition":
           "Cells are considered the functional units of life because they perform all the essential functions that define life. Each cell operates as an independent system, maintaining its internal environment while interacting with its surroundings.",
       "image": "assets/lesson5/cell parts/model images/cellimage3.png",
     },
     {
-      "question": "Which part is the Cell Wall? Tap to answer.",
+      "question":
+          "Identify the structure responsible for providing mechanical support in plant cells. Tap to answer.",
       "answer": "Cell Wall",
       "definition":
           "Structure: It is a nonliving component composed of cellulose, a polysaccharide.\n\nFunction: Provides mechanical support and maintains cell shape in plant cells.",
       "image": "assets/lesson5/images/cellwall.jpg",
     },
     {
-      "question": "Which part is the Plasma Membrane? Tap to answer.",
+      "question":
+          "Why is the plasma membrane selectively permeable? Tap to answer.",
       "answer": "Plasma Membrane",
       "definition":
           "Structure: It is flexible and elastic. It is composed of double layers of phospholipid, proteins, carbohydrates, and steroids.\n\nFunction: Selectively permeable; regulates the entry and exit of materials like ions and organic molecules.",
       "image": "assets/lesson5/images/plasma membreane.png",
     },
     {
-      "question": "Which part is the Mitochondrion? Tap to answer.",
+      "question":
+          "Which part of the cell provides energy for cellular activities? Tap to answer.",
       "answer": "Mitochondrion",
       "definition":
           "Structure: It is a double-membrane structure. The inner membrane is folded forming cristae. It is referred to as the powerhouse of the cell.\n\nFunction: Provides energy for the cell in the form of Adenosine Triphosphate (ATP).",
       "image": "assets/lesson5/images/Mitochondria.png",
     },
     {
-      "question": "Which part is the Vacuole? Tap to answer.",
+      "question":
+          "Which cell part functions as storage for water, food, or waste? Tap to answer.",
       "answer": "Vacuole",
       "definition":
           "Structure: A compartment covered by a single membrane called tonoplast.\n\nFunction: Stores water, food, or waste for the cells.",
       "image": "assets/lesson5/images/vacuole.jpg",
     },
     {
-      "question": "Which part is the Golgi Apparatus? Tap to answer.",
+      "question":
+          "Which organelle sorts, packages, and modifies proteins? Tap to answer.",
       "answer": "Golgi Apparatus",
       "definition":
           "Structure: Consists of stacks of single membranes that are connected to the plasma membrane and endoplasmic reticulum.\n\nFunction: Sorts, packages, and modifies proteins for secretion.",
       "image": "assets/lesson5/images/golgi.jpg",
     },
     {
-      "question": "Which part is the Cytoplasm? Tap to answer.",
+      "question":
+          "What is the matrix of different cellular organelles? Tap to answer.",
       "answer": "Cytoplasm",
       "definition":
           "Structure: The complex fluid that fills the cell. The outer cytoplasm (exoplasm) is gel-like, while the inner cytoplasm is fluid (sol-like). The fluid part is capable of streaming (cyclosis).\n\nFunction: Matrix of the different cellular organelles; distribution of materials throughout the cell due to cyclosis.",
       "image": "assets/lesson5/images/cytoplasm.jpg",
     },
     {
-      "question": "Which part is the Nuclear Membrane? Tap to answer.",
+      "question":
+          "What separates nuclear contents from the cytoplasm? Tap to answer.",
       "answer": "Nuclear Membrane",
       "definition":
           "Structure: It is a double-layered membrane that encloses the nucleus. The outer membrane is porous.\n\nFunction: Separates the nuclear contents from the contents of the cytoplasm.",
       "image": "assets/lesson5/images/nuclear membrane.png",
     },
     {
-      "question": "Which part is the Nucleolus? Tap to answer.",
+      "question": "What synthesizes RNA and produces ribosomes? Tap to answer.",
       "answer": "Nucleolus",
       "definition":
           "Structure: It is the dense, spherical body inside the nucleus. It contains the nucleic acid RNA.\n\nFunction: Synthesis of RNA and production of ribosomes.",
       "image": "assets/lesson5/images/nucleolus.png",
     },
     {
-      "question": "Which part is the Nucleoplasm? Tap to answer.",
+      "question":
+          "What is the matrix of chromosomes and the nucleolus? Tap to answer.",
       "answer": "Nucleoplasm",
       "definition":
           "Structure: It is the gel-like material that fills the nucleus.\n\nFunction: Functions as the matrix of the chromosomes and nucleolus.",
       "image": "assets/lesson5/images/Nucleoplasm.jpg",
     },
     {
-      "question": "Which part are the Chromosomes? Tap to answer.",
+      "question":
+          "What carries genes responsible for hereditary characteristics? Tap to answer.",
       "answer": "Chromosomes",
       "definition":
           "Structure: They are highly coiled structures that form a network over the nucleoplasm.\n\nFunction: Carriers of genes responsible for transmitting hereditary characteristics.",
       "image": "assets/lesson5/images/chromosomes.jpg",
     },
     {
-      "question": "Which part is the Nucleus? Tap to answer.",
+      "question":
+          "What directs and coordinates all cellular activities? Tap to answer.",
       "answer": "Nucleus",
       "definition":
           "Structure: It is the spherical body that is composed of organelles 7 to 10.\n\nFunction: The control center of the cell; directs and coordinates all cellular activities.",
       "image": "assets/lesson5/images/nucleus.jpg",
     },
     {
-      "question": "Which part is the Endoplasmic Reticulum? Tap to answer.",
+      "question":
+          "What plays an important role in forming the skeletal framework? Tap to answer.",
       "answer": "Endoplasmic Reticulum",
       "definition":
           "Structure: It is the network of channels composed of a single-membrane that may be bumpy if it contains ribosomes (Rough ER) or smooth (SER) if it does not contain ribosomes.\n\nFunction: They play an important role in the formation of the skeletal framework.",
       "image": "assets/lesson5/images/endoplasmic reticulum.jpg",
     },
     {
-      "question": "Which part is the Chloroplastid? Tap to answer.",
+      "question":
+          "Which organelle provides the green color of plants and functions for photosynthesis? Tap to answer.",
       "answer": "Chloroplastid",
       "definition":
           "Structure: It is the double-membrane structure that contains chlorophyll pigments.\n\nFunction: Provides the green color of plants; functions for photosynthesis.",
       "image": "assets/lesson5/images/Chloroplast.jpg",
     },
     {
-      "question": "Which part are the Centrioles? Tap to answer.",
+      "question":
+          "What forms spindle fibers during cell division? Tap to answer.",
       "answer": "Centrioles",
       "definition":
           "Structure: They are two small rods that lie at right angles to each other. Each rod is surrounded with tiny microtubules arranged like the spokes of a wheel.\n\nFunction: Formation of spindle fibers during cell division; function as the anchor for the cytoskeletons.",
       "image": "assets/lesson5/images/centriole.jpg",
     },
     {
-      "question": "Which part is the Lysosome? Tap to answer.",
+      "question":
+          "What simplifies or breaks down complex materials? Tap to answer.",
       "answer": "Lysosome",
       "definition":
           "Structure: It is a single membrane compartment containing powerful hydrolytic enzymes.\n\nFunction: Simplifies/Breaks down complex materials.",
@@ -187,8 +202,34 @@ class _ModuleScreen5Page extends State<ModuleScreen5> {
 
   @override
   void dispose() {
-    arSessionManager?.dispose();
+    try {
+      // Dispose AR session manager
+      arSessionManager?.dispose();
+
+      // Clear cached AR nodes and Flutter's image cache
+      clearCache();
+
+      print("AR session and resources cleaned up.");
+    } catch (e) {
+      print("Error while disposing AR resources: $e");
+    }
     super.dispose();
+  }
+
+  /// Clears cached AR resources and triggers garbage collection
+  void clearCache() {
+    try {
+      // Clear AR nodes
+      nodes.clear();
+
+      // Clear Flutter's image cache
+      PaintingBinding.instance.imageCache.clear();
+
+      // Optionally request garbage collection
+      print("Garbage collection triggered for resource cleanup.");
+    } catch (e) {
+      print("Error while clearing cache: $e");
+    }
   }
 
   @override

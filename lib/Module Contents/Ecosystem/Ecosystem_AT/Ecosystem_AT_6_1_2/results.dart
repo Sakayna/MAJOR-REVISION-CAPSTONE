@@ -73,9 +73,11 @@ class Ecosystem_AT_Quiz_1_Results extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,
             onPressed: () {
-              Navigator.of(context).pushReplacement(
+              Navigator.pushReplacement(
+                context,
                 MaterialPageRoute(
-                  builder: (context) => Ecosystem_AT_6_1_2(),
+                  builder: (context) =>
+                      Ecosystem_AT_6_1_2(), // Ensure this widget exists and is imported
                 ),
               );
             },

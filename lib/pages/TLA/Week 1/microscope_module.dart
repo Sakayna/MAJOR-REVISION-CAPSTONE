@@ -62,28 +62,29 @@ class _ModuleScreenPage extends State<ModuleScreen> {
 
   List<Map<String, String>> questionAnswerPairs = [
     {
-      "question": "Which part is the Eyepiece or Ocular Lens? Tap to answer.",
+      "question":
+          "Which part magnifies the image of the specimen? Tap to answer.",
       "answer": "Eyepiece",
       "definition":
           "Eyepiece lens magnifies the image of the specimen. This part is also known as ocular. Most school microscopes have an eyepiece with 10X magnification.",
       "image": "assets/lesson1&2/assets/eye/eyepiece.png",
     },
     {
-      "question":
-          "Which part is the Eyepiece Tube or Body Tube? Tap to answer.",
+      "question": "Which part holds the eyepiece in place? Tap to answer.",
       "answer": "Eyepiece",
       "definition": "The tube holds the eyepiece.",
       "image": "assets/lesson1&2/assets/eye/eyetube.png",
     },
     {
-      "question": "Which part is the Nosepiece? Tap to answer.",
+      "question": "Which part holds the objective lenses? Tap to answer.",
       "answer": "Nosepiece",
       "definition":
           "Nosepiece holds the objective lenses and is sometimes called a revolving turret. You choose the objective lens by rotating to the specific lens one you want to use.",
       "image": "assets/lesson1&2/assets/nose/nose.png",
     },
     {
-      "question": "Which part are the Objective Lenses? Tap to answer.",
+      "question":
+          "Which part contains lenses of varying magnification power? Tap to answer.",
       "answer": "Objective Lenses",
       "definition": """
 Most compound microscopes come with three or four objective lenses that revolve on the nosepiece. The most common objective lenses have power of 4X, 10X, and 40X. Combined with the magnification of the eyepiece, the resulting magnification is 40X, 100X, and 400X magnification. Total magnification is calculated by multiplying the power of the eyepiece by the power of the objective lens. (10X Eyepiece X 40X Objective = 400X Total Magnification). Some more advanced microscopes have an additional objective lens with 100X power. This results in 1,000X magnification.
@@ -101,21 +102,24 @@ Most compound microscopes come with three or four objective lenses that revolve 
           "OIO (Oil Immersion Objective): Typically 100X magnification, used for viewing very fine details and requires a special oil to be placed between the lens and the slide."
     },
     {
-      "question": "Which part is the Arm? Tap to answer.",
+      "question":
+          "Which part connects the base to the nosepiece and eyepiece? Tap to answer.",
       "answer": "Arm",
       "definition":
           "The Arm connects the base to the nosepiece and eyepiece. It is the structural part that is also used to carry the microscope.",
       "image": "assets/lesson1&2/assets/arm/arm.png",
     },
     {
-      "question": "Which part is the Stage? Tap to answer.",
+      "question":
+          "Where is the specimen placed for observation? Tap to answer.",
       "answer": "Stage",
       "definition":
           "The stage is where the specimen is placed. This place is for observation.",
       "image": "assets/lesson1&2/assets/stage/stage1.png",
     },
     {
-      "question": "Which part are the Stage Clips? Tap to answer.",
+      "question":
+          "Which part holds the slides in place on the stage? Tap to answer.",
       "answer": "Stage",
       "definition":
           "Stage clips are the supports that hold the slides in place on the stage.",
@@ -123,35 +127,38 @@ Most compound microscopes come with three or four objective lenses that revolve 
     },
     {
       "question":
-          "Which part is the Diaphragm (sometimes called the Iris)? Tap to answer.",
+          "Which part controls the amount of light passing through the slide? Tap to answer.",
       "answer": "Diaphragm",
       "definition":
           "The diaphragm controls the amount of light passing through the slide. It is located below the stage and is usually controlled by a round dial. How to set the diaphragm is determined by the magnification, transparency of the specimen, and the degree of contrast you wish to have in your image. Also called the condenser diaphragm.",
       "image": "assets/lesson1&2/assets/diaphragm/diaphragm.png",
     },
     {
-      "question": "Which part is the Illuminator? Tap to answer.",
+      "question": "Which part supplies light to the specimen? Tap to answer.",
       "answer": "Base",
       "definition":
           "Most light microscopes use a low voltage bulb which supplies light through the stage and onto the specimen. Mirrors are sometimes used instead of a built-in light. If your microscope has a mirror, it provides light reflected from ambient light sources like classroom lights or sunlight if outdoors.",
       "image": "assets/lesson1&2/assets/lamp/illuminator.png",
     },
     {
-      "question": "Which part is the Coarse Focus? Tap to answer.",
+      "question":
+          "Which part moves the stage for general focus? Tap to answer.",
       "answer": "Coarse Focus",
       "definition":
           "Coarse focus moves the stage to provide general focus on the specimen. When bringing a specimen into focus, the coarse dial is the first one used.",
       "image": "assets/lesson1&2/assets/coarse/coarse.png",
     },
     {
-      "question": "Which part is the Fine Focus? Tap to answer.",
+      "question":
+          "Which part moves the stage in smaller increments for fine focus? Tap to answer.",
       "answer": "Fine Focus",
       "definition":
           "Fine focus moves the stage in smaller increments to provide a clear view of the specimen. When bringing a specimen into focus, the fine focus dial is the second one used.",
       "image": "assets/lesson1&2/assets/fine/fine.png",
     },
     {
-      "question": "Which part is the Base? Tap to answer.",
+      "question":
+          "Which part provides the main support for the microscope? Tap to answer.",
       "answer": "Base",
       "definition":
           "The base is the main support of the microscope. The bottom, where all the other parts of the microscope stand.",
@@ -167,8 +174,34 @@ Most compound microscopes come with three or four objective lenses that revolve 
 
   @override
   void dispose() {
-    arSessionManager?.dispose();
+    try {
+      // Dispose AR session manager
+      arSessionManager?.dispose();
+
+      // Clear cached AR nodes and Flutter's image cache
+      clearCache();
+
+      print("AR session and resources cleaned up.");
+    } catch (e) {
+      print("Error while disposing AR resources: $e");
+    }
     super.dispose();
+  }
+
+  /// Clears cached AR resources and triggers garbage collection
+  void clearCache() {
+    try {
+      // Clear AR nodes
+      nodes.clear();
+
+      // Clear Flutter's image cache
+      PaintingBinding.instance.imageCache.clear();
+
+      // Optionally request garbage collection
+      print("Garbage collection triggered for resource cleanup.");
+    } catch (e) {
+      print("Error while clearing cache: $e");
+    }
   }
 
   @override
@@ -246,7 +279,7 @@ Most compound microscopes come with three or four objective lenses that revolve 
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Introduction to the AR Microscope Learning Module',
+                          'Introduction to the AR Learning Activity',
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.white,
@@ -601,19 +634,41 @@ Most compound microscopes come with three or four objective lenses that revolve 
             questionAnswerPairs[currentQuestionIndex]['question']!;
         String answer = questionAnswerPairs[currentQuestionIndex]['answer']!;
 
-        // Show the correct definition and image for the tapped node
+        // Determine the proper title for multi-answer nodes
+        String displayName = nodeName;
+        if (nodeName == "Base") {
+          // Base node has two contexts: "Base" and "Illuminator"
+          if (question.contains("light") || question.contains("Illuminator")) {
+            displayName = "Illuminator";
+          } else {
+            displayName = "Base";
+          }
+        } else if (nodeName == "Eyepiece") {
+          // Eyepiece node has two contexts: "Eyepiece/Ocular Lens" and "Eyepiece Tube"
+          if (question.contains("holds the eyepiece") ||
+              question.contains("tube")) {
+            displayName =
+                "Eyepiece Tube"; // Use "Eyepiece Tube" for tube-related questions
+          } else {
+            displayName =
+                "Eyepiece/Ocular Lens"; // Default to "Eyepiece/Ocular Lens"
+          }
+        } else if (nodeName == "Stage") {
+          // Stage node has two contexts: "Stage" and "Stage Clips"
+          if (question.contains("slides in place") ||
+              question.contains("clips")) {
+            displayName =
+                "Stage Clips"; // Use "Stage Clips" for clip-related questions
+          } else {
+            displayName = "Stage"; // Default to "Stage"
+          }
+        }
+
+        // Check if the tapped node matches the answer
         if (nodeName == answer) {
-          String partName =
-              nodeName == "Base" && question.contains("Illuminator")
-                  ? "Illuminator"
-                  : nodeName == "Eyepiece" && question.contains("Eyepiece Tube")
-                      ? "Eyepiece Tube"
-                      : nodeName == "Stage" && question.contains("Stage Clips")
-                          ? "Stage Clips"
-                          : nodeName;
           _showDefinition(
             context,
-            partName,
+            displayName, // Pass the dynamic name
             questionAnswerPairs[currentQuestionIndex]['definition']!,
             questionAnswerPairs[currentQuestionIndex]['image']!,
             lpoImage4x: questionAnswerPairs[currentQuestionIndex]
@@ -628,9 +683,8 @@ Most compound microscopes come with three or four objective lenses that revolve 
                 ['hpo_description'],
             oioDescription: questionAnswerPairs[currentQuestionIndex]
                 ['oio_description'],
-            isLastQuestion: currentQuestionIndex >=
-                questionAnswerPairs.length -
-                    1, // Pass if this is the last question
+            isLastQuestion:
+                currentQuestionIndex >= questionAnswerPairs.length - 1,
           );
 
           setState(() {

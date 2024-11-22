@@ -47,7 +47,7 @@ class Microscopy_AT_Quiz_2_Results extends StatelessWidget {
       onWillPop: () async {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute(  
             builder: (context) => Microscopy_AT_Quiz_2_Score(
               totalQuestions: totalQuestions,
               correctAnswers: correctAnswers,

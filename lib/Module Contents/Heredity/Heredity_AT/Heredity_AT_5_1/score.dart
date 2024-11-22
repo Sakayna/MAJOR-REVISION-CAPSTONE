@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/Heredity_AT_5_1.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/results.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/content.dart';
 import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/item.dart';
@@ -88,9 +89,13 @@ class Heredity_AT_Quiz_0_Score extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Animal_and_Plant_Screen(),
-                ));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Heredity_AT_5_1(), // Ensure this widget exists and is imported
+                  ),
+                );
               },
             ),
           ),

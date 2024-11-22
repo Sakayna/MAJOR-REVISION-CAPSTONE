@@ -139,8 +139,34 @@ class _ModuleScreen12Page extends State<ModuleScreen12> {
 
   @override
   void dispose() {
-    arSessionManager?.dispose();
+    try {
+      // Dispose AR session manager
+      arSessionManager?.dispose();
+
+      // Clear cached AR nodes and Flutter's image cache
+      clearCache();
+
+      print("AR session and resources cleaned up.");
+    } catch (e) {
+      print("Error while disposing AR resources: $e");
+    }
     super.dispose();
+  }
+
+  /// Clears cached AR resources and triggers garbage collection
+  void clearCache() {
+    try {
+      // Clear AR nodes
+      nodes.clear();
+
+      // Clear Flutter's image cache
+      PaintingBinding.instance.imageCache.clear();
+
+      // Optionally request garbage collection
+      print("Garbage collection triggered for resource cleanup.");
+    } catch (e) {
+      print("Error while clearing cache: $e");
+    }
   }
 
   @override

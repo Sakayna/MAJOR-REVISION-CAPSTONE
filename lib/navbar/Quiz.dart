@@ -1,3 +1,9 @@
+import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_AT/AT1/Animal_and_Plant_Cells_AT_3_1.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_2/Ecosystem_AT_6_1_2.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/Ecosystem_AT_6_1_3.dart';
+import 'package:capstone/Module%20Contents/Heredity/Heredity_AT/Heredity_AT_5_1/Heredity_AT_5_1.dart';
+import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_2/Microscopy_AT_1_2.dart';
 import 'package:capstone/Record%20Module/RecordModule_Main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +30,7 @@ class QuizScreen extends StatelessWidget {
         'quiz': 1,
         'title': 'Quiz 1 - Microscopy',
         'key': 'quiz1',
-        'route': Microscopy_AT_1_3(),
+        'route': Microscopy_AT_1_2(),
         'color': Color(0xFFFFA551),
         'image': 'assets/images/quiz/quiz_icons/microscope.png'
       },
@@ -51,7 +57,7 @@ class QuizScreen extends StatelessWidget {
         'quiz': 1,
         'title': 'Quiz 1 - Animal and Plant Cells',
         'key': 'quiz4',
-        'route': Animal_and_Plant_AT_3_2(),
+        'route': Animal_and_Plant_AT_3_1(),
         'color': Color(0xFFA1C084),
         'image': 'assets/images/quiz/quiz_icons/plant-cell.png'
       },
@@ -78,7 +84,7 @@ class QuizScreen extends StatelessWidget {
         'quiz': 1,
         'title': 'Quiz 1 - Heredity: Inheritance and Variation',
         'key': 'quiz7',
-        'route': Heredity_AT_5_2(),
+        'route': Heredity_AT_5_1(),
         'color': Color(0xFF64B6AC),
         'image': 'assets/images/quiz/quiz_icons/heredity .png'
       },
@@ -96,7 +102,7 @@ class QuizScreen extends StatelessWidget {
         'quiz': 1,
         'title': 'Quiz 1 - Ecosystem',
         'key': 'quiz9',
-        'route': Ecosystem_AT_6_2(),
+        'route': Ecosystem_AT_6_1(),
         'color': Color(0xFFA846A0),
         'image': 'assets/images/quiz/quiz_icons/eco.png'
       },
@@ -105,7 +111,7 @@ class QuizScreen extends StatelessWidget {
         'quiz': 2,
         'title': 'Quiz 2 - Ecosystem',
         'key': 'quiz10',
-        'route': Ecosystem_AT_6_2(),
+        'route': Ecosystem_AT_6_1_2(),
         'color': Color(0xFFA846A0),
         'image': 'assets/images/quiz/quiz_icons/eco.png'
       },
@@ -114,7 +120,7 @@ class QuizScreen extends StatelessWidget {
         'quiz': 3,
         'title': 'Quiz 3 - Ecosystem',
         'key': 'quiz11',
-        'route': Ecosystem_AT_6_2(),
+        'route': Ecosystem_AT_6_1_3(),
         'color': Color(0xFFA846A0),
         'image': 'assets/images/quiz/quiz_icons/eco.png'
       },

@@ -32,7 +32,7 @@ class Ecosystem_AT_6_1 extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Color(0xFF64B6AC),
+              backgroundColor: Color(0xFFA846A0),
               floating: false,
               pinned: false,
               snap: false,
@@ -257,7 +257,7 @@ class Ecosystem_AT_6_1 extends StatelessWidget {
                     Icons.navigate_before,
                     color: Colors.white,
                   ),
-                  backgroundColor: Color(0xFF64B6AC),
+                  backgroundColor: Color(0xFFA846A0),
                 ),
               ),
               Padding(
@@ -299,7 +299,7 @@ class Ecosystem_AT_6_1 extends StatelessWidget {
                       Icons.navigate_next,
                       color: Colors.white,
                     ),
-                    backgroundColor: Color(0xFF64B6AC),
+                    backgroundColor: Color(0xFFA846A0),
                   ),
                 ),
               ),

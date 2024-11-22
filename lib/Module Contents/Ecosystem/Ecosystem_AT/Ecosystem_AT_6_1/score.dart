@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart';
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/results.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,14 +92,13 @@ class Ecosystem_AT_6_1_Score extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Ecosystem_AT_6_1_Results(
-                    quizItems: quizItems,
-                    userSelectedChoices: userSelectedChoices,
-                    userScore: userScore,
-                    totalQuestions: totalQuestions,
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Ecosystem_AT_6_1(), // Ensure this widget exists and is imported
                   ),
-                ));
+                );
               },
             ),
           ),
