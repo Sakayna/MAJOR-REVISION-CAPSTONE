@@ -3,61 +3,14 @@ import 'package:capstone/categories/microscopy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
-import 'package:video_player/video_player.dart';
-import 'dart:async';
 
-class MicroscopyILOScreen extends StatefulWidget {
-  @override
-  _MicroscopyILOScreenState createState() => _MicroscopyILOScreenState();
-}
-
-class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
-  late VideoPlayerController _videoController;
-  Timer? _sliderTimer;
-  bool _isDragging = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _videoController = VideoPlayerController.asset(
-      'assets/videos/microscopy/microscope1.mp4',
-    )..initialize().then((_) {
-        setState(() {});
-      });
-
-    _sliderTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      if (!_isDragging && _videoController.value.isInitialized) {
-        setState(() {});
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _sliderTimer?.cancel();
-    _videoController.dispose();
-    super.dispose();
-  }
-
-  void _showFullScreenVideo() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            FullScreenVideoPlayer(controller: _videoController),
-      ),
-    );
-  }
-
+class MicroscopyILOScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var globalVariables = Provider.of<GlobalVariables>(context);
 
     return WillPopScope(
       onWillPop: () async {
-        if (_videoController.value.isPlaying) {
-          _videoController.pause();
-        }
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -71,61 +24,65 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Color(0xFFFFA551),
-              pinned: true,
-              expandedHeight: 120.0,
+              backgroundColor: Color(0xFFFFA551), // Background color of appbar
+              pinned: true, // Make the appbar pinned
+              expandedHeight: 120.0, // Height of the appbar
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(
                   top: 10,
-                  left: 50,
-                  right: 10,
+                  left: 50, // Adjusted left padding
+                  right: 10, // Adjusted right padding
                   bottom: 16,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment:
+                      MainAxisAlignment.end, // Align title at the bottom
                   children: [
                     Text(
-                      'Microscopy',
+                      'Microscopy', // Title text for the appbar
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.normal,
-                        color: Colors.white,
+                        color: Colors.white, // Set text color to white
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 5), // Adjusted spacing between texts
                     Text(
-                      'Intended Learning Outcomes',
+                      'Intended Learning Outcomes', // Subtitle text for the appbar
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: Colors.white, // Set text color to white
                       ),
                     ),
                     SizedBox(height: 5),
+
                     Text(
-                      'ILO 1.1  I   Identify the parts of the microscope and their function',
+                      'ILO 1.1  I   Identify the parts of the microscope and their function', // Additional text for the appbar
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: Colors.white, // Set text color to white
                       ),
                     ),
                   ],
                 ),
               ),
               leading: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(
+                  top: 20, // Adjusted top padding of the leading icon
+                ),
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  icon: Icon(Icons.arrow_back_ios), // Back button icon
+                  color: Colors.white, // Back button icon
+
                   onPressed: () {
-                    if (_videoController.value.isPlaying) {
-                      _videoController.pause();
-                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MicroscopyScreen()),
+                        builder: (context) => MicroscopyScreen(),
+                      ),
                     );
                   },
                 ),
@@ -135,7 +92,12 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
               delegate: SliverChildListDelegate(
                 [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(25.0, 30.0, 25.0, 20.0),
+                    padding: const EdgeInsets.fromLTRB(
+                      25.0,
+                      30.0,
+                      25.0,
+                      80.0,
+                    ), // Padding for content
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -151,79 +113,6 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
                         SizedBox(height: 12),
                         Text('• Focus specimens using the compound microscope;',
                             style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 30),
-                        Text(
-                          'Watch the Video Below:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        _videoController.value.isInitialized
-                            ? Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: _showFullScreenVideo,
-                                    child: AspectRatio(
-                                      aspectRatio:
-                                          _videoController.value.aspectRatio,
-                                      child: VideoPlayer(_videoController),
-                                    ),
-                                  ),
-                                  SizedBox(height: 16),
-                                  Slider(
-                                    value: _isDragging
-                                        ? _videoController
-                                            .value.position.inSeconds
-                                            .toDouble()
-                                        : _videoController
-                                            .value.position.inSeconds
-                                            .toDouble(),
-                                    min: 0.0,
-                                    max: _videoController
-                                        .value.duration.inSeconds
-                                        .toDouble(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _isDragging = true;
-                                        _videoController.seekTo(
-                                          Duration(seconds: value.toInt()),
-                                        );
-                                      });
-                                    },
-                                    onChangeEnd: (value) {
-                                      _isDragging = false;
-                                    },
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _videoController.value.isPlaying
-                                                ? _videoController.pause()
-                                                : _videoController.play();
-                                          });
-                                        },
-                                        icon: Icon(
-                                          _videoController.value.isPlaying
-                                              ? Icons.pause
-                                              : Icons.play_arrow,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${_videoController.value.position.inMinutes}:${(_videoController.value.position.inSeconds % 60).toString().padLeft(2, '0')}",
-                                      ),
-                                      Text(
-                                        " / ${_videoController.value.duration.inMinutes}:${(_videoController.value.duration.inSeconds % 60).toString().padLeft(2, '0')}",
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            : Center(child: CircularProgressIndicator()),
                       ],
                     ),
                   ),
@@ -234,10 +123,8 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (_videoController.value.isPlaying) {
-              _videoController.pause();
-            }
             globalVariables.setTopic('lesson1', 1, true);
+            // Navigate to Microscopy_Topic_1_1
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -245,34 +132,14 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
               ),
             );
           },
-          child: const Icon(Icons.navigate_next, color: Colors.white),
-          backgroundColor: Color(0xFFFFA551),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      ),
-    );
-  }
-}
-
-class FullScreenVideoPlayer extends StatelessWidget {
-  final VideoPlayerController controller;
-
-  FullScreenVideoPlayer({required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: AspectRatio(
-            aspectRatio: controller.value.aspectRatio,
-            child: VideoPlayer(controller),
+          child: const Icon(
+            Icons.navigate_next,
+            color: Colors.white, // Set icon color to white
           ),
+          backgroundColor: Color(0xFFFFA551), // Button color set to hex #729B79
         ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.endFloat, // Positioning the button
       ),
     );
   }

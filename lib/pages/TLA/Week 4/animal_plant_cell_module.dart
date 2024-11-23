@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Animal%20and%20Plant%20Cells/Animal_and_Plant_Cells_TLA/Animal_and_Plant_Cells_TLA_3_1.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_TLA/Microscopy_TLA_1_1.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
@@ -1068,7 +1069,8 @@ class _ModuleScreen4Page extends State<ModuleScreen4> {
                 Navigator.of(context).pop();
                 // Navigate back to the initial screen
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => Microscopy_TLA_1_1()),
+                  MaterialPageRoute(
+                      builder: (context) => Animal_and_Plant_TLA_3_1()),
                   (Route<dynamic> route) => false,
                 );
               },

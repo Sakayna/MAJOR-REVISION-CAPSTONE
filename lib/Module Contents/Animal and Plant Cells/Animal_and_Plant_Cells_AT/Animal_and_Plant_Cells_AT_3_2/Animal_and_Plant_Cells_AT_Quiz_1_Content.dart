@@ -215,7 +215,10 @@ class _Animal_and_Plant_AT_3_1_2_ContentState
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Chapter 3 Lesson 1 Quiz 2'),
+          title: Text(
+            'Lesson 3 Quiz 2',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFA1C084), // Set the background color
           leading: IconButton(
             icon: Icon(Icons.arrow_back),

@@ -215,10 +215,14 @@ class _Heredity_AT_Quiz_0_ContentState
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Heredity Quiz: Asexual vs Sexual Reproduction'),
+          title: Text(
+            'Lesson 5 Quiz 1',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFF64B6AC),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
+            color: Colors.white, // Set icon color to white
             onPressed: currentQuestionIndex == 0
                 ? () {
                     showDialog(

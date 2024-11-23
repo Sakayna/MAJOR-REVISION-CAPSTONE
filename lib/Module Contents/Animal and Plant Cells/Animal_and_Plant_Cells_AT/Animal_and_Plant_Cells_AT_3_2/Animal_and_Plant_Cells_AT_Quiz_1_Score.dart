@@ -48,16 +48,15 @@ class Animal_and_Plant_AT_3_1_2_Score extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xFFA1C084), // Updated color for consistency
           elevation: 4, // Adds shadow for depth
-          title: Center(
-            child: Text(
-              'Animal and Plant Cells Quiz',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+          title: Text(
+            'Lesson 3 Quiz 2 Score',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
+
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,

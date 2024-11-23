@@ -46,14 +46,12 @@ class ResultsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF9463FF),
         elevation: 4,
-        title: const Center(
-          child: Text(
-            'Quiz Results',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 2 Quiz 1 Results',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(

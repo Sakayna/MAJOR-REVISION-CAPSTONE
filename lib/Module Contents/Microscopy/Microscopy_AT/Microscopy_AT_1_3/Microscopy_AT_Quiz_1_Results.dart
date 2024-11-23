@@ -46,14 +46,12 @@ class Microscopy_AT_Quiz_1_Results extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xFFFFA551), // Consistent AppBar color
         elevation: 4, // Add shadow
-        title: Center(
-          child: Text(
-            'Quiz Results',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 1 Quiz 2 Results',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(

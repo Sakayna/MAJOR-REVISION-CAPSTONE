@@ -33,16 +33,15 @@ class Plant_Animal_ScorePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFFA1C084),
         elevation: 4, // Add shadow for depth
-        title: const Center(
-          child: Text(
-            'Quiz Results',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 3 Quiz 1 Score',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
+
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.white,

@@ -115,18 +115,23 @@ class _Heredity_AT_Quiz_2_ContentState
     return WillPopScope(
       onWillPop: handleWillPop,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Heredity - Stages of Fertilization'),
-          backgroundColor: Color(0xFF64B6AC),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              if (targetOrder.every((element) => element.isEmpty)) {
-                showWarningDialog();
-              }
-            },
-          ),
-        ),
+      appBar: AppBar(
+  title: Text(
+    'Lesson 5 Quiz 2',
+    style: TextStyle(color: Colors.white), // Set text color to white
+  ),
+  backgroundColor: Color(0xFF64B6AC),
+  leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    color: Colors.white, // Set icon color to white
+    onPressed: () {
+      if (targetOrder.every((element) => element.isEmpty)) {
+        showWarningDialog();
+      }
+    },
+  ),
+),
+
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

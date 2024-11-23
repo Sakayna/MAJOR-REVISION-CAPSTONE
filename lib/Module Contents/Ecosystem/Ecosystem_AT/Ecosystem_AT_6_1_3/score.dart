@@ -49,16 +49,15 @@ class Ecosystem_AT_Quiz_2_Score extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xFFA846A0), // Retain the original color
           elevation: 4, // Adds shadow for depth
-          title: Center(
-            child: Text(
-              'Ecosystem Quiz',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+          title: Text(
+            'Lesson 6 Quiz 3 Score',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
+
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,

@@ -44,16 +44,16 @@ class Bacteria_AT_Quiz_1_Score extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xFFFF6A6A), // Updated color for consistency
           elevation: 4, // Adds shadow for depth
-          title: Center(
-            child: Text(
-              'Bacteria Quiz',
+          title: 
+           Text(
+              'Lesson 4 Quiz 1',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
-          ),
+          
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,

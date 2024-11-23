@@ -26,16 +26,15 @@ class ScorePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xFF9463FF), // Updated background color
         elevation: 4, // Adds shadow for depth
-        title: Center(
-          child: Text(
-            'Biological Organization Quiz',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 2 Quiz 1 Score',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
+
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,

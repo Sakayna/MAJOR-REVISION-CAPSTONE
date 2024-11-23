@@ -46,16 +46,16 @@ class Heredity_AT_Quiz_0_Score extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xFF64B6AC), // Retain original color
           elevation: 4, // Adds shadow for depth
-          title: Center(
-            child: Text(
-              'Heredity Quiz',
+          title: 
+             Text(
+              'Lesson 5 Quiz 1 Score',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
-          ),
+          
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.white,

@@ -35,10 +35,14 @@ class Bacteria_AT_Quiz_1_Results extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Quiz Results'),
+          title: const Text(
+            'Lesson 4 Quiz 1 Results',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: const Color(0xFFFF6A6A),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
+            color: Colors.white, // Set icon color to white
             onPressed: () {
               Navigator.pushReplacement(
                 context,

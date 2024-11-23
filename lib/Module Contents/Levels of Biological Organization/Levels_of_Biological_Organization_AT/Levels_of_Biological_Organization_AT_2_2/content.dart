@@ -121,7 +121,10 @@ class _LevelsOfOrganizationDragDropState
       onWillPop: handleWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Levels of Biological Organization'),
+          title: Text(
+            'Lesson 2 Quiz 1',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFF9463FF),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),

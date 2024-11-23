@@ -163,7 +163,10 @@ class _Ecosystem_AT_Quiz_1_ContentState
       onWillPop: handleWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Ecosystem: Predators and Prey'),
+          title: Text(
+            'Lesson 6 Quiz 2',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFA846A0),
         ),
         body: SingleChildScrollView(

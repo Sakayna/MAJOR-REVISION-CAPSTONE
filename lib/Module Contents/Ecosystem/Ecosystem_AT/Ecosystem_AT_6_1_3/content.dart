@@ -224,7 +224,10 @@ class _Ecosystem_AT_Quiz_2_ContentState
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Ecosystem Quiz: Population Changes'),
+          title: Text(
+            'Lesson 6 Quiz 3',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFA846A0),
         ),
         body: SingleChildScrollView(

@@ -174,10 +174,14 @@ class _Ecosystem_AT_Quiz_0_ContentState
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Ecosystem Quiz: Biotic vs Abiotic Factors'),
+          title: Text(
+            'Lesson 5 Quiz 1',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFA846A0), // Updated color for AppBar
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
+            color: Colors.white, // Set icon color to white
             onPressed: () {
               if (currentQuestionIndex > 0) {
                 setState(() {

@@ -135,7 +135,10 @@ class _AnimalAndPlantState extends State<AnimalAndPlant> {
       onWillPop: handleWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Animal and Plant Venn Diagram Quiz'),
+          title: Text(
+            'Lesson 3 Quiz 1',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFA1C084),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -274,7 +277,7 @@ class _AnimalAndPlantState extends State<AnimalAndPlant> {
   Widget buildDragTarget(String label, Color backgroundColor,
       List<String> itemList, Function(String, List<String>) onRemove) {
     return CircleAvatar(
-      radius: 150,
+      radius: 100,
       backgroundColor: backgroundColor,
       child: DragTarget<String>(
         onAccept: (receivedItem) {

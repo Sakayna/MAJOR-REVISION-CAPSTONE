@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Levels%20of%20Biological%20Organization/Levels_of_Biological_Organization_TLA/Levels_of_Biological_Organization_TLA_2_1.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_TLA/Microscopy_TLA_1_1.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
@@ -720,7 +721,8 @@ class _ModuleScreen3Page extends State<ModuleScreen3> {
                 Navigator.of(context).pop();
                 // Navigate back to the initial screen
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => Microscopy_TLA_1_1()),
+                  MaterialPageRoute(
+                      builder: (context) => Biological_Organization_TLA_2_1()),
                   (Route<dynamic> route) => false,
                 );
               },

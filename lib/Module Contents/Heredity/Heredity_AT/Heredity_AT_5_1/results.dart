@@ -29,7 +29,10 @@ class Heredity_AT_5_1_Results extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Quiz Results'),
+          title: const Text(
+            'Lesson 5 Quiz 1 Results',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: const Color(0xFF64B6AC),
         ),
         body: Padding(

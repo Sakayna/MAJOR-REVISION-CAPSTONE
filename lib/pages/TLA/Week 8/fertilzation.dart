@@ -1,3 +1,4 @@
+import 'package:capstone/Module%20Contents/Heredity/Heredity_TLA/Heredity_TLA_5_2.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_TLA/Microscopy_TLA_1_1.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
@@ -1006,7 +1007,7 @@ class _ModuleScreen8Page extends State<ModuleScreen8> {
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => Microscopy_TLA_1_1(),
+                          builder: (context) => Heredity_TLA_5_2(),
                         ));
                       },
                       child: Text('Exit'),

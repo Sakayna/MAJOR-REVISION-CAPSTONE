@@ -30,7 +30,7 @@ class Ecosystem_AT_6_1_Results extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Quiz Results',
+            'Lesson 6 Quiz 1 Results',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

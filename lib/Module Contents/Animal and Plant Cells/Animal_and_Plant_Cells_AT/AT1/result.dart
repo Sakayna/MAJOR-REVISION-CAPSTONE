@@ -33,14 +33,12 @@ class Plant_Animal_ResultsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFFA1C084),
         elevation: 4,
-        title: const Center(
-          child: Text(
-            'Quiz Results',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 3 Quiz 1 Results',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(

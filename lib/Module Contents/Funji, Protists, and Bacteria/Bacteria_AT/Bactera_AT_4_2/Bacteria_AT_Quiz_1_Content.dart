@@ -212,10 +212,14 @@ class _Bacteria_AT_Quiz_1_ContentState
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Bacteria Quiz'),
+          title: Text(
+            'Lesson 4 Quiz 1',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFFF6A6A), // Set the background color
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
+            color: Colors.white, // Set icon color to white
             onPressed: currentQuestionIndex == 0
                 ? () {
                     showDialog(

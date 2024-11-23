@@ -30,14 +30,12 @@ class Heredity_AT_5_1_2_Results extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF64B6AC),
         elevation: 4,
-        title: const Center(
-          child: Text(
-            'Quiz Results',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 5 Quiz 2 Results',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(

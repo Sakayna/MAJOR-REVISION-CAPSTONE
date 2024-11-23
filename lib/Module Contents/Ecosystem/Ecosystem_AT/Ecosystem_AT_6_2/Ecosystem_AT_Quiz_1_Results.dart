@@ -21,14 +21,12 @@ class Ecosystem_AT_Quiz_3_Results extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFFA846A0),
         elevation: 4,
-        title: const Center(
-          child: Text(
-            'Quiz Results',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 6 Quiz 4 Results',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(

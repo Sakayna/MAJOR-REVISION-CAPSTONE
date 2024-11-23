@@ -63,14 +63,12 @@ class Microscopy_AT_Quiz_2_Results extends StatelessWidget {
           backgroundColor: Color(
               0xFFFFA551), // Match color from `Microscopy_AT_Quiz_2_Score`
           elevation: 4, // Add shadow for depth
-          title: Center(
-            child: Text(
-              'Quiz Results',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+          title: Text(
+            'Lesson 1 Quiz 1 Results',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
           leading: IconButton(

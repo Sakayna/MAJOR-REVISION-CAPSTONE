@@ -110,14 +110,12 @@ class _Microscopy_AT_Quiz_1_ContentState
       appBar: AppBar(
         backgroundColor: Color(0xFFFFA551), // Set a solid background color
         elevation: 4, // Keeps the shadow effect
-        title: Center(
-          child: Text(
-            'Microscopy Quiz',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+        title: Text(
+          'Lesson 1 Quiz 2',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(

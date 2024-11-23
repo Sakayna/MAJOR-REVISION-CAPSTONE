@@ -35,11 +35,14 @@ class Animal_and_Plant_AT_3_1_2_Results extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Quiz Results'),
+          title: Text(
+            'Lesson 3 Quiz 2 Results',
+            style: TextStyle(color: Colors.white), // Set text color to white
+          ),
           backgroundColor: Color(0xFFA1C084),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            color: Colors.white,
+            color: Colors.white, // Set icon color to white
             onPressed: () {
               Navigator.pushReplacement(
                 context,
