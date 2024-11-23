@@ -76,6 +76,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/videos/microscopy/microscope1.mp4
+    - assets/videos/microscopy/microscope2.mp4
     - assets/images/homepage/6ecosystem.png
     - assets/images/homepage/5dna.png
     - assets/images/homepage/4bacteria.png

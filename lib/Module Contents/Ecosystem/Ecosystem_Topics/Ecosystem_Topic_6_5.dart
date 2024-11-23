@@ -4,17 +4,53 @@ import 'package:capstone/categories/ecosystem.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
+import 'dart:async';
 import 'package:capstone/globals/global_variables_notifier.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class Ecosystem_Topic_6_5 extends StatelessWidget {
+class Ecosystem_Topic_6_5 extends StatefulWidget {
+  @override
+  _Ecosystem_Topic_6_5State createState() => _Ecosystem_Topic_6_5State();
+}
+
+class _Ecosystem_Topic_6_5State extends State<Ecosystem_Topic_6_5> {
+  late VideoPlayerController _videoController;
+  Timer? _sliderTimer;
+  bool _isDragging = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the video controller
+    _videoController = VideoPlayerController.asset(
+      'assets/videos/ecosystem/interactions.mp4',
+    )..initialize().then((_) {
+        setState(() {});
+      });
+
+    // Timer to update slider
+    _sliderTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!_isDragging && _videoController.value.isInitialized) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sliderTimer?.cancel();
+    _videoController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var globalVariables = Provider.of<GlobalVariables>(context);
 
     return WillPopScope(
       onWillPop: () async {
+        if (_videoController.value.isPlaying) _videoController.pause();
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -31,62 +67,54 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    backgroundColor:
-                        Color(0xFFA846A0), // Background color of appbar
+                    backgroundColor: Color(0xFFA846A0),
                     floating: false,
                     pinned: false,
                     snap: false,
-                    expandedHeight: 120.0, // Adjusted expanded height
+                    expandedHeight: 120.0,
                     flexibleSpace: LayoutBuilder(
                       builder: (context, constraints) {
-                        final isTop = constraints.biggest.height <=
-                            kToolbarHeight + 16.0; // Margin size
+                        final isTop =
+                            constraints.biggest.height <= kToolbarHeight + 16.0;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (!isTop) ...[
-                              // Only show when expanded (not at the top)
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 25.0, left: 50.0), // Add left padding
+                                    top: 25.0, left: 50.0),
                                 child: Text(
-                                  'Ecosystem', // Title text for the appbar
+                                  'Ecosystem',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.normal,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: 5), // Adjusted spacing between texts
+                              SizedBox(height: 5),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 50.0), // Add left padding
+                                padding: const EdgeInsets.only(left: 50.0),
                                 child: Text(
-                                  'Topics', // Subtitle text for the appbar
+                                  'Topics',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 50.0,
-                                    right: 18.0), // Add left padding
+                                    left: 50.0, right: 18.0),
                                 child: Text(
-                                  '6.5 - Interactions in an Ecosystem', // Additional text for the appbar
+                                  '6.5 - Interactions in an Ecosystem',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -96,13 +124,14 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
                       },
                     ),
                     leading: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20, // Adjusted top padding of the leading icon
-                      ),
+                      padding: const EdgeInsets.only(top: 20),
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios),
-                        color: Colors.white, // Back button icon color
+                        color: Colors.white,
                         onPressed: () {
+                          if (_videoController.value.isPlaying) {
+                            _videoController.pause();
+                          }
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Ecosystem_Screen(),
                           ));
@@ -1140,53 +1169,28 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
                                 textAlign: TextAlign.justify,
                               ),
                               SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Watch this video to learn more about Ecological Relationships',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      launch(
-                                          'https://youtu.be/rNjPI84sApQ?si=2BNdnYQQuvknePHf');
-                                    },
-                                    child: Text(
-                                      'Click this link to Watch on YouTube',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  YoutubePlayer(
-                                    controller: YoutubePlayerController(
-                                      initialVideoId: YoutubePlayer.convertUrlToId(
-                                          'https://youtu.be/rNjPI84sApQ?si=2BNdnYQQuvknePHf')!,
-                                      flags: YoutubePlayerFlags(
-                                        autoPlay: false,
-                                        mute: false,
-                                      ),
-                                    ),
-                                    showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.amber,
-                                    onReady: () {
-                                      // Add custom logic if needed
-                                    },
-                                    onEnded: (metaData) {
-                                      // Add custom logic if needed
-                                    },
-                                  ),
-                                  SizedBox(height: 15),
-                                ],
+                              Text(
+                                'Watch this video to learn more about Interactions in an Ecosystem:',
+                                style: TextStyle(fontSize: 14),
                               ),
+                              SizedBox(height: 16),
+                              buildVideoPlayer(
+                                context,
+                                _videoController,
+                                _isDragging,
+                                (value) => setState(() {
+                                  _isDragging = value;
+                                }),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Reference: https://youtu.be/rNjPI84sApQ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              // Add additional content here if needed
                             ],
                           ),
                         ),
@@ -1197,16 +1201,14 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.white, // Set the background color to white
-              width: double.infinity, // Set the width to fill the screen
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.0), // Add padding vertically
+              color: Colors.white,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15.0), // Adjusted left padding
+                    padding: const EdgeInsets.only(left: 15.0),
                     child: FloatingActionButton(
                       onPressed: () {
                         Navigator.push(
@@ -1217,16 +1219,12 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
                         );
                       },
                       heroTag: 'prevBtn',
-                      child: Icon(
-                        Icons.navigate_before,
-                        color: Colors.white, // Set icon color to white
-                      ),
+                      child: Icon(Icons.navigate_before, color: Colors.white),
                       backgroundColor: Color(0xFFA846A0),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 15.0), // Adjusted right padding
+                    padding: const EdgeInsets.only(right: 15.0),
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson6', 11, true);
@@ -1238,10 +1236,7 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
                         );
                       },
                       heroTag: 'nextBtn',
-                      child: Icon(
-                        Icons.navigate_next,
-                        color: Colors.white,
-                      ),
+                      child: Icon(Icons.navigate_next, color: Colors.white),
                       backgroundColor: Color(0xFFA846A0),
                     ),
                   ),
@@ -1251,6 +1246,58 @@ class Ecosystem_Topic_6_5 extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildVideoPlayer(
+      BuildContext context,
+      VideoPlayerController controller,
+      bool isDragging,
+      Function(bool) setDragging) {
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: controller.value.aspectRatio,
+          child: VideoPlayer(controller),
+        ),
+        Slider(
+          value: isDragging
+              ? controller.value.position.inSeconds.toDouble()
+              : controller.value.position.inSeconds.toDouble(),
+          min: 0.0,
+          max: controller.value.duration.inSeconds.toDouble(),
+          onChanged: (value) {
+            setDragging(true);
+            controller.seekTo(Duration(seconds: value.toInt()));
+          },
+          onChangeEnd: (value) {
+            setDragging(false);
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  controller.value.isPlaying
+                      ? controller.pause()
+                      : controller.play();
+                });
+              },
+              icon: Icon(
+                controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
+            ),
+            Text(
+              "${controller.value.position.inMinutes}:${(controller.value.position.inSeconds % 60).toString().padLeft(2, '0')}",
+            ),
+            Text(
+              " / ${controller.value.duration.inMinutes}:${(controller.value.duration.inSeconds % 60).toString().padLeft(2, '0')}",
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

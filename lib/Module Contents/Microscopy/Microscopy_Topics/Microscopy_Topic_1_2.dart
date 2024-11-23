@@ -3,17 +3,71 @@ import 'package:capstone/Module%20Contents/Microscopy/Microscopy_Topics/Microsco
 import 'package:capstone/categories/Microscopy_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
+import 'package:video_player/video_player.dart';
+import 'dart:async';
 
-class Microscopy_Topic_1_2 extends StatelessWidget {
+class Microscopy_Topic_1_2 extends StatefulWidget {
+  @override
+  _Microscopy_Topic_1_2State createState() => _Microscopy_Topic_1_2State();
+}
+
+class _Microscopy_Topic_1_2State extends State<Microscopy_Topic_1_2> {
+  late VideoPlayerController _videoController1;
+  late VideoPlayerController _videoController2;
+  Timer? _sliderTimer1;
+  Timer? _sliderTimer2;
+  bool _isDragging1 = false;
+  bool _isDragging2 = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize video controllers
+    _videoController1 = VideoPlayerController.asset(
+      'assets/videos/microscopy/microscope1.mp4',
+    )..initialize().then((_) {
+        setState(() {});
+      });
+
+    _videoController2 = VideoPlayerController.asset(
+      'assets/videos/microscopy/microscope1.mp4',
+    )..initialize().then((_) {
+        setState(() {});
+      });
+
+    // Start timers to update sliders
+    _sliderTimer1 = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!_isDragging1 && _videoController1.value.isInitialized) {
+        setState(() {});
+      }
+    });
+
+    _sliderTimer2 = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!_isDragging2 && _videoController2.value.isInitialized) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sliderTimer1?.cancel();
+    _sliderTimer2?.cancel();
+    _videoController1.dispose();
+    _videoController2.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var globalVariables = Provider.of<GlobalVariables>(context);
 
     return WillPopScope(
       onWillPop: () async {
+        if (_videoController1.value.isPlaying) _videoController1.pause();
+        if (_videoController2.value.isPlaying) _videoController2.pause();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -31,62 +85,54 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    backgroundColor:
-                        Color(0xFFFFA551), // Background color of appbar
+                    backgroundColor: Color(0xFFFFA551),
                     floating: false,
                     pinned: false,
                     snap: false,
-                    expandedHeight: 120.0, // Adjusted expanded height
+                    expandedHeight: 120.0,
                     flexibleSpace: LayoutBuilder(
                       builder: (context, constraints) {
-                        final isTop = constraints.biggest.height <=
-                            kToolbarHeight + 16.0; // Margin size
+                        final isTop =
+                            constraints.biggest.height <= kToolbarHeight + 16.0;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (!isTop) ...[
-                              // Only show when expanded (not at the top)
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 25.0, left: 50.0), // Add left padding
+                                    top: 25.0, left: 50.0),
                                 child: Text(
-                                  'Microscopy', // Title text for the appbar
+                                  'Microscopy',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.normal,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: 5), // Adjusted spacing between texts
+                              SizedBox(height: 5),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 50.0), // Add left padding
+                                padding: const EdgeInsets.only(left: 50.0),
                                 child: Text(
-                                  'Topics', // Subtitle text for the appbar
+                                  'Topics',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 50.0,
-                                    right: 18.0), // Add left padding
+                                    left: 50.0, right: 18.0),
                                 child: Text(
-                                  '1.2 - Parts and Functions of a Compound Light Microscope (CLM)', // Additional text for the appbar
+                                  '1.2 - Parts and Functions of a Compound Light Microscope (CLM)',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -96,13 +142,17 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
                       },
                     ),
                     leading: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20, // Adjusted top padding of the leading icon
-                      ),
+                      padding: const EdgeInsets.only(top: 20),
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios),
-                        color: Colors.white, // Back button icon color
+                        color: Colors.white,
                         onPressed: () {
+                          if (_videoController1.value.isPlaying) {
+                            _videoController1.pause();
+                          }
+                          if (_videoController2.value.isPlaying) {
+                            _videoController2.pause();
+                          }
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MicroscopyScreen(),
                           ));
@@ -197,8 +247,7 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
                                       SizedBox(height: 10),
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                10.0), // Add horizontal padding if needed
+                                            horizontal: 10.0),
                                         child: Text(
                                           'A Compound light microscope',
                                           textAlign: TextAlign.center,
@@ -529,99 +578,50 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 20),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Watch this video to learn more about the parts and functions of the microscope',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      launch(
-                                          'https://www.youtube.com/watch?v=gqAcFKGztoY ');
-                                    },
-                                    child: Text(
-                                      'Click this link to Watch on YouTube',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  YoutubePlayer(
-                                    controller: YoutubePlayerController(
-                                      initialVideoId: YoutubePlayer.convertUrlToId(
-                                          'https://www.youtube.com/watch?v=gqAcFKGztoY ')!,
-                                      flags: YoutubePlayerFlags(
-                                        autoPlay: false,
-                                        mute: false,
-                                      ),
-                                    ),
-                                    showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.amber,
-                                    onReady: () {
-                                      // Add custom logic if needed
-                                    },
-                                    onEnded: (metaData) {
-                                      // Add custom logic if needed
-                                    },
-                                  ),
-                                  SizedBox(height: 15),
-                                ],
+                              Text(
+                                'Watch this video to learn more about the parts and functions of the microscope:',
+                                style: TextStyle(fontSize: 14),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Watch this video to learn more about how to focus specimens using compound microscope',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      launch(
-                                          'https://youtu.be/zzamomqlwxU?si=1u_WitjzxcgwKhJ-');
-                                    },
-                                    child: Text(
-                                      'Click this link to Watch on YouTube',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  YoutubePlayer(
-                                    controller: YoutubePlayerController(
-                                      initialVideoId: YoutubePlayer.convertUrlToId(
-                                          'https://youtu.be/zzamomqlwxU?si=1u_WitjzxcgwKhJ-')!,
-                                      flags: YoutubePlayerFlags(
-                                        autoPlay: false,
-                                        mute: false,
-                                      ),
-                                    ),
-                                    showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.amber,
-                                    onReady: () {
-                                      // Add custom logic if needed
-                                    },
-                                    onEnded: (metaData) {
-                                      // Add custom logic if needed
-                                    },
-                                  ),
-                                  SizedBox(height: 15),
-                                ],
+                              SizedBox(height: 16),
+                              buildVideoPlayer(
+                                context,
+                                _videoController1,
+                                _isDragging1,
+                                (value) => setState(() {
+                                  _isDragging1 = value;
+                                }),
+                              ),
+                              SizedBox(height: 10),
+                              // Reference for first video
+                              Text(
+                                'Reference: https://www.youtube.com/watch?v=gqAcFKGztoY',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                'Watch this video to learn more about how to focus specimens using a compound microscope:',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 16),
+                              buildVideoPlayer(
+                                context,
+                                _videoController2,
+                                _isDragging2,
+                                (value) => setState(() {
+                                  _isDragging2 = value;
+                                }),
+                              ),
+                              SizedBox(height: 10),
+                              // Reference for second video
+                              Text(
+                                'Reference: https://youtu.be/zzamomqlwxU?si=1u_WitjzxcgwKhJ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
                               ),
                             ],
                           ),
@@ -633,16 +633,14 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.white, // Set the background color to white
-              width: double.infinity, // Set the width to fill the screen
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.0), // Add padding vertically
+              color: Colors.white,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15.0), // Adjusted left padding
+                    padding: const EdgeInsets.only(left: 15.0),
                     child: FloatingActionButton(
                       onPressed: () {
                         Navigator.push(
@@ -653,20 +651,15 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
                         );
                       },
                       heroTag: 'prevBtn',
-                      child: Icon(
-                        Icons.navigate_before,
-                        color: Colors.white, // Set icon color to white
-                      ),
+                      child: Icon(Icons.navigate_before, color: Colors.white),
                       backgroundColor: Color(0xFFFFA551),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 15.0), // Adjusted right padding
+                    padding: const EdgeInsets.only(right: 15.0),
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson1', 3, true);
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -675,10 +668,7 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
                         );
                       },
                       heroTag: 'nextBtn',
-                      child: Icon(
-                        Icons.navigate_next,
-                        color: Colors.white,
-                      ),
+                      child: Icon(Icons.navigate_next, color: Colors.white),
                       backgroundColor: Color(0xFFFFA551),
                     ),
                   ),
@@ -690,12 +680,56 @@ class Microscopy_Topic_1_2 extends StatelessWidget {
       ),
     );
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: Microscopy_Topic_1_2(),
-    ),
-  ));
+  Widget buildVideoPlayer(
+      BuildContext context,
+      VideoPlayerController controller,
+      bool isDragging,
+      Function(bool) setDragging) {
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: controller.value.aspectRatio,
+          child: VideoPlayer(controller),
+        ),
+        Slider(
+          value: isDragging
+              ? controller.value.position.inSeconds.toDouble()
+              : controller.value.position.inSeconds.toDouble(),
+          min: 0.0,
+          max: controller.value.duration.inSeconds.toDouble(),
+          onChanged: (value) {
+            setDragging(true);
+            controller.seekTo(Duration(seconds: value.toInt()));
+          },
+          onChangeEnd: (value) {
+            setDragging(false);
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  controller.value.isPlaying
+                      ? controller.pause()
+                      : controller.play();
+                });
+              },
+              icon: Icon(
+                controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
+            ),
+            Text(
+              "${controller.value.position.inMinutes}:${(controller.value.position.inSeconds % 60).toString().padLeft(2, '0')}",
+            ),
+            Text(
+              " / ${controller.value.duration.inMinutes}:${(controller.value.duration.inSeconds % 60).toString().padLeft(2, '0')}",
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }

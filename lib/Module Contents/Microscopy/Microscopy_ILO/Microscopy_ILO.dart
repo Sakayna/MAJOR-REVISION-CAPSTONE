@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:async';
 
 class MicroscopyILOScreen extends StatefulWidget {
   @override
@@ -12,22 +13,30 @@ class MicroscopyILOScreen extends StatefulWidget {
 
 class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
   late VideoPlayerController _videoController;
+  Timer? _sliderTimer;
+  bool _isDragging = false;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the video controller
     _videoController = VideoPlayerController.asset(
-      'assets/videos/microscopy/x2mate.com-How to Focus a Microscope & How the Field of View Changes.mp4',
+      'assets/videos/microscopy/microscope1.mp4',
     )..initialize().then((_) {
-        // Ensure the first frame is displayed
         setState(() {});
       });
+
+    // Start a timer to update the slider when the video is playing
+    _sliderTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!_isDragging && _videoController.value.isInitialized) {
+        setState(() {});
+      }
+    });
   }
 
   @override
   void dispose() {
-    _videoController.dispose();
+    _sliderTimer?.cancel(); // Stop the timer when the widget is disposed
+    _videoController.dispose(); // Dispose the video controller
     super.dispose();
   }
 
@@ -37,6 +46,9 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        if (_videoController.value.isPlaying) {
+          _videoController.pause();
+        }
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -50,63 +62,61 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Color(0xFFFFA551), // Background color of appbar
-              pinned: true, // Make the appbar pinned
-              expandedHeight: 120.0, // Height of the appbar
+              backgroundColor: Color(0xFFFFA551),
+              pinned: true,
+              expandedHeight: 120.0,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.only(
                   top: 10,
-                  left: 50, // Adjusted left padding
-                  right: 10, // Adjusted right padding
+                  left: 50,
+                  right: 10,
                   bottom: 16,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment:
-                      MainAxisAlignment.end, // Align title at the bottom
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Microscopy', // Title text for the appbar
+                      'Microscopy',
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.normal,
-                        color: Colors.white, // Set text color to white
-                      ),
-                    ),
-                    SizedBox(height: 5), // Adjusted spacing between texts
-                    Text(
-                      'Intended Learning Outcomes', // Subtitle text for the appbar
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white, // Set text color to white
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(height: 5),
                     Text(
-                      'ILO 1.1  I   Identify the parts of the microscope and their function', // Additional text for the appbar
+                      'Intended Learning Outcomes',
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white, // Set text color to white
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'ILO 1.1  I   Identify the parts of the microscope and their function',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
                   ],
                 ),
               ),
               leading: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20, // Adjusted top padding of the leading icon
-                ),
+                padding: const EdgeInsets.only(top: 20),
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios), // Back button icon
-                  color: Colors.white, // Back button icon
+                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: () {
+                    if (_videoController.value.isPlaying) {
+                      _videoController.pause();
+                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MicroscopyScreen(),
-                      ),
+                          builder: (context) => MicroscopyScreen()),
                     );
                   },
                 ),
@@ -116,12 +126,7 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
               delegate: SliverChildListDelegate(
                 [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      25.0,
-                      30.0,
-                      25.0,
-                      20.0,
-                    ), // Padding for content
+                    padding: const EdgeInsets.fromLTRB(25.0, 30.0, 25.0, 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -155,6 +160,30 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
                                     child: VideoPlayer(_videoController),
                                   ),
                                   SizedBox(height: 16),
+                                  Slider(
+                                    value: _isDragging
+                                        ? _videoController
+                                            .value.position.inSeconds
+                                            .toDouble()
+                                        : _videoController
+                                            .value.position.inSeconds
+                                            .toDouble(),
+                                    min: 0.0,
+                                    max: _videoController
+                                        .value.duration.inSeconds
+                                        .toDouble(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isDragging = true;
+                                        _videoController.seekTo(
+                                          Duration(seconds: value.toInt()),
+                                        );
+                                      });
+                                    },
+                                    onChangeEnd: (value) {
+                                      _isDragging = false;
+                                    },
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -172,6 +201,12 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
                                               : Icons.play_arrow,
                                         ),
                                       ),
+                                      Text(
+                                        "${_videoController.value.position.inMinutes}:${(_videoController.value.position.inSeconds % 60).toString().padLeft(2, '0')}",
+                                      ),
+                                      Text(
+                                        " / ${_videoController.value.duration.inMinutes}:${(_videoController.value.duration.inSeconds % 60).toString().padLeft(2, '0')}",
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -187,8 +222,10 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            if (_videoController.value.isPlaying) {
+              _videoController.pause();
+            }
             globalVariables.setTopic('lesson1', 1, true);
-            // Navigate to Microscopy_Topic_1_1
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -196,14 +233,10 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
               ),
             );
           },
-          child: const Icon(
-            Icons.navigate_next,
-            color: Colors.white, // Set icon color to white
-          ),
-          backgroundColor: Color(0xFFFFA551), // Button color set to hex #729B79
+          child: const Icon(Icons.navigate_next, color: Colors.white),
+          backgroundColor: Color(0xFFFFA551),
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.endFloat, // Positioning the button
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }

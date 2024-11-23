@@ -12,8 +12,7 @@ class _ARTutorialScreenState extends State<ARTutorialScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(
-        'assets/videos/microscopy/x2mate.com-How to Focus a Microscope & How the Field of View Changes.mp4')
+    _controller = VideoPlayerController.asset('assets/VideoTutorial/video.mp4')
       ..initialize().then((_) {
         setState(() {
           _controller.play();

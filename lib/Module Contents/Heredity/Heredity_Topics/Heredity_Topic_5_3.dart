@@ -3,17 +3,53 @@ import 'package:capstone/Module%20Contents/Heredity/Heredity_Topics/Heredity_Top
 import 'package:capstone/categories/heredity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
-class Heredity_Topic_5_3 extends StatelessWidget {
+class Heredity_Topic_5_3 extends StatefulWidget {
+  @override
+  _Heredity_Topic_5_3State createState() => _Heredity_Topic_5_3State();
+}
+
+class _Heredity_Topic_5_3State extends State<Heredity_Topic_5_3> {
+  late VideoPlayerController _videoController;
+  Timer? _sliderTimer;
+  bool _isDragging = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the video controller
+    _videoController = VideoPlayerController.asset(
+      'assets/videos/heredity/sexual_vs_asexual.mp4',
+    )..initialize().then((_) {
+        setState(() {});
+      });
+
+    // Start timer to update the slider
+    _sliderTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!_isDragging && _videoController.value.isInitialized) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sliderTimer?.cancel();
+    _videoController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var globalVariables = Provider.of<GlobalVariables>(context);
 
     return WillPopScope(
       onWillPop: () async {
+        if (_videoController.value.isPlaying) _videoController.pause();
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -30,62 +66,54 @@ class Heredity_Topic_5_3 extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    backgroundColor:
-                        Color(0xFF64B6AC), // Background color of appbar
+                    backgroundColor: Color(0xFF64B6AC),
                     floating: false,
                     pinned: false,
                     snap: false,
-                    expandedHeight: 120.0, // Adjusted expanded height
+                    expandedHeight: 120.0,
                     flexibleSpace: LayoutBuilder(
                       builder: (context, constraints) {
-                        final isTop = constraints.biggest.height <=
-                            kToolbarHeight + 16.0; // Margin size
+                        final isTop =
+                            constraints.biggest.height <= kToolbarHeight + 16.0;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (!isTop) ...[
-                              // Only show when expanded (not at the top)
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 25.0, left: 50.0), // Add left padding
+                                    top: 25.0, left: 50.0),
                                 child: Text(
-                                  'Heredity', // Title text for the appbar
+                                  'Heredity',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.normal,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: 5), // Adjusted spacing between texts
+                              SizedBox(height: 5),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 50.0), // Add left padding
+                                padding: const EdgeInsets.only(left: 50.0),
                                 child: Text(
-                                  'Topics', // Subtitle text for the appbar
+                                  'Topics',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                               SizedBox(height: 5),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 50.0,
-                                    right: 18.0), // Add left padding
+                                    left: 50.0, right: 18.0),
                                 child: Text(
-                                  '5.3 - Sexual Reproduction vs. Asexual Reproduction', // Additional text for the appbar
+                                  '5.3 - Sexual Reproduction vs. Asexual Reproduction',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
-                                    color:
-                                        Colors.white, // Set text color to white
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -95,13 +123,14 @@ class Heredity_Topic_5_3 extends StatelessWidget {
                       },
                     ),
                     leading: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20, // Adjusted top padding of the leading icon
-                      ),
+                      padding: const EdgeInsets.only(top: 20),
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios),
-                        color: Colors.white, // Back button icon color
+                        color: Colors.white,
                         onPressed: () {
+                          if (_videoController.value.isPlaying) {
+                            _videoController.pause();
+                          }
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Heredity_Screen(),
                           ));
@@ -182,53 +211,28 @@ class Heredity_Topic_5_3 extends StatelessWidget {
                                 textAlign: TextAlign.justify,
                               ),
                               SizedBox(height: 20),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Watch this video to learn more about Sexual Reproduction vs. Asexual Reproduction',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      launch(
-                                          'https://youtu.be/fcGDUcGjcyk?si=f4ZJaCYAyPE76T5j');
-                                    },
-                                    child: Text(
-                                      'Click this link to Watch on YouTube',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  YoutubePlayer(
-                                    controller: YoutubePlayerController(
-                                      initialVideoId: YoutubePlayer.convertUrlToId(
-                                          'https://www.youtube.com/watch?v=9AIBnaow5a0')!,
-                                      flags: YoutubePlayerFlags(
-                                        autoPlay: false,
-                                        mute: false,
-                                      ),
-                                    ),
-                                    showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.amber,
-                                    onReady: () {
-                                      // Add custom logic if needed
-                                    },
-                                    onEnded: (metaData) {
-                                      // Add custom logic if needed
-                                    },
-                                  ),
-                                  SizedBox(height: 15),
-                                ],
+                              Text(
+                                'Watch this video to learn more about Sexual Reproduction vs. Asexual Reproduction:',
+                                style: TextStyle(fontSize: 14),
                               ),
+                              SizedBox(height: 16),
+                              buildVideoPlayer(
+                                context,
+                                _videoController,
+                                _isDragging,
+                                (value) => setState(() {
+                                  _isDragging = value;
+                                }),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Reference: https://www.youtube.com/watch?v=9AIBnaow5a0',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              // Add more content here as needed
                             ],
                           ),
                         ),
@@ -239,16 +243,14 @@ class Heredity_Topic_5_3 extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.white, // Set the background color to white
-              width: double.infinity, // Set the width to fill the screen
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.0), // Add padding vertically
+              color: Colors.white,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15.0), // Adjusted left padding
+                    padding: const EdgeInsets.only(left: 15.0),
                     child: FloatingActionButton(
                       onPressed: () {
                         Navigator.push(
@@ -259,20 +261,15 @@ class Heredity_Topic_5_3 extends StatelessWidget {
                         );
                       },
                       heroTag: 'prevBtn',
-                      child: Icon(
-                        Icons.navigate_before,
-                        color: Colors.white, // Set icon color to white
-                      ),
+                      child: Icon(Icons.navigate_before, color: Colors.white),
                       backgroundColor: Color(0xFF64B6AC),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 15.0), // Adjusted right padding
+                    padding: const EdgeInsets.only(right: 15.0),
                     child: FloatingActionButton(
                       onPressed: () {
                         globalVariables.setTopic('lesson5', 9, true);
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -281,10 +278,7 @@ class Heredity_Topic_5_3 extends StatelessWidget {
                         );
                       },
                       heroTag: 'nextBtn',
-                      child: Icon(
-                        Icons.navigate_next,
-                        color: Colors.white,
-                      ),
+                      child: Icon(Icons.navigate_next, color: Colors.white),
                       backgroundColor: Color(0xFF64B6AC),
                     ),
                   ),
@@ -294,6 +288,58 @@ class Heredity_Topic_5_3 extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildVideoPlayer(
+      BuildContext context,
+      VideoPlayerController controller,
+      bool isDragging,
+      Function(bool) setDragging) {
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: controller.value.aspectRatio,
+          child: VideoPlayer(controller),
+        ),
+        Slider(
+          value: isDragging
+              ? controller.value.position.inSeconds.toDouble()
+              : controller.value.position.inSeconds.toDouble(),
+          min: 0.0,
+          max: controller.value.duration.inSeconds.toDouble(),
+          onChanged: (value) {
+            setDragging(true);
+            controller.seekTo(Duration(seconds: value.toInt()));
+          },
+          onChangeEnd: (value) {
+            setDragging(false);
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  controller.value.isPlaying
+                      ? controller.pause()
+                      : controller.play();
+                });
+              },
+              icon: Icon(
+                controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
+            ),
+            Text(
+              "${controller.value.position.inMinutes}:${(controller.value.position.inSeconds % 60).toString().padLeft(2, '0')}",
+            ),
+            Text(
+              " / ${controller.value.duration.inMinutes}:${(controller.value.duration.inSeconds % 60).toString().padLeft(2, '0')}",
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
