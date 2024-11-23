@@ -17,19 +17,55 @@ class _Ecosystem_AT_Quiz_3_ContentState
   final List<QuizItem> quizItems = [
     QuizItem(
       question:
-          'This image shows air being blown by the wind. Is this a biotic or abiotic factor?',
-      choices: ['Biotic', 'Abiotic'],
-      correctAnswer: 'Abiotic',
-      imagePath: 'assets/AT images/week 9/air.jpg',
+          'Which image best depicts the effect of extreme temperature on a habitat?',
+      choices: [
+        'Extreme Temperature',
+        'Volcanic Eruption',
+        'Flood',
+        'Wildfire'
+      ],
+      correctAnswer: 'Extreme Temperature',
+      imagePath: 'assets/AT images/week12/extremetemp.jpg',
     ),
     QuizItem(
       question:
-          'This image shows bacteria under a microscope. Is this a biotic or abiotic factor?',
-      choices: ['Biotic', 'Abiotic'],
-      correctAnswer: 'Biotic',
-      imagePath: 'assets/AT images/week 9/bacteria.jpg',
+          'Which image best illustrates the impact of a flood on a forest ecosystem?',
+      choices: ['Flood', 'Volcanic Eruption', 'Soil Erosion', 'Wildfire'],
+      correctAnswer: 'Flood',
+      imagePath: 'assets/AT images/week12/flood.jpg',
     ),
-    // Additional quiz items...
+    QuizItem(
+      question:
+          'Which image best represents the effects of soil erosion on a landscape?',
+      choices: ['Soil Erosion', 'Volcanic Eruption', 'Flood', 'Wildfire'],
+      correctAnswer: 'Soil Erosion',
+      imagePath: 'assets/AT images/week12/soilerosion.jpg',
+    ),
+    QuizItem(
+      question:
+          'Which image shows the likely effect of a volcanic eruption on a nearby ecosystem?',
+      choices: ['Volcanic Eruption', 'Flood', 'Soil Erosion', 'Wildfire'],
+      correctAnswer: 'Volcanic Eruption',
+      imagePath: 'assets/AT images/week12/volcanic_eruption.jpg',
+    ),
+    QuizItem(
+      question:
+          'Which image shows the impact of water pollution on aquatic life?',
+      choices: [
+        'Water Pollution',
+        'Volcanic Eruption',
+        'Soil Erosion',
+        'Wildfire'
+      ],
+      correctAnswer: 'Water Pollution',
+      imagePath: 'assets/AT images/week12/waterpollution.jpg',
+    ),
+    QuizItem(
+      question: 'Which image depicts the effects of a wildfire on a forest?',
+      choices: ['Wildfire', 'Volcanic Eruption', 'Flood', 'Soil Erosion'],
+      correctAnswer: 'Wildfire',
+      imagePath: 'assets/AT images/week12/wildfire.jpg',
+    ),
   ];
 
   int currentQuestionIndex = 0;

@@ -3,8 +3,34 @@ import 'package:capstone/categories/microscopy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:capstone/globals/global_variables_notifier.dart';
+import 'package:video_player/video_player.dart';
 
-class MicroscopyILOScreen extends StatelessWidget {
+class MicroscopyILOScreen extends StatefulWidget {
+  @override
+  _MicroscopyILOScreenState createState() => _MicroscopyILOScreenState();
+}
+
+class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
+  late VideoPlayerController _videoController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the video controller
+    _videoController = VideoPlayerController.asset(
+      'assets/videos/microscopy/x2mate.com-How to Focus a Microscope & How the Field of View Changes.mp4',
+    )..initialize().then((_) {
+        // Ensure the first frame is displayed
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _videoController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var globalVariables = Provider.of<GlobalVariables>(context);
@@ -57,7 +83,6 @@ class MicroscopyILOScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 5),
-
                     Text(
                       'ILO 1.1  I   Identify the parts of the microscope and their function', // Additional text for the appbar
                       style: TextStyle(
@@ -76,7 +101,6 @@ class MicroscopyILOScreen extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(Icons.arrow_back_ios), // Back button icon
                   color: Colors.white, // Back button icon
-
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -96,7 +120,7 @@ class MicroscopyILOScreen extends StatelessWidget {
                       25.0,
                       30.0,
                       25.0,
-                      80.0,
+                      20.0,
                     ), // Padding for content
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,6 +137,46 @@ class MicroscopyILOScreen extends StatelessWidget {
                         SizedBox(height: 12),
                         Text('• Focus specimens using the compound microscope;',
                             style: TextStyle(fontSize: 14)),
+                        SizedBox(height: 30),
+                        Text(
+                          'Watch the Video Below:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        _videoController.value.isInitialized
+                            ? Column(
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio:
+                                        _videoController.value.aspectRatio,
+                                    child: VideoPlayer(_videoController),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _videoController.value.isPlaying
+                                                ? _videoController.pause()
+                                                : _videoController.play();
+                                          });
+                                        },
+                                        icon: Icon(
+                                          _videoController.value.isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : Center(child: CircularProgressIndicator()),
                       ],
                     ),
                   ),

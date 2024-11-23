@@ -23,7 +23,7 @@ class Ecosystem_AT_6_1 extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Heredity_Screen(),
+            builder: (context) => Ecosystem_Screen(),
           ),
         );
         return false;
@@ -96,7 +96,7 @@ class Ecosystem_AT_6_1 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Heredity_Screen(),
+                        builder: (context) => Ecosystem_Screen(),
                       ),
                     );
                   },

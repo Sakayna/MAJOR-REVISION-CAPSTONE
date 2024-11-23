@@ -1,8 +1,6 @@
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_3/Microscopy_AT_1_3.dart';
 import 'package:capstone/Module%20Contents/Microscopy/Microscopy_AT/Microscopy_AT_1_3/Microscopy_AT_Quiz_1_Results.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:capstone/globals/global_variables_notifier.dart';
 
 class Microscopy_AT_Quiz_1_Score extends StatelessWidget {
   final int score;
@@ -24,72 +22,29 @@ class Microscopy_AT_Quiz_1_Score extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFA551),
-        toolbarHeight: 120.0, // Adjusted to match other AppBars
-        automaticallyImplyLeading: false,
-        flexibleSpace: LayoutBuilder(
-          builder: (context, constraints) {
-            final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!isTop) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0, left: 50.0),
-                    child: Text(
-                      'Microscopy',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0),
-                    child: Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 18.0),
-                    child: Text(
-                      'AT 2.1',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
+        backgroundColor: Color(0xFFFFA551), // Consistent background color
+        elevation: 4, // Adds shadow for depth
+        title: Center(
+          child: Text(
+            'Microscopy Quiz',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Microscopy_AT_1_3(),
+              ),
             );
           },
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      Microscopy_AT_1_3(), // Ensure this widget exists
-                ),
-              );
-            },
-          ),
         ),
       ),
       body: Center(

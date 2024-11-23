@@ -46,7 +46,7 @@ class Microscopy_AT_Quiz_2_Score extends StatelessWidget {
   Widget build(BuildContext context) {
     int finalCorrectAnswers = calculateCorrectAnswers();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final globalVariables =
           Provider.of<GlobalVariables>(context, listen: false);
       globalVariables.incrementQuizTakeCount('quiz1');
@@ -68,110 +68,110 @@ class Microscopy_AT_Quiz_2_Score extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              backgroundColor: Color(0xFFFFA551),
-              pinned: true,
-              expandedHeight: 120.0,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 50,
-                  right: 10,
-                  bottom: 16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Microscopy',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Quiz 1: ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
+        appBar: AppBar(
+          backgroundColor: Color(0xFFFFA551), // Solid background color
+          elevation: 4, // Adds shadow for depth
+          title: Center(
+            child: Text(
+              'Microscopy Quiz',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
-              leading: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Microscopy_AT_1_2(),
+              ));
+            },
+          ),
+        ),
+        body: Center(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: 0.01,
+                  blurRadius: 4,
+                  offset: Offset(0, 4),
                 ),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                passed
+                    ? Image.asset(
+                        'assets/lesson1&2/congratulation.png',
+                        width: 120,
+                        height: 120,
+                      )
+                    : Icon(
+                        Icons.cancel_outlined,
+                        color: Colors.red,
+                        size: 120.0,
+                      ),
+                SizedBox(height: 20),
+                Text(
+                  'Score: $finalCorrectAnswers/$totalQuestions',
+                  style: TextStyle(
+                    fontSize: 36,
+                    color: passed ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'You ${passed ? 'passed' : 'failed'} the quiz!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: passed ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFFFA551),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Microscopy_AT_1_2(),
-                    ));
-                  },
-                ),
-              ),
-            ),
-            SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Total Questions: $totalQuestions',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Correct Answers: $finalCorrectAnswers',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'You ${passed ? 'passed' : 'failed'} the quiz!',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: passed ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.bold,
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Microscopy_AT_Quiz_2_Results(
+                          quizItems: quizItems,
+                          userAnswers: userAnswers,
+                        ),
                       ),
+                    );
+                  },
+                  child: Text(
+                    'Check Results',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Microscopy_AT_Quiz_2_Results(
-                              quizItems: quizItems,
-                              userAnswers: userAnswers,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text('Check Results'),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

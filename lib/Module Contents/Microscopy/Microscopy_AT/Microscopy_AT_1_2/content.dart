@@ -146,84 +146,50 @@ class _Microscopy_AT_Quiz_2_ContentState
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Color(0xFFFFA551),
-              pinned: true,
-              expandedHeight: 120.0,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 50,
-                  right: 10,
-                  bottom: 16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Microscopy',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Quiz 1: ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+              backgroundColor: Color(0xFFFFA551), // Solid background color
+              elevation: 4, // Adds shadow
+              pinned: true, // Keeps the app bar visible
+              title: Center(
+                child: Text(
+                  'Microscopy Quiz',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ),
-              leading: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
-                  onPressed: () {
-                    if (currentQuestionIndex == 0) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Warning'),
-                            content: Text(
-                                'You cannot go back after starting the quiz.'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('OK'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      setState(() {
-                        currentQuestionIndex--;
-                        isAnswerEmpty =
-                            (userAnswers[currentQuestionIndex]?.isEmpty ??
-                                true);
-                      });
-                    }
-                  },
-                ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                color: Colors.white,
+                onPressed: () {
+                  if (currentQuestionIndex == 0) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Warning'),
+                          content: Text(
+                              'You cannot go back after starting the quiz.'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    setState(() {
+                      currentQuestionIndex--;
+                      isAnswerEmpty =
+                          userAnswers[currentQuestionIndex]?.isEmpty ?? true;
+                    });
+                  }
+                },
               ),
             ),
             SliverToBoxAdapter(
@@ -237,14 +203,13 @@ class _Microscopy_AT_Quiz_2_ContentState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Instructions: Label and Identify the part of the microscope based on the given image and functions of it.Write your answer below. Make sure the answer is in lowercase. There is a hint for each part to assist you. Good luck!',
+                            'Instructions: Label and Identify the part of the microscope based on the given image and functions of it. Write your answer below. Make sure the answer is in lowercase. There is a hint for each part to assist you. Good luck!',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 10.0),
-                          // Image below the instructions
                           Image.asset(
                             'assets/images/Microscopy/worksheet2.jpg',
                             width: double.infinity,
@@ -266,27 +231,22 @@ class _Microscopy_AT_Quiz_2_ContentState
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                16.0, 16.0, 16.0, 16.0),
+                            padding: const EdgeInsets.all(16.0),
                             child: Text(
                               quizItems[currentQuestionIndex].question,
                               style: TextStyle(fontSize: 14),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: TextField(
-                              controller: answerController,
-                              onChanged: (answer) {
-                                setState(() {
-                                  userAnswers[currentQuestionIndex] = answer;
-                                  isAnswerEmpty = answer.isEmpty;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Enter your answer',
-                              ),
+                          TextField(
+                            controller: answerController,
+                            onChanged: (answer) {
+                              setState(() {
+                                userAnswers[currentQuestionIndex] = answer;
+                                isAnswerEmpty = answer.isEmpty;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Enter your answer',
                             ),
                           ),
                         ],
@@ -327,13 +287,10 @@ class _Microscopy_AT_Quiz_2_ContentState
                                         .containsKey(currentQuestionIndex + 1);
                                   });
                                 } else {
-                                  debugPrint('Submit button clicked');
                                   globalVariables.setQuizTaken(
                                       'lesson1', 'quiz1', true);
                                   globalVariables.allowQuiz('lesson1', 'quiz2');
 
-                                  debugPrint(
-                                      'Navigating to Microscopy_AT_Quiz_1_Score page');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -357,12 +314,13 @@ class _Microscopy_AT_Quiz_2_ContentState
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Text(
-                                  currentQuestionIndex < quizItems.length - 1
-                                      ? 'Next'
-                                      : 'Submit',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  )),
+                                currentQuestionIndex < quizItems.length - 1
+                                    ? 'Next'
+                                    : 'Submit',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                           ),
                         ),

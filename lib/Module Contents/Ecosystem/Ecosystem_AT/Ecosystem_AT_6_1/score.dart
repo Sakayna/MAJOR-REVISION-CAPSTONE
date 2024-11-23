@@ -48,59 +48,29 @@ class Ecosystem_AT_6_1_Score extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFA846A0),
-          toolbarHeight: 120.0,
-          automaticallyImplyLeading: false,
-          flexibleSpace: LayoutBuilder(
-            builder: (context, constraints) {
-              final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!isTop) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25.0, left: 50.0),
-                      child: Text(
-                        'Ecosystem Assessment Task',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 50.0),
-                      child: Text(
-                        'Quiz 6_1',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
+          backgroundColor: Color(0xFFA846A0), // Retain original color
+          elevation: 4, // Adds shadow for depth
+          title: Center(
+            child: Text(
+              'Ecosystem Quiz',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Ecosystem_AT_6_1(),
+                ),
               );
             },
-          ),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Ecosystem_AT_6_1(), // Ensure this widget exists and is imported
-                  ),
-                );
-              },
-            ),
           ),
         ),
         body: Center(

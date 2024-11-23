@@ -407,8 +407,8 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                           widget.onSubmit(selectedChoice!);
                         }
                       },
-                      child: Text('Submit',
-                          style: TextStyle(color: Colors.black)),
+                      child:
+                          Text('Submit', style: TextStyle(color: Colors.black)),
                     ),
                   ),
                 )
@@ -426,8 +426,8 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                           });
                         }
                       },
-                      child: Text('Next',
-                          style: TextStyle(color: Colors.black)),
+                      child:
+                          Text('Next', style: TextStyle(color: Colors.black)),
                     ),
                   ),
                 ),

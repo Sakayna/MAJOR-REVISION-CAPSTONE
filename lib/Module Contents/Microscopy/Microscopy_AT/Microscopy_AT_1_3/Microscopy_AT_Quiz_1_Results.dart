@@ -31,7 +31,7 @@ class Microscopy_AT_Quiz_1_Results extends StatelessWidget {
     int totalQuestions = questions.length;
 
     // Update global variables with the results
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final globalVariables =
           Provider.of<GlobalVariables>(context, listen: false);
       globalVariables.setGlobalScore('quiz2', correctAnswersCount);
@@ -44,29 +44,44 @@ class Microscopy_AT_Quiz_1_Results extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFFA551), // Consistent AppBar color
+        elevation: 4, // Add shadow
+        title: Center(
+          child: Text(
+            'Quiz Results',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    Microscopy_AT_1_3(), // Replace with actual route to Microscopy_AT_1_3 screen
+                builder: (context) => Microscopy_AT_1_3(),
               ),
             );
           },
         ),
-        title: Text('Quiz Results'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Overall Score: $correctAnswersCount / $totalQuestions',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
                 itemCount: questions.length,
                 itemBuilder: (context, index) {
                   bool isCorrect = userAnswers[index] == correctAnswers[index];
@@ -113,32 +128,8 @@ class Microscopy_AT_Quiz_1_Results extends StatelessWidget {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFA551),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pop(); // Go back to the previous screen
-                      },
-                      child: Text(
-                        'Go back',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

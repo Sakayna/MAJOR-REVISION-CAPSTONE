@@ -44,8 +44,7 @@ class Animal_and_Plant_AT_3_1_2_Results extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      Animal_and_Plant_AT_3_2(), // Ensure this widget exists
+                  builder: (context) => Animal_and_Plant_AT_3_2(),
                 ),
               );
             },
@@ -58,56 +57,15 @@ class Animal_and_Plant_AT_3_1_2_Results extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Overall Score: $userScore / $totalQuestions',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: totalQuestions +
-                    1, // Adjusted to include the "Go Back" button
+                itemCount: totalQuestions,
                 itemBuilder: (context, index) {
-                  if (index == totalQuestions) {
-                    // "Go Back" button at the end
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  Animal_and_Plant_AT_3_1_2_Score(
-                                quizItems: quizItems,
-                                userSelectedChoices: userSelectedChoices,
-                                userScore: userScore,
-                                totalQuestions: totalQuestions,
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFA1C084),
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Go Back',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-
                   final userAnswers = userSelectedChoices[index];
                   final isCorrect = userAnswers != null &&
                       userAnswers.isNotEmpty &&
@@ -117,87 +75,111 @@ class Animal_and_Plant_AT_3_1_2_Results extends StatelessWidget {
                   final selectedChoices = userAnswers ?? [];
 
                   return Container(
-                    margin: const EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(
-                        color: Colors.grey[200]!,
-                        width: 1.0,
-                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.01),
+                          spreadRadius: 0.01,
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Align(
                           alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, right: 8.0),
-                            child: Text(pointsText),
+                          child: Text(
+                            pointsText,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                        ListTile(
-                          title: Text(
-                            quizItems[index].question,
-                            style: TextStyle(color: Colors.black),
+                        const SizedBox(height: 8),
+                        Text(
+                          quizItems[index].question,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Choices:',
-                                style: TextStyle(color: Colors.black),
+                        ),
+                        const SizedBox(height: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: quizItems[index].choices.map((choice) {
+                            final isSelected = userAnswers != null &&
+                                userAnswers.contains(choice);
+                            final isCorrectChoice =
+                                choice == quizItems[index].correctAnswer;
+
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 4.0),
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? (isCorrectChoice
+                                        ? Colors.green[50]
+                                        : Colors.red[50])
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? (isCorrectChoice
+                                          ? Colors.green
+                                          : Colors.red)
+                                      : Colors.grey,
+                                ),
                               ),
-                              Column(
-                                children:
-                                    quizItems[index].choices.map((choice) {
-                                  final isSelected = userAnswers != null &&
-                                      userAnswers.contains(choice);
-                                  final isWrong = isSelected && !isCorrect;
-                                  final isUserSelected =
-                                      selectedChoices.contains(choice);
-                                  return ListTile(
-                                    title: Text(choice),
-                                    leading: Radio<String>(
-                                      value: choice,
-                                      groupValue: userAnswers != null &&
-                                              userAnswers.isNotEmpty
-                                          ? userAnswers.first
-                                          : null,
-                                      onChanged: (value) {},
-                                    ),
-                                    trailing: Text(
-                                      isSelected
-                                          ? isCorrect
-                                              ? 'Correct'
-                                              : 'Wrong'
-                                          : isUserSelected
-                                              ? 'Selected'
-                                              : '',
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    isCorrectChoice
+                                        ? Icons.check_circle
+                                        : Icons.cancel,
+                                    color: isCorrectChoice
+                                        ? Colors.green
+                                        : Colors.red,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      choice,
                                       style: TextStyle(
                                         color: isSelected
-                                            ? isCorrect
+                                            ? (isCorrectChoice
                                                 ? Colors.green
-                                                : Colors.red
-                                            : isUserSelected
-                                                ? Colors.blue
-                                                : Colors.black,
+                                                : Colors.red)
+                                            : Colors.black,
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                              if (!isCorrect)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    'Correct Answer: ${quizItems[index].correctAnswer}',
-                                    style: TextStyle(color: Colors.red),
                                   ),
-                                ),
-                            ],
-                          ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ),
+                        if (!isCorrect)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              'Correct Answer: ${quizItems[index].correctAnswer}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   );

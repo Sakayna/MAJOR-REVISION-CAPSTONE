@@ -31,7 +31,7 @@ class ResultsPage extends StatelessWidget {
     int totalQuestions = questions.length;
 
     // Update global variables with the results
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final globalVariables =
           Provider.of<GlobalVariables>(context, listen: false);
       globalVariables.setGlobalScore('quiz3', correctAnswersCount);
@@ -44,83 +44,44 @@ class ResultsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF9463FF),
-        toolbarHeight: 120.0,
-        automaticallyImplyLeading: false,
-        flexibleSpace: LayoutBuilder(
-          builder: (context, constraints) {
-            final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!isTop) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0, left: 50.0),
-                    child: Text(
-                      'Levels of Biological Organization',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0),
-                    child: Text(
-                      'Quiz Results',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 18.0),
-                    child: Text(
-                      'AT 2.1',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
+        backgroundColor: const Color(0xFF9463FF),
+        elevation: 4,
+        title: const Center(
+          child: Text(
+            'Quiz Results',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Biological_Organization_AT_2_2(),
+              ),
             );
           },
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      Biological_Organization_AT_2_2(), // Ensure this widget exists
-                ),
-              );
-            },
-          ),
-        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Overall Score: $correctAnswersCount / $totalQuestions',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
                 itemCount: questions.length,
                 itemBuilder: (context, index) {
                   bool isCorrect = userAnswers[index] == correctAnswers[index];
@@ -145,12 +106,12 @@ class ResultsPage extends StatelessWidget {
                       children: [
                         Text(
                           questions[index],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Your Answer: ${userAnswers[index]}',
                           style: TextStyle(
@@ -160,43 +121,15 @@ class ResultsPage extends StatelessWidget {
                         if (!isCorrect)
                           Text(
                             'Correct Answer: ${correctAnswers[index]}',
-                            style: TextStyle(color: Colors.green),
+                            style: const TextStyle(color: Colors.green),
                           ),
                       ],
                     ),
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF9463FF),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Biological_Organization_AT_2_2()),
-                        );
-                      },
-                      child: Text(
-                        'Go back',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

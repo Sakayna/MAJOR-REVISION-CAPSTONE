@@ -75,6 +75,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/videos/microscopy/microscope1.mp4
     - assets/images/homepage/6ecosystem.png
     - assets/images/homepage/5dna.png
     - assets/images/homepage/4bacteria.png
@@ -83,8 +84,7 @@ flutter:
     - assets/images/homepage/1microscopy.png
     - assets/images/homepage/progress.png
     - assets/images/homepage/tutorial.png
-    - assets/Video/
-    - assets/Video/video.mp4
+    - assets/VideoTutorial/video.mp4
     - assets/images/quiz/bacteria.png
     - assets/images/quiz/cell.png
     - assets/images/quiz/ecosystem.png
@@ -409,8 +409,6 @@ flutter:
     - assets/AT images/week 7/
     - assets/AT images/week 9/
     - assets/AT images/week12/
-    - assets/videos/microscopy/x2mate.com-How to Focus a Microscope & How the Field of View Changes.mp4
-    - assets/videos/microscopy/x2mate.com-Microscope_ Parts and Functions _ Science.mp4
 #    - assets/lesson7/assets/
 #    - assets/lesson7/lesson7Subitles/AT/
 #    - assets/lesson7/lesson7Subitles/TLA/

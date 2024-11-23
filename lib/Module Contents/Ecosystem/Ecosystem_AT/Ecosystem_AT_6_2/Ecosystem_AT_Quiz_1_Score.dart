@@ -50,25 +50,29 @@ class Ecosystem_AT_Quiz_3_Score extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFA846A0),
-          toolbarHeight: 120.0,
-          automaticallyImplyLeading: false,
-          title: Text("Quiz Score"),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Ecosystem_AT_6_2(), // Ensure this widget exists and is imported
-                  ),
-                );
-              },
+          backgroundColor: Color(0xFFA846A0), // Retain the original color
+          elevation: 4, // Adds shadow for depth
+          title: Center(
+            child: Text(
+              'Ecosystem Quiz',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Ecosystem_AT_6_2(),
+                ),
+              );
+            },
           ),
         ),
         body: Center(

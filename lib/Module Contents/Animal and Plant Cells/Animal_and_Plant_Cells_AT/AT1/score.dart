@@ -31,72 +31,29 @@ class Plant_Animal_ScorePage extends StatelessWidget {
     });
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFA1C084),
-        toolbarHeight: 120.0,
-        automaticallyImplyLeading: false,
-        flexibleSpace: LayoutBuilder(
-          builder: (context, constraints) {
-            final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!isTop) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0, left: 50.0),
-                    child: Text(
-                      'Levels of Biological Organization',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0),
-                    child: Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 18.0),
-                    child: Text(
-                      'Your Score:',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
+        backgroundColor: const Color(0xFFA1C084),
+        elevation: 4, // Add shadow for depth
+        title: const Center(
+          child: Text(
+            'Quiz Results',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Animal_and_Plant_AT_3_1(),
+              ),
             );
           },
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      Animal_and_Plant_AT_3_1(), // Ensure this widget exists
-                ),
-              );
-            },
-          ),
         ),
       ),
       body: Center(

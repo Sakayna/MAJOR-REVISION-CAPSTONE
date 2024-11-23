@@ -1,7 +1,6 @@
 import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/Ecosystem_AT_6_1_3.dart';
 import 'package:flutter/material.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/Ecosystem_AT_6_1.dart';
-import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1/item.dart';
+import 'package:capstone/Module%20Contents/Ecosystem/Ecosystem_AT/Ecosystem_AT_6_1_3/items.dart';
 
 class Ecosystem_AT_Quiz_2_Results extends StatelessWidget {
   final List<QuizItem> quizItems;
@@ -18,56 +17,48 @@ class Ecosystem_AT_Quiz_2_Results extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Ecosystem_AT_6_1(),
-          ),
-        );
-        return false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFFA846A0),
-          toolbarHeight: 120.0,
-          automaticallyImplyLeading: false,
-          title: Text("Quiz Score"),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFA846A0),
+        elevation: 4,
+        title: const Center(
+          child: Text(
+            'Quiz Results',
+            style: TextStyle(
               color: Colors.white,
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Ecosystem_AT_6_1_3(), // Ensure this widget exists and is imported
-                  ),
-                );
-              },
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Overall Score: $userScore / $totalQuestions',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Ecosystem_AT_6_1_3(),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+            );
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Overall Score Section
+            Text(
+              'Overall Score: $userScore / $totalQuestions',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            // Questions and Answers
+            Expanded(
+              child: ListView.builder(
                 itemCount: totalQuestions,
                 itemBuilder: (context, index) {
                   final userAnswers = userSelectedChoices[index];
@@ -78,21 +69,17 @@ class Ecosystem_AT_Quiz_2_Results extends StatelessWidget {
                   final pointsText = isCorrect ? '1/1 point' : '0/1 point';
 
                   return Container(
-                    margin: const EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.only(bottom: 16.0),
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(
-                        color: Colors.grey[200]!,
-                        width: 1.0,
-                      ),
                       borderRadius: BorderRadius.circular(15.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.01),
-                          spreadRadius: 0.01,
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 0.5,
                           blurRadius: 4,
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
@@ -101,114 +88,99 @@ class Ecosystem_AT_Quiz_2_Results extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, right: 8.0),
-                            child: Text(
-                              pointsText,
+                          child: Text(
+                            pointsText,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
-                        ListTile(
-                          title: Text(
-                            quizItems[index].question,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                        const SizedBox(height: 8),
+                        Text(
+                          quizItems[index].question,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image(
-                                  image:
-                                      AssetImage(quizItems[index].imagePath)),
-                              Text(
-                                'Choices:',
-                                style: TextStyle(
-                                  color: Colors.black,
+                        ),
+                        const SizedBox(height: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: quizItems[index].choices.map((choice) {
+                            final isSelected = userAnswers != null &&
+                                userAnswers.contains(choice);
+                            final isCorrectChoice =
+                                choice == quizItems[index].correctAnswer;
+
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 4.0),
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? (isCorrectChoice
+                                        ? Colors.green[50]
+                                        : Colors.red[50])
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? (isCorrectChoice
+                                          ? Colors.green
+                                          : Colors.red)
+                                      : Colors.grey,
                                 ),
                               ),
-                              Column(
-                                children:
-                                    quizItems[index].choices.map((choice) {
-                                  final isSelected = userAnswers != null &&
-                                      userAnswers.contains(choice);
-                                  return ListTile(
-                                    title: Text(choice),
-                                    leading: Radio<String>(
-                                      value: choice,
-                                      groupValue: userAnswers != null &&
-                                              userAnswers.isNotEmpty
-                                          ? userAnswers.first
-                                          : null,
-                                      onChanged: (value) {},
-                                    ),
-                                    trailing: Text(
-                                      isSelected
-                                          ? isCorrect
-                                              ? 'Correct'
-                                              : 'Wrong'
-                                          : '',
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    isCorrectChoice
+                                        ? Icons.check_circle
+                                        : Icons.cancel,
+                                    color: isCorrectChoice
+                                        ? Colors.green
+                                        : Colors.red,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      choice,
                                       style: TextStyle(
                                         color: isSelected
-                                            ? isCorrect
+                                            ? (isCorrectChoice
                                                 ? Colors.green
-                                                : Colors.red
+                                                : Colors.red)
                                             : Colors.black,
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                              if (!isCorrect)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    'Correct Answer: ${quizItems[index].correctAnswer}',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
                                   ),
-                                ),
-                            ],
-                          ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ),
+                        if (!isCorrect)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              'Correct Answer: ${quizItems[index].correctAnswer}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   );
                 },
               ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Color(0xFFA846A0),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Ecosystem_AT_6_1_3(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Go back',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

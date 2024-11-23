@@ -32,72 +32,29 @@ class Heredity_AT_5_1_2_Score extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF64B6AC),
-        toolbarHeight: 120.0,
-        automaticallyImplyLeading: false,
-        flexibleSpace: LayoutBuilder(
-          builder: (context, constraints) {
-            final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!isTop) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0, left: 50.0),
-                    child: Text(
-                      'Heredity',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0),
-                    child: Text(
-                      'Assessment Task',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 18.0),
-                    child: Text(
-                      'AT 5.1.2',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
+        backgroundColor: Color(0xFF64B6AC), // Retain original color
+        elevation: 4, // Adds shadow for depth
+        title: Center(
+          child: Text(
+            'Heredity Quiz',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Heredity_AT_5_2(),
+              ),
             );
           },
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      Heredity_AT_5_2(), // Ensure this widget exists and is imported
-                ),
-              );
-            },
-          ),
         ),
       ),
       body: Center(

@@ -97,7 +97,7 @@ class Ecosystem_AT_6_1_2 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Heredity_Screen(),
+                        builder: (context) => Ecosystem_Screen(),
                       ),
                     );
                   },

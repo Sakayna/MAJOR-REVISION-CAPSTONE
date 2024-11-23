@@ -365,7 +365,7 @@ class _QuizItemWidgetState extends State<QuizItemWidget> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF64B6AC),
+                        backgroundColor: Color(0xFFA846A0),
                       ),
                       child:
                           Text('Submit', style: TextStyle(color: Colors.white)),

@@ -45,9 +45,9 @@ class Microscopy_AT_Quiz_2_Results extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(  
+          MaterialPageRoute(
             builder: (context) => Microscopy_AT_Quiz_2_Score(
               totalQuestions: totalQuestions,
               correctAnswers: correctAnswers,
@@ -60,119 +60,97 @@ class Microscopy_AT_Quiz_2_Results extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(
+              0xFFFFA551), // Match color from `Microscopy_AT_Quiz_2_Score`
+          elevation: 4, // Add shadow for depth
+          title: Center(
+            child: Text(
+              'Quiz Results',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      Microscopy_AT_1_2(), // Replace with actual route to Microscopy_AT_1_2 screen
+                  builder: (context) => Microscopy_AT_1_2(),
                 ),
               );
             },
           ),
-          title: Text('Quiz Results'),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
                 'Overall Score: $correctAnswers / $totalQuestions',
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: totalQuestions,
-                itemBuilder: (context, index) {
-                  final userAnswer = userAnswers[index];
-                  final correctAnswer = quizItems[index].answer;
-                  final isCorrect = isAnswerCorrect(index, userAnswer ?? "");
-                  final pointsText = isCorrect ? '1/1 point' : '0/1 point';
+              SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: totalQuestions,
+                  itemBuilder: (context, index) {
+                    final userAnswer = userAnswers[index] ?? "No answer";
+                    final correctAnswer = quizItems[index].answer;
+                    final isCorrect = isAnswerCorrect(index, userAnswer);
 
-                  return Container(
-                    margin: const EdgeInsets.all(20.0),
-                    padding: const EdgeInsets.only(
-                      bottom: 10.0,
-                      right: 20.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.grey[200]!,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10.0,
-                              bottom: 10.0,
-                            ),
-                            child: Text(
-                              pointsText,
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16.0),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.01),
+                            spreadRadius: 0.01,
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
                           ),
-                        ),
-                        ListTile(
-                          title: Text(
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                             quizItems[index].question,
                             style: TextStyle(
-                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10.0,
-                                ),
-                                child: Text(
-                                  'Your answer: ${userAnswer ?? "No answer"}',
-                                  style: TextStyle(
-                                    color: isCorrect
-                                        ? (userAnswer == correctAnswer
-                                            ? Colors.green
-                                            : Colors.black)
-                                        : Colors.red,
-                                  ),
-                                ),
-                              ),
-                              if (!isCorrect)
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 8.0,
-                                  ),
-                                  child: Text(
-                                    'Correct answer: $correctAnswer',
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ),
-                            ],
+                          SizedBox(height: 8),
+                          Text(
+                            'Your Answer: $userAnswer',
+                            style: TextStyle(
+                              color: isCorrect ? Colors.green : Colors.red,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          if (!isCorrect)
+                            Text(
+                              'Correct Answer: $correctAnswer',
+                              style: TextStyle(color: Colors.green),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

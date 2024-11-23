@@ -28,7 +28,7 @@ class Animal_and_Plant_AT_3_1 extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              backgroundColor: Color(0xFF729B79),
+              backgroundColor: Color(0xFFA1C084),
               floating: false,
               pinned: false,
               snap: false,
@@ -252,7 +252,7 @@ class Animal_and_Plant_AT_3_1 extends StatelessWidget {
                     Icons.navigate_before,
                     color: Colors.white,
                   ),
-                  backgroundColor: Color(0xFF729B79),
+                  backgroundColor: Color(0xFFA1C084),
                 ),
               ),
               Padding(
@@ -294,7 +294,7 @@ class Animal_and_Plant_AT_3_1 extends StatelessWidget {
                       Icons.navigate_next,
                       color: Colors.white,
                     ),
-                    backgroundColor: Color(0xFF729B79),
+                    backgroundColor: Color(0xFFA1C084),
                   ),
                 ),
               ),

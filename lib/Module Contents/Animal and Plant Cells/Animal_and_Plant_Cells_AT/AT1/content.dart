@@ -274,7 +274,7 @@ class _AnimalAndPlantState extends State<AnimalAndPlant> {
   Widget buildDragTarget(String label, Color backgroundColor,
       List<String> itemList, Function(String, List<String>) onRemove) {
     return CircleAvatar(
-      radius: 100,
+      radius: 150,
       backgroundColor: backgroundColor,
       child: DragTarget<String>(
         onAccept: (receivedItem) {

@@ -44,60 +44,29 @@ class Heredity_AT_Quiz_0_Score extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF64B6AC),
-          toolbarHeight: 120.0,
-          automaticallyImplyLeading: false,
-          flexibleSpace: LayoutBuilder(
-            builder: (context, constraints) {
-              final isTop = constraints.biggest.height <= kToolbarHeight + 16.0;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!isTop) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25.0, left: 50.0),
-                      child: Text(
-                        'Heredity Assessment Task',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 50.0),
-                      child: Text(
-                        'Quiz 5_1',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
+          backgroundColor: Color(0xFF64B6AC), // Retain original color
+          elevation: 4, // Adds shadow for depth
+          title: Center(
+            child: Text(
+              'Heredity Quiz',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Heredity_AT_5_1(),
+                ),
               );
             },
-          ),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Heredity_AT_5_1(), // Ensure this widget exists and is imported
-                  ),
-                );
-              },
-            ),
           ),
         ),
         body: Center(

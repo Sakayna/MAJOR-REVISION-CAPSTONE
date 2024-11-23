@@ -57,7 +57,7 @@ class Microscopy_AT_1_3 extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 50.0),
                           child: Text(
-                            'Teaching Learning Activity',
+                            'Assessment Task',
                             style: TextStyle(
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600,
@@ -70,7 +70,7 @@ class Microscopy_AT_1_3 extends StatelessWidget {
                           padding:
                               const EdgeInsets.only(left: 50.0, right: 18.0),
                           child: Text(
-                            'AT 1.3',
+                            'AT 1.2',
                             style: TextStyle(
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600,
