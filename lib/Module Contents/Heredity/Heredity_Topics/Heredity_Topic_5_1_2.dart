@@ -23,7 +23,7 @@ class _Heredity_Topic_5_1_2State extends State<Heredity_Topic_5_1_2> {
 
     // Initialize video controller
     _videoController = VideoPlayerController.asset(
-      'assets/videos/heredity/genetic_recombination.mp4',
+      'assets/videos/heredidty/heredity3.mp4',
     )..initialize().then((_) {
         setState(() {});
       });

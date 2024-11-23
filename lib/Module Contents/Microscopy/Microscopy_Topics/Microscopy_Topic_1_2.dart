@@ -26,7 +26,7 @@ class _Microscopy_Topic_1_2State extends State<Microscopy_Topic_1_2> {
 
     // Initialize video controllers
     _videoController1 = VideoPlayerController.asset(
-      'assets/videos/microscopy/microscope1.mp4',
+      'assets/videos/microscopy/microscope2.mp4',
     )..initialize().then((_) {
         setState(() {});
       });

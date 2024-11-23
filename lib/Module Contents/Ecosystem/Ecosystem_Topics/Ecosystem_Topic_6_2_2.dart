@@ -23,7 +23,7 @@ class _Ecosystem_Topic_6_2_2State extends State<Ecosystem_Topic_6_2_2> {
 
     // Initialize the video controller
     _videoController = VideoPlayerController.asset(
-      'assets/videos/ecosystem/edaphic_factors.mp4',
+      'assets/videos/ecosystem/eco5.mp4',
     )..initialize().then((_) {
         setState(() {});
       });

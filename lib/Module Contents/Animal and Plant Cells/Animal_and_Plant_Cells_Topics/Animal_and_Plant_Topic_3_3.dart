@@ -25,7 +25,7 @@ class _Animal_and_Plant_Topic_3_3State
 
     // Initialize video controller
     _videoController = VideoPlayerController.asset(
-      'assets/videos/microscopy/microscope1.mp4',
+      'assets/videos/cell/cell1.mp4',
     )..initialize().then((_) {
         setState(() {});
       });

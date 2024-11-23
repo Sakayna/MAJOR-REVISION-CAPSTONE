@@ -25,7 +25,7 @@ class _Biological_Organization_Topic_2_1State
 
     // Initialize video controller
     _videoController = VideoPlayerController.asset(
-      'assets/videos/microscopy/microscope1.mp4',
+      'assets/videos/levels/biological.mp4',
     )..initialize().then((_) {
         setState(() {});
       });

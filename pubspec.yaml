@@ -52,6 +52,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/videos/logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -75,8 +81,28 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/videos/logo.png
     - assets/videos/microscopy/microscope1.mp4
     - assets/videos/microscopy/microscope2.mp4
+    - assets/videos/levels/biological.mp4
+    - assets/videos/cell/cell1.mp4
+    - assets/videos/cell/cell2.mp4
+    - assets/videos/bacteria/bacteria1.mp4
+    - assets/videos/bacteria/bacteria2.mp4
+    - assets/videos/bacteria/bacteria3.mp4
+    - assets/videos/heredidty/heredity1.mp4
+    - assets/videos/heredidty/heredity2.mp4
+    - assets/videos/heredidty/heredity3.mp4
+    - assets/videos/heredidty/heredity4.mp4
+    - assets/videos/heredidty/heredity5.mp4
+    - assets/videos/ecosystem/eco1.mp4
+    - assets/videos/ecosystem/eco2.mp4
+    - assets/videos/ecosystem/eco3.mp4
+    - assets/videos/ecosystem/eco4.mp4
+    - assets/videos/ecosystem/eco5.mp4
+    - assets/videos/ecosystem/eco6.mp4
+    - assets/videos/ecosystem/eco7.mp4
+    - assets/videos/ecosystem/eco8.mp4
     - assets/images/homepage/6ecosystem.png
     - assets/images/homepage/5dna.png
     - assets/images/homepage/4bacteria.png

@@ -25,7 +25,6 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
         setState(() {});
       });
 
-    // Start a timer to update the slider when the video is playing
     _sliderTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       if (!_isDragging && _videoController.value.isInitialized) {
         setState(() {});
@@ -35,9 +34,19 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
 
   @override
   void dispose() {
-    _sliderTimer?.cancel(); // Stop the timer when the widget is disposed
-    _videoController.dispose(); // Dispose the video controller
+    _sliderTimer?.cancel();
+    _videoController.dispose();
     super.dispose();
+  }
+
+  void _showFullScreenVideo() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            FullScreenVideoPlayer(controller: _videoController),
+      ),
+    );
   }
 
   @override
@@ -154,10 +163,13 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
                         _videoController.value.isInitialized
                             ? Column(
                                 children: [
-                                  AspectRatio(
-                                    aspectRatio:
-                                        _videoController.value.aspectRatio,
-                                    child: VideoPlayer(_videoController),
+                                  GestureDetector(
+                                    onTap: _showFullScreenVideo,
+                                    child: AspectRatio(
+                                      aspectRatio:
+                                          _videoController.value.aspectRatio,
+                                      child: VideoPlayer(_videoController),
+                                    ),
                                   ),
                                   SizedBox(height: 16),
                                   Slider(
@@ -237,6 +249,30 @@ class _MicroscopyILOScreenState extends State<MicroscopyILOScreen> {
           backgroundColor: Color(0xFFFFA551),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
+    );
+  }
+}
+
+class FullScreenVideoPlayer extends StatelessWidget {
+  final VideoPlayerController controller;
+
+  FullScreenVideoPlayer({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: AspectRatio(
+            aspectRatio: controller.value.aspectRatio,
+            child: VideoPlayer(controller),
+          ),
+        ),
       ),
     );
   }

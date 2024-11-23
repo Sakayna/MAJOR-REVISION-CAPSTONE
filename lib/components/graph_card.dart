@@ -26,7 +26,7 @@ class GraphCard extends StatelessWidget {
         return 'assets/images/quiz/quiz_icons/bacteria.png';
       case 'Lesson 5 Quiz 1':
       case 'Lesson 5 Quiz 2':
-        return 'assets/images/quiz/quiz_icons/heredity.png';
+        return 'assets/images/quiz/quiz_icons/heredity .png';
       case 'Lesson 6 Quiz 1':
       case 'Lesson 6 Quiz 2':
       case 'Lesson 6 Quiz 3':

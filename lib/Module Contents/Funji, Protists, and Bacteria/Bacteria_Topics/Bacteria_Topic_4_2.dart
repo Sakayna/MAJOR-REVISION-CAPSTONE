@@ -24,7 +24,7 @@ class _Bacteria_Topic_4_2State extends State<Bacteria_Topic_4_2> {
 
     // Initialize video controller
     _videoController = VideoPlayerController.asset(
-      'assets/videos/microscopy/microscope1.mp4',
+      'assets/videos/bacteria/bacteria3.mp4',
     )..initialize().then((_) {
         setState(() {});
       });
